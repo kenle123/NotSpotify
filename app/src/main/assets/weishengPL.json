@@ -1,0 +1,22 @@
+{
+  "playlists": [
+    {
+      "plName": "Good Vibezz",
+      "songs": {
+        "id": 300848,
+        "id": 239740,
+        "id": 373723,
+        "id": 730551
+      }
+    },
+    {
+      "plName": "Favorite",
+      "songs":{
+        "id": 539081,
+        "id": 59744,
+        "id": 228326,
+        "id": 463514
+      }
+    }
+  ]
+}
