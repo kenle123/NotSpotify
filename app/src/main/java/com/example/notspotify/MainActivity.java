@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
 
         final UserList userList = loadJsonIntoUserList();
+        final MusicList musicList = loadJsonIntoMusicList();
+        //Log.d("MUSICLIST", musicList.toString());
 
         loginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -53,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public MusicList loadJsonIntoMusicList()
+    {
+
+        try
+        {
+            String myJson = inputStreamToString(getAssets().open("music.json"));
+            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
+            return musicList;
+        }
+        catch (IOException e) {
+            return null;
+        }
+    }
 
     public String inputStreamToString(InputStream inputStream) {
         try {
