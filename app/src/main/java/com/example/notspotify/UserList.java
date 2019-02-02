@@ -32,8 +32,4 @@ public class UserList
         }
         return results;
     }
-
-
-
-
 }

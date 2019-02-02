@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     public UserList loadJsonIntoUserList()
     {
-
         try
         {
             String myJson = inputStreamToString(getAssets().open("users.json"));
