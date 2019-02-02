@@ -1,0 +1,100 @@
+{
+  "uPlaylist": [
+
+    {
+      "user": "Weisheng",
+      "playLists": [
+        {
+          "plName": "Good Vibezz",
+          "song": [
+            {
+              "id": "SOMZWCG12A8C13C480"
+            },
+            {
+              "id": "SOCIWDW12A8C13D406"
+            },
+            {
+              "id": "SOYMRWW12A6D4FAB14"
+            },
+            {
+              "id": "SOKEJEJ12A8C13E0D0"
+            }
+          ]
+        },
+        {
+          "plName": "Morning Run",
+          "song": [
+            {
+              "id": "SOQHXMF12AB0182363"
+            },
+            {
+              "id": "SOMUYGI12AB0188633"
+            },
+            {
+              "id": "SORAMLE12AB017C8B0"
+            },
+            {
+              "id": "SOBONFF12A6D4F84D8"
+            },
+            {
+              "id": "SOHUOAP12A8AE488E9"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "user": "Ken",
+      "playLists": [
+        {
+          "plName": "Chinese",
+          "song": [
+            {
+              "id": "SONHOTT12A8C13493C"
+            },
+            {
+              "id": "SOFSOCN12A8C143F5D"
+            }
+          ]
+        },
+        {
+          "plName": "Study",
+          "song": [
+            {
+              "id": "SOIAZJW12AB01853F1"
+            },
+            {
+              "id": "SOUDSGM12AC9618304"
+            }
+          ]
+        },
+        {
+          "plName": "Oldies",
+          "song": [
+            {
+              "id": "SOMJBYD12A6D4F8557"
+            },
+            {
+              "id": "SOHKNRJ12A6701D1F8"
+            },
+            {
+              "id": "SOILPQQ12AB017E82A"
+            },
+            {
+              "id": "SOXLBJT12A8C140925"
+            }
+          ]
+        },{
+          "plName": "EmptyTest",
+          "songs":[
+            {
+
+            }
+          ]
+        }
+      ]
+    }
+
+  ]
+}
