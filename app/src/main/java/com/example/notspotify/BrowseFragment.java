@@ -8,13 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BrowseFragment extends Fragment {
-
 
     public BrowseFragment() {
         // Required empty public constructor
@@ -30,7 +30,7 @@ public class BrowseFragment extends Fragment {
 
 
         // Start activity from within a fragment
-        Button button = view.findViewById(R.id.testButton);
+        Button button = view.findViewById(R.id.button_music_player);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,7 +38,6 @@ public class BrowseFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
 
         return view;
     }
