@@ -7,12 +7,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    boolean login = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("ONCLICKUSER", inputUserName.getText().toString());
                 //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
                 //Log.d("USERLIST", userList.toString());
-                checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
-
+                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
+                signIn(v, login);
             }
 
         });
@@ -102,24 +106,30 @@ public class MainActivity extends AppCompatActivity {
      * @param userlist The user list which contains all the users
      * @param v The view object
      */
-    public void checkCredentials(String username, String password, List<User> userlist, View v)
+    public boolean checkCredentials(String username, String password, List<User> userlist, View v)
     {
         for (int i = 0; i < userlist.size(); i++)
         {
             if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword()))
             {
-                signIn(v);
+                return true;
             }
 
         }
+        return false;
     }
 
     /**
      * Sign into another activity using an intent
      * @param view The view object
      */
-    public void signIn(View view) {
-        Intent intent = new Intent(this, BottomNavActivity.class);
-        startActivity(intent);
+    public void signIn(View view, boolean correctInput) {
+        if(correctInput) {
+            Intent intent = new Intent(this, BottomNavActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(this, "Username or password is incorrect", Toast.LENGTH_LONG).show();
+        }
     }
 }
