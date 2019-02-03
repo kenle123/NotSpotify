@@ -7,19 +7,117 @@
     tools:context=".ProfileFragment">
 
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- TODO: Update blank fragment layout
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/ic_person_black_24dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="200dp"/>
-
+        android:layout_marginBottom="200dp"/>-->
     <Button
+        android:layout_gravity="right"
+        android:id="@+id/button_sign_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:id="@+id/button_sign_out" />
+        android:text="Sign Out" />
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp"
+        android:padding="5dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_person_black_24dp"/>
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ivProfile"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="300dp"
+        android:text="User Name"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+
+        android:id="@+id/tvDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvName"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="250dp"
+        android:text="I love music and I am attending CSULB"
+        android:textSize="18sp"
+        android:textStyle="italic" />
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="100dp"
+    android:layout_marginRight="100dp"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="3260"
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Playlists"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#A9A9A9" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="20M"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Followers"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    </LinearLayout>
+
+
 
 
 
