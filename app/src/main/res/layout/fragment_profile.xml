@@ -73,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="3260"
+            android:text="11"
             android:textColor="@color/colorAccent"
             android:textSize="24sp" />
 
@@ -93,7 +93,7 @@
         android:layout_marginBottom="50dp"
         android:background="#A9A9A9" />
 
-    < View
+    <View
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="20M"
+            android:text="78"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
