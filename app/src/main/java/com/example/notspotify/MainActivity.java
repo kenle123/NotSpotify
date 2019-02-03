@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
      */
     public MusicList loadJsonIntoMusicList()
     {
-
         try
         {
             String myJson = inputStreamToString(getAssets().open("music.json"));
