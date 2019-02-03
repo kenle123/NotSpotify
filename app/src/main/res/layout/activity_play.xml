@@ -7,13 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/colorBottomNav">
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_search"
-        android:text="Search"/>
+    android:background="@color/colorWhiteTransparent">
 
     <ImageView
         android:layout_width="wrap_content"

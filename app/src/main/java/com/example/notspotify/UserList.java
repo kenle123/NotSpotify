@@ -11,7 +11,6 @@ public class UserList
     @SerializedName("users")
     private List<User> list = new ArrayList<User>();
 
-
     public List<User> getList()
     {
         return this.list;

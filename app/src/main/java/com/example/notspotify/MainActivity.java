@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Store XML items into variables to be manipulated
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_username);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         final MusicList musicList = loadJsonIntoMusicList();
         //Log.d("MUSICLIST", musicList.toString());
 
+        // Button listener for clicking on the log in button
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -42,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Loads the users from the users.json file into userlist object using GSON
+     * @return the populated user list
+     */
     public UserList loadJsonIntoUserList()
     {
         try
@@ -55,6 +61,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Loads the music from the music.json file into musicList object using GSON
+     * @return the populatd music list
+     */
     public MusicList loadJsonIntoMusicList()
     {
 
@@ -69,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Reads a file using inputstream
+     * @param inputStream a file to read from
+     * @return a string of the read in file
+     */
     public String inputStreamToString(InputStream inputStream) {
         try {
             byte[] bytes = new byte[inputStream.available()];
@@ -80,11 +95,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Checks if username and password that user inputted matches a user profile provided from the json file
+     * @param username The username the user inputted
+     * @param password The password the user inputted
+     * @param userlist The user list which contains all the users
+     * @param v The view object
+     */
     public void checkCredentials(String username, String password, List<User> userlist, View v)
     {
         for (int i = 0; i < userlist.size(); i++)
         {
-
             if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword()))
             {
                 signIn(v);
@@ -93,6 +114,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sign into another activity using an intent
+     * @param view The view object
+     */
     public void signIn(View view) {
         Intent intent = new Intent(this, BottomNavActivity.class);
         startActivity(intent);
