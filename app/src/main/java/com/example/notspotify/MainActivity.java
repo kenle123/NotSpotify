@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +14,11 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import android.content.SharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
 
+    Session session;
     boolean login = false;
 
     @Override
@@ -23,16 +26,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Store XML items into variables to be manipulated
+        session = new Session(getApplicationContext());
+
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_username);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
 
         final UserList userList = loadJsonIntoUserList();
+
         final MusicList musicList = loadJsonIntoMusicList();
         //Log.d("MUSICLIST", musicList.toString());
 
         // Button listener for clicking on the log in button
+        if (session.getLogin() == true) {
+            Intent intent = new Intent(this, BottomNavActivity.class);
+            startActivity(intent);
+        }
+
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -41,8 +51,15 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("ONCLICKUSER", inputUserName.getText().toString());
                 //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
                 //Log.d("USERLIST", userList.toString());
-                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
-                signIn(v, login);
+
+                Boolean loginCheck = checkCredentials(inputUserName.getText().toString(),
+                        inputPassword.getText().toString(), userList.getList(), v);
+                if (loginCheck == true) {
+                    session.setLoginTrue("Login");
+                }
+                else{
+                    session.setLoginFalse("Login");
+                }
             }
 
         });
@@ -71,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public MusicList loadJsonIntoMusicList()
     {
+
         try
         {
             String myJson = inputStreamToString(getAssets().open("music.json"));
@@ -109,8 +127,10 @@ public class MainActivity extends AppCompatActivity {
     {
         for (int i = 0; i < userlist.size(); i++)
         {
+
             if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword()))
             {
+                signIn(v, true);
                 return true;
             }
 

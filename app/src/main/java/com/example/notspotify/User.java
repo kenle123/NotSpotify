@@ -10,6 +10,8 @@ public class User implements Serializable {
     String password;
     @SerializedName("playlistJson")
     String playlistJson;
+    @SerializedName("login")
+    Boolean login;
 
 
     public void setUserName(String name)
@@ -36,6 +38,14 @@ public class User implements Serializable {
     public String getJson()
     {
         return this.playlistJson;
+    }
+    public void setLoginCheck(Boolean loginCheck)
+    {
+        this.login = loginCheck;
+    }
+    public Boolean getLoginCheck()
+    {
+        return this.login;
     }
 
     @Override
