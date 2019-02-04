@@ -47,6 +47,7 @@ public class PlayActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mp.stop();
                 finish();
             }
         });
@@ -185,12 +186,12 @@ public class PlayActivity extends AppCompatActivity {
      */
     public void playBtnClick(View view) {
         if(!mp.isPlaying()) {
-            // Stopping
+            // Play
             mp.start();
             playBtn.setBackgroundResource(R.drawable.stop);
         }
         else {
-            // Playing
+            // Pause
             mp.pause();
             playBtn.setBackgroundResource(R.drawable.play);
         }
