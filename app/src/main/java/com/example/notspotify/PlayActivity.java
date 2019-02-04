@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class PlayActivity extends AppCompatActivity {
     int totalTime = 0;
 
     TextView artistAndSongName;
+    ImageButton backBtn;
 
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
@@ -39,6 +41,17 @@ public class PlayActivity extends AppCompatActivity {
         remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
 
         artistAndSongName = (TextView)findViewById(R.id.artist_songname);
+        backBtn = (ImageButton)findViewById(R.id.button_back);
+
+        // On click listener for back button
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        // Set textview to current artist name and song title
         artistAndSongName.setText(songTitle);
 
         // Media Player

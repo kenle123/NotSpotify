@@ -30,7 +30,7 @@ public class BrowseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // Declare song variables which will be passed to play activity to play a certain song
+    // Declare global song variables which will be passed to play activity to play a certain song
     private static String songTitle;
     private static String songID;
 
