@@ -56,21 +56,12 @@ public class BrowseFragment extends Fragment {
                         songTitle = item.getTitle();
                         songID = item.getID();
 
-                        // Show toast of id of song
-                        Toast.makeText(getActivity(), item.getID(), Toast.LENGTH_SHORT).show();
+                        // Call intent to go to play activity where user can play the song
+                        Intent intent = new Intent(getActivity(), PlayActivity.class);
+                        startActivity(intent);
                         baseSearchDialogCompat.dismiss();
                     }
                 }).show();
-            }
-        });
-
-        // Start the music player activity
-        Button button = view.findViewById(R.id.button_music_player);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), PlayActivity.class);
-                startActivity(intent);
             }
         });
 

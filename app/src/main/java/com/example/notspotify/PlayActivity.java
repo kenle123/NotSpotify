@@ -24,6 +24,8 @@ public class PlayActivity extends AppCompatActivity {
     MediaPlayer mp;
     int totalTime = 0;
 
+    TextView artistAndSongName;
+
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
@@ -35,6 +37,9 @@ public class PlayActivity extends AppCompatActivity {
         playBtn = (Button)findViewById(R.id.playBtn);
         elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel);
         remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
+
+        artistAndSongName = (TextView)findViewById(R.id.artist_songname);
+        artistAndSongName.setText(songTitle);
 
         // Media Player
         // My Dearest

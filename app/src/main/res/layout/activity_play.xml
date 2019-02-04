@@ -9,11 +9,20 @@
     android:gravity="center_horizontal"
     android:background="@color/colorWhiteTransparent">
 
+    <TextView
+        android:id="@+id/artist_songname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:layout_marginTop="80dp"
+        android:textSize="30sp"
+        android:textAlignment="center"/>
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/song_icon"
-        android:layout_marginTop="130dp"/>
+        android:layout_marginTop="60dp"/>
 
     <SeekBar
         android:id="@+id/positionBar"
