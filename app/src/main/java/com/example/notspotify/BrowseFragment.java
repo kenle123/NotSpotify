@@ -30,6 +30,10 @@ public class BrowseFragment extends Fragment {
         // Required empty public constructor
     }
 
+    // Declare song variables which will be passed to play activity to play a certain song
+    private static String songTitle;
+    private static String songID;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +51,10 @@ public class BrowseFragment extends Fragment {
                         "Search For An Artist or Song", null, initData(musicList.getList()), new SearchResultListener<SearchModel>() {
 
                     public void onSelected(BaseSearchDialogCompat baseSearchDialogCompat, SearchModel item, int i) {
+
+                        // Set the global variables to the song that is selected
+                        songTitle = item.getTitle();
+                        songID = item.getID();
 
                         // Show toast of id of song
                         Toast.makeText(getActivity(), item.getID(), Toast.LENGTH_SHORT).show();
@@ -114,6 +122,15 @@ public class BrowseFragment extends Fragment {
         }
 
         return items;
+    }
+
+    // Getters for the song variables
+    public static String getSongTitle() {
+        return songTitle;
+    }
+
+    public static String getSongID() {
+        return songID;
     }
 
 }

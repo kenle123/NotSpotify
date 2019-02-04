@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -23,6 +24,9 @@ public class PlayActivity extends AppCompatActivity {
     MediaPlayer mp;
     int totalTime = 0;
 
+    String songTitle = BrowseFragment.getSongTitle();
+    String songID = BrowseFragment.getSongID();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +37,25 @@ public class PlayActivity extends AppCompatActivity {
         remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
 
         // Media Player
-        mp = MediaPlayer.create(this, R.raw.imperialmarch);
+        // My Dearest
+        if(songID.equals("SOCIWDW12A8C13D406")) {
+            mp = MediaPlayer.create(this, R.raw.mydearest);
+        }
+        // Blue Bird
+        else if(songID.equals("SOXVLOJ12AB0189215")) {
+            mp = MediaPlayer.create(this, R.raw.bluebird);
+        }
+
+        // Black Paper Moon
+        else if(songID.equals("SONHOTT12A8C13493C")) {
+            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
+        }
+
+        // Imperial March
+        else {
+            mp = MediaPlayer.create(this, R.raw.imperialmarch);
+        }
+
         mp.setLooping(true);
         mp.seekTo(0);
         mp.setVolume(0.5f, 0.5f);
