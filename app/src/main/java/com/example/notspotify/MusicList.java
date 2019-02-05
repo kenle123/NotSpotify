@@ -9,15 +9,9 @@ public class MusicList {
     @SerializedName("music")
     private List<Music> list = new ArrayList<Music>();
 
-
     public List<Music> getList()
     {
         return this.list;
-    }
-
-    public void setList(List<Music> list)
-    {
-        this.list = list;
     }
 
     @Override

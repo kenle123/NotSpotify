@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#E84393</color>
 
-    <color name="colorBackground">#000000</color>
+    <color name="colorBackground">#FFFFFF</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorWhiteTransparent">#80ffffff</color>
     <color name="colorBottomNav">#112233</color>

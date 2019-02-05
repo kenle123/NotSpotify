@@ -16,6 +16,12 @@
         android:layout_marginTop="100dp"
         android:src="@drawable/logo" />
 
+    <!--
+     URL for logo:
+
+     https://logomakr.com/4ktXgj
+     -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,11 +32,8 @@
             android:id="@+id/text_input_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBottomNav"
             android:hint="@string/login_hint_username"
-            android:textColorHint="@color/colorWhite"
             android:inputType="text"
-            android:textColor="@color/colorWhite"
             android:layout_marginBottom="20dp"
             android:padding="16dp"/>
 
@@ -38,11 +41,8 @@
             android:id="@+id/text_input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorBottomNav"
             android:hint="@string/login_hint_password"
-            android:textColorHint="@color/colorWhite"
             android:inputType="textPassword"
-            android:textColor="@color/colorWhite"
             android:layout_marginBottom="30dp"
             android:padding="16dp"/>
 

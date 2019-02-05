@@ -5,8 +5,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,13 +17,19 @@ import java.util.ArrayList;
 
 public class PlayActivity extends AppCompatActivity {
 
+    private static MediaPlayer mp;
     Button playBtn;
     SeekBar positionBar;
     SeekBar volumeBar;
     TextView elapsedTimeLabel;
     TextView remainingTimeLabel;
-    MediaPlayer mp;
     int totalTime = 0;
+
+    TextView artistAndSongName;
+    ImageButton backBtn;
+
+    String songTitle = BrowseFragment.getSongTitle();
+    String songID = BrowseFragment.getSongID();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +40,44 @@ public class PlayActivity extends AppCompatActivity {
         elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel);
         remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
 
-        // Media Player
-        mp = MediaPlayer.create(this, R.raw.imperialmarch);
+        artistAndSongName = (TextView)findViewById(R.id.artist_songname);
+        backBtn = (ImageButton)findViewById(R.id.button_back);
+
+        // On click listener for back button
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mp.stop();
+                finish();
+            }
+        });
+
+        // Set textview to current artist name and song title
+        artistAndSongName.setText(songTitle);
+
+        // My Dearest
+        if(songID.equals("SOCIWDW12A8C13D406")) {
+            mp = MediaPlayer.create(this, R.raw.mydearest);
+        }
+        // Blue Bird
+        else if(songID.equals("SOXVLOJ12AB0189215")) {
+            mp = MediaPlayer.create(this, R.raw.bluebird);
+        }
+
+        // Black Paper Moon
+        else if(songID.equals("SONHOTT12A8C13493C")) {
+            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
+        }
+
+        // Imperial March
+        else {
+            mp = MediaPlayer.create(this, R.raw.imperialmarch);
+        }
+
+        // Start the media player
+        mp.start();
+        playBtn.setBackgroundResource(R.drawable.stop);
+
         mp.setLooping(true);
         mp.seekTo(0);
         mp.setVolume(0.5f, 0.5f);
@@ -145,12 +189,12 @@ public class PlayActivity extends AppCompatActivity {
      */
     public void playBtnClick(View view) {
         if(!mp.isPlaying()) {
-            // Stopping
+            // Play
             mp.start();
             playBtn.setBackgroundResource(R.drawable.stop);
         }
         else {
-            // Playing
+            // Pause
             mp.pause();
             playBtn.setBackgroundResource(R.drawable.play);
         }

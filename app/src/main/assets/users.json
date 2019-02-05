@@ -2,39 +2,34 @@
   "users": [
 
     {
-      "username": "Weisheng",
-      "password": "password",
-      "playlistJson": "weishengPL.json"
+      "username": "Wei",
+      "password": "password"
+      //"playlistJson": "weishengPL.json"
     },
 
     {
       "username": "Ken",
-      "password": "password",
-      "playlistJson": "kenPL.json"
+      "password": "password"
     },
 
     {
       "username": "Peter",
-      "password": "password",
-      "playlistJson": "peterPL.json"
+      "password": "password"
     },
 
     {
       "username": "Preston",
-      "password": "password",
-      "playlistJson": "prestonPL.json"
+      "password": "password"
     },
 
     {
       "username": "Chad",
-      "password": "password",
-      "playlistJson": "chadPL.json"
+      "password": "password"
     },
 
     {
       "username": "Tony",
-      "password": "password",
-      "playlistJson": "tonyPL.json"
+      "password": "password"
     }
 
   ]
