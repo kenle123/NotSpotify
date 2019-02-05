@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 Boolean loginCheck = checkCredentials(inputUserName.getText().toString(),
                         inputPassword.getText().toString(), userList.getList(), v);
                 if (loginCheck == true) {
+                    session.setUsername(inputUserName.getText().toString());
+                    session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
                 }
                 else{

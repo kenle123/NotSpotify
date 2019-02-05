@@ -22,12 +22,20 @@ public class Session  {
 
         pref = PreferenceManager.getDefaultSharedPreferences(cntx);
     }
+    public void setLoginTrue(String login) {
+        pref.edit().putBoolean("Login", true).apply();
+    }
+
     public void setLoginFalse(String login) {
         pref.edit().putBoolean("Login", false).apply();
     }
 
-    public void setLoginTrue(String login) {
-        pref.edit().putBoolean("Login", true).apply();
+    public void setUsername(String username) {
+        pref.edit().putString("username", username).apply();
+    }
+
+    public void setPassword(String password) {
+        pref.edit().putString("password", password).apply();
     }
 
     public Boolean getLogin() {
