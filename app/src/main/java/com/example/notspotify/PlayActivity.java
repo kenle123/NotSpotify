@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 public class PlayActivity extends AppCompatActivity {
 
+    private static MediaPlayer mp;
     Button playBtn;
     SeekBar positionBar;
     SeekBar volumeBar;
     TextView elapsedTimeLabel;
     TextView remainingTimeLabel;
-    MediaPlayer mp;
     int totalTime = 0;
 
     TextView artistAndSongName;
@@ -55,7 +55,6 @@ public class PlayActivity extends AppCompatActivity {
         // Set textview to current artist name and song title
         artistAndSongName.setText(songTitle);
 
-        // Media Player
         // My Dearest
         if(songID.equals("SOCIWDW12A8C13D406")) {
             mp = MediaPlayer.create(this, R.raw.mydearest);
@@ -74,6 +73,10 @@ public class PlayActivity extends AppCompatActivity {
         else {
             mp = MediaPlayer.create(this, R.raw.imperialmarch);
         }
+
+        // Start the media player
+        mp.start();
+        playBtn.setBackgroundResource(R.drawable.stop);
 
         mp.setLooping(true);
         mp.seekTo(0);
