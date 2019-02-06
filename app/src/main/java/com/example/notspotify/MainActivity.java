@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BottomNavActivity.class);
             startActivity(intent);
         }
-
+//
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
