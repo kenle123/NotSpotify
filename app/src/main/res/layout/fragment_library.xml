@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LibraryFragment">
+    tools:context=".LibraryFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="library"
-        android:textColor="@color/colorWhite"/>
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="{Username} playlists"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/textview_playlists"
+        android:layout_weight=".05"/>
 
-</FrameLayout>
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".8"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".06"
+        android:text="Add playlist"
+        android:id="@+id/button_add_playlist"/>
+</LinearLayout>
