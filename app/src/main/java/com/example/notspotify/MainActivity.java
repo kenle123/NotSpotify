@@ -1,6 +1,8 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +12,22 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import android.content.SharedPreferences;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
+    Session session;
     boolean login = false;
 
     @Override
@@ -23,16 +35,48 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Store XML items into variables to be manipulated
+        session = new Session(getApplicationContext());
+
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_username);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
 
         final UserList userList = loadJsonIntoUserList();
+
+
+
         final MusicList musicList = loadJsonIntoMusicList();
+
+        final String path = getFilesDir().getAbsolutePath() + "/users.json";
+        final File file = new File(path);
+
+
+
+
+
+
+
+        User user1 = new User();
+        user1.setUserName("Bob");
+        user1.setPassword("password");
+        user1.setJson("users.json");
+
+        //addUser("Bob", "password", "users.json", userList);
+
+        final UserList newUserList =  updateUserList(file);
+
+
+
+
+
         //Log.d("MUSICLIST", musicList.toString());
 
         // Button listener for clicking on the log in button
+        if (session.getLogin() == true) {
+            Intent intent = new Intent(this, BottomNavActivity.class);
+            startActivity(intent);
+        }
+//
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -41,11 +85,94 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("ONCLICKUSER", inputUserName.getText().toString());
                 //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
                 //Log.d("USERLIST", userList.toString());
+
+                Boolean loginCheck = checkCredentials(inputUserName.getText().toString(),
+                        inputPassword.getText().toString(), userList.getList(), v);
+                if (loginCheck == true) {
+                    session.setUsername(inputUserName.getText().toString());
+                    session.setPassword(inputPassword.getText().toString());
+                    session.setLoginTrue("Login");
+                }
+                else{
+                    session.setLoginFalse("Login");
+                }
+
+                if(file.exists())
+                {
+                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
+
+
+                    Log.d("ADDUSER", newUserList.toString());
+                }
+
                 login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
+
                 signIn(v, login);
             }
 
         });
+    }
+
+    public UserList updateUserList(File file)
+    {
+        UserList userTemp = null;
+        try{
+
+
+            if (file.exists()) {
+                Log.d("ADDUSER", "file exists");
+                InputStream inputStream = new FileInputStream(file);
+                String myJson = inputStreamToString(inputStream);
+                userTemp = new Gson().fromJson(myJson, UserList.class);
+                inputStream.close();
+
+
+
+                //Log.d("ADDUSER", userList.toString());
+                return userTemp;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return userTemp;
+
+    }
+    public void addUser(String name, String password, String json , UserList userlist)
+    {
+        Log.d("ADDUSER", "adding user");
+        Log.d("ADDUSER", getFilesDir().getPath());
+
+        User user1 = new User();
+        user1.setUserName(name);
+        user1.setPassword(password);
+        user1.setJson(json);
+
+        userlist.addToList(user1);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(userlist);
+
+        //String filename = "users.json";
+        String fileContents = strJson;
+        FileOutputStream outputStream;
+
+        try {
+            String filePath =   getFilesDir().getAbsolutePath() + "/users.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
     /**
@@ -109,8 +236,10 @@ public class MainActivity extends AppCompatActivity {
     {
         for (int i = 0; i < userlist.size(); i++)
         {
+
             if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword()))
             {
+                signIn(v, true);
                 return true;
             }
 
