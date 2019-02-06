@@ -50,12 +50,6 @@ public class MainActivity extends AppCompatActivity {
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
 
-
-
-
-
-
-
         User user1 = new User();
         user1.setUserName("Bob");
         user1.setPassword("password");
@@ -64,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
         //addUser("Bob", "password", "users.json", userList);
 
         final UserList newUserList =  updateUserList(file);
-
-
-
-
 
         //Log.d("MUSICLIST", musicList.toString());
 
@@ -168,10 +158,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
-
 
     }
 
