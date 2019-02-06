@@ -21,6 +21,10 @@ public class UserList
         this.list = list;
     }
 
+    public void addToList(User user)
+    {
+        list.add(user);
+    }
     @Override
     public String toString()
     {
