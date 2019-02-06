@@ -25,6 +25,5 @@
         app:itemIconTint="@color/nav_item_colors"
         app:itemTextColor="@color/nav_item_colors"
         app:menu="@menu/nav_items">
-
     </android.support.design.widget.BottomNavigationView>
 </RelativeLayout>
