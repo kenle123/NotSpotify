@@ -12,7 +12,9 @@
         android:text="{Username} playlists"
         android:layout_gravity="center_horizontal"
         android:id="@+id/textview_playlists"
-        android:layout_weight=".05"/>
+        android:layout_weight=".05"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"/>
 
     <ListView
         android:id="@+id/list_view"
