@@ -34,8 +34,16 @@ public class Session  {
         pref.edit().putString("username", username).apply();
     }
 
+    public String getUsername() {
+        return pref.getString("username", "");
+    }
+
     public void setPassword(String password) {
         pref.edit().putString("password", password).apply();
+    }
+
+    public String getPassword() {
+        return pref.getString("password", "");
     }
 
     public Boolean getLogin() {
@@ -43,28 +51,5 @@ public class Session  {
         return login;
     }
 
-//    public UserList loadJsonIntoUserList()
-//    {
-//        try
-//        {
-//            String myJson = inputStreamToString(getAssets().open("users.json"));
-//            UserList userList  = new Gson().fromJson(myJson, UserList.class);
-//            return userList;
-//        }
-//        catch (IOException e) {
-//            return null;
-//        }
-//    }
-//
-//    public String inputStreamToString(InputStream inputStream) {
-//        try {
-//            byte[] bytes = new byte[inputStream.available()];
-//            inputStream.read(bytes, 0, bytes.length);
-//            String json = new String(bytes);
-//            return json;
-//        } catch (IOException e) {
-//            return null;
-//        }
-//    }
 }
 
