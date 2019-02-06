@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,14 +27,17 @@ public class LibraryFragment extends Fragment {
     }
 
     ListView listView;
-    //List list = new ArrayList();
-    //ArrayAdapter adapter;
+    TextView mPlaylistUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        Session session = new Session(getActivity());
+        mPlaylistUser = view.findViewById(R.id.textview_playlists);
+        mPlaylistUser.setText(session.getUsername() + "'s Playlist");
 
         listView = view.findViewById(R.id.list_view);
         ArrayList<String> list = new ArrayList<>();
