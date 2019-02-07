@@ -14,6 +14,12 @@ public class PlaylistHandler {
         return this.list;
     }
 
+    public void setupPlaylist(MusicList m) {
+        for(UserPlaylist u: list) {
+            u.stringToArrayPlaylist(m);
+        }
+    }
+
     @Override
     public String toString()
     {

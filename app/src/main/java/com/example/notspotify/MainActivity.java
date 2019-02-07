@@ -47,7 +47,14 @@ public class MainActivity extends AppCompatActivity {
         final File file = new File(path);
         final UserList newUserList =  updateUserList(file);
 
+        //TODO: Used this for testing: ORIGINALLY NOT HERE
+        final MusicList musicList = loadJsonIntoMusicList();
+        //Log.d("MUSIC", musicList.toString());
+
+
         final PlaylistHandler pls = loadJsonIntoPlaylist();
+        pls.setupPlaylist(musicList);
+
         Log.d("PLAYLISTS", pls.toString());
 
         /*
@@ -96,6 +103,20 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
+    //TODO: Used this for testing: ORIGINALLY NOT HERE
+    public MusicList loadJsonIntoMusicList()
+    {
+        try {
+            String myJson = inputStreamToString(getAssets().open("music.json"));
+            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
+            return musicList;
+        }
+        catch (IOException e) {
+            return null;
+        }
+    }
+
 
     public UserList updateUserList(File file)
     {

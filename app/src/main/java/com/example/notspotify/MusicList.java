@@ -20,10 +20,7 @@ public class MusicList {
         String results = "";
         for(Music m : list)
         {
-            results += String.format("%" + 40 + "s", "ID: " + m.getSongID())
-                    + String.format("%" + 40 + "s", "Title: " + m.getSongTitle())
-                    + String.format("%" + 30 + "s", "Artist: " + m.getArtistName())
-                    + "\n";
+            results += m.toString();
         }
         return results;
     }

@@ -40,5 +40,13 @@ public class Music implements Serializable {
     public String getSongTitle() {
         return this.song.songTitle;
     }
+    public String toString() {
+        String results = "";
+        results += "\n"
+                + String.format("%" + 40 + "s", "ID: " + this.getSongID())
+                + String.format("%" + 55 + "s", "Title: " + this.getSongTitle())
+                + String.format("%" + 40 + "s", "Artist: " + this.getArtistName());
+        return results;
+    }
 }
 
