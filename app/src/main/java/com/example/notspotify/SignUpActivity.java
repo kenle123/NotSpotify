@@ -1,9 +1,12 @@
 package com.example.notspotify;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,8 +16,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
+    boolean userExist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +28,38 @@ public class SignUpActivity extends AppCompatActivity {
 
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_uSignUp);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_pSignUp);
-        final Button loginButton = (Button) findViewById(R.id.button_signUp);
+        final Button signUpButton = (Button) findViewById(R.id.button_signUp);
 
         final UserList userList = loadJsonIntoUserList();
 
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
         final UserList newUserList =  updateUserList(file);
+
+
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(file.exists())
+                {
+                    userExist = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
+                    //Log.d("ADDUSER", newUserList.toString());
+                }
+
+                userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
+
+                if(userExist == false){
+                    addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
+                    signUp(v);
+                }else{
+                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
+
 
     }
 
@@ -109,6 +139,26 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     /**
+     * Checks if username and password that user inputted matches a user profile provided from the json file
+     * @param username The username the user inputted
+     * @param userlist The user list which contains all the users
+     * @param v The view object
+     */
+    public boolean checkUserName(String username, List<User> userlist, View v)
+    {
+        for (int i = 0; i < userlist.size(); i++)
+        {
+
+            if(username.equals(userlist.get(i).getUserName()))
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    /**
      * Reads a file using inputstream
      * @param inputStream a file to read from
      * @return a string of the read in file
@@ -122,5 +172,13 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public void signUp(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        Toast.makeText(this, "Account created, please log in!", Toast.LENGTH_LONG).show();
+
+
     }
 }
