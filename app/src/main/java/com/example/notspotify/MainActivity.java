@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("MUSIC", musicList.toString());
 
 
-        final PlaylistHandler pls = loadJsonIntoPlaylist();
+        PlaylistHandler pls = loadJsonIntoPlaylist();
         pls.setupPlaylist(musicList);
 
         Log.d("PLAYLISTS", pls.toString());
