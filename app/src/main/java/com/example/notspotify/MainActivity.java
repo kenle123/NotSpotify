@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         final File file = new File(path);
         final UserList newUserList =  updateUserList(file);
 
+        final PlaylistHandler pls = loadJsonIntoPlaylist();
+        Log.d("PLAYLISTS", pls.toString());
+
         /*
         User newUser = new User();
         newUser.setUserName("Bob");
@@ -163,6 +166,23 @@ public class MainActivity extends AppCompatActivity {
             String myJson = inputStreamToString(getAssets().open("users.json"));
             UserList userList  = new Gson().fromJson(myJson, UserList.class);
             return userList;
+        }
+        catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Loads the users from the playlists.json file into playlist object using GSON
+     * @return the populated playlists
+     */
+    public PlaylistHandler loadJsonIntoPlaylist()
+    {
+        try
+        {
+            String myJson = inputStreamToString(getAssets().open("playlists.json"));
+            PlaylistHandler playlist  = new Gson().fromJson(myJson, PlaylistHandler.class);
+            return playlist;
         }
         catch (IOException e) {
             return null;
