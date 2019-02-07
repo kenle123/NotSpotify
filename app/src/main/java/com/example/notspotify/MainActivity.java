@@ -45,17 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
-
-        User user1 = new User();
-        user1.setUserName("Bob");
-        user1.setPassword("password");
-        user1.setJson("users.json");
-
-        //addUser("Bob", "password", "users.json", userList);
-
         final UserList newUserList =  updateUserList(file);
 
-        //Log.d("MUSICLIST", musicList.toString());
+        User newUser = new User();
+        newUser.setUserName("Bob");
+        newUser.setPassword("password");
+        newUser.setJson("users.json");
+
+        //addUser("Bob", "password", "users.json", userList);
 
         // Button listener for clicking on the log in button
         if (session.getLogin() == true) {
@@ -72,9 +69,15 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
                 //Log.d("USERLIST", userList.toString());
 
-                Boolean loginCheck = checkCredentials(inputUserName.getText().toString(),
-                        inputPassword.getText().toString(), userList.getList(), v);
-                if (loginCheck == true) {
+                if(file.exists())
+                {
+                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
+                    //Log.d("ADDUSER", newUserList.toString());
+                }
+
+                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
+
+                if (login == true) {
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
@@ -83,15 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     session.setLoginFalse("Login");
                 }
 
-                if(file.exists())
-                {
-                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
 
-
-                    Log.d("ADDUSER", newUserList.toString());
-                }
-
-                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
 
                 signIn(v, login);
             }
