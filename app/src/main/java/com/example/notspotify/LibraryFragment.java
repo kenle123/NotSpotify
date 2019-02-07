@@ -37,7 +37,7 @@ public class LibraryFragment extends Fragment {
 
         Session session = new Session(getActivity());
         mPlaylistUser = view.findViewById(R.id.textview_playlists);
-        mPlaylistUser.setText(session.getUsername() + "'s Playlist");
+        mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
         listView = view.findViewById(R.id.list_view);
         ArrayList<String> list = new ArrayList<>();

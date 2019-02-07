@@ -104,7 +104,8 @@ public class BrowseFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                // Call dialog to display detail
+                // Create dialog activity
                 return true;
             }
         });
