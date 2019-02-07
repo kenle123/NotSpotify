@@ -53,6 +53,13 @@
             android:text="@string/login_button_signin"
             android:onClick="signIn"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_signUp"
+            android:text="@string/signup_button"
+            android:onClick="goToSignUp"/>
+
     </LinearLayout>
 
 </LinearLayout>

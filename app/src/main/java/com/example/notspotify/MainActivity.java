@@ -220,4 +220,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Username or password is incorrect", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void goToSignUp(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
 }
