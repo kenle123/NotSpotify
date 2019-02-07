@@ -26,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".DialogActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"></activity>
     </application>
 
 

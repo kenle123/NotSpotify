@@ -104,8 +104,14 @@ public class BrowseFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Set the global variables to the song that is selected
+                songTitle = songList.get(i).getTitle();
+                songID = songList.get(i).getID();
+
                 // Call dialog to display detail
                 // Create dialog activity
+                Intent intent = new Intent(getActivity(), DialogActivity.class);
+                startActivity(intent);
                 return true;
             }
         });

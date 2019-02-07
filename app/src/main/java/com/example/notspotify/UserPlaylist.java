@@ -39,7 +39,7 @@ public class UserPlaylist implements Serializable {
             plst.get(i).setSongList(a);
         }//i
     }//stringToArrayPlaylist
-
+    public String getUsername() { return this.username; }
     public List<Playlist> getPlaylist(){return plst;}
     public String toString() {
         String results = "\nUsername: " + username;
