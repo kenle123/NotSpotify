@@ -47,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
         final File file = new File(path);
         final UserList newUserList =  updateUserList(file);
 
+        /*
         User newUser = new User();
         newUser.setUserName("Bob");
         newUser.setPassword("password");
         newUser.setJson("users.json");
+        */
 
         //addUser("Bob", "password", "users.json", userList);
 
@@ -86,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
                     session.setLoginFalse("Login");
                 }
 
-
-
                 signIn(v, login);
             }
 
@@ -101,33 +101,35 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (file.exists()) {
-                Log.d("ADDUSER", "file exists");
+                //Log.d("ADDUSER", "file exists");
                 InputStream inputStream = new FileInputStream(file);
                 String myJson = inputStreamToString(inputStream);
                 userTemp = new Gson().fromJson(myJson, UserList.class);
                 inputStream.close();
 
                 //Log.d("ADDUSER", userList.toString());
+
                 return userTemp;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return userTemp;
 
+        return userTemp;
     }
+
     public void addUser(String name, String password, String json , UserList userlist)
     {
-        Log.d("ADDUSER", "adding user");
-        Log.d("ADDUSER", getFilesDir().getPath());
+        //Log.d("ADDUSER", "adding user");
+        //Log.d("ADDUSER", getFilesDir().getPath());
 
-        User user1 = new User();
-        user1.setUserName(name);
-        user1.setPassword(password);
-        user1.setJson(json);
+        User newUser = new User();
+        newUser.setUserName(name);
+        newUser.setPassword(password);
+        newUser.setJson(json);
 
-        userlist.addToList(user1);
+        userlist.addToList(newUser);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(userlist);
@@ -143,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             fileOutputStream.write(strJson.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
-            Log.d("ADDUSER", "OUTPUTTED");
+            //Log.d("ADDUSER", "OUTPUTTED");
         } catch (Exception e) {
             e.printStackTrace();
         }
