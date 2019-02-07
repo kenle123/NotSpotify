@@ -1,30 +1,31 @@
 package com.example.notspotify;
 
+import android.util.Log;
 import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.*;
 
+import java.io.FileNotFoundException;
 import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.Scanner;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class PlaylistHandler {
+public class PlaylistHandler{
     String jsonString;
     HashMap<String, ArrayList<Music>> list;
 
     public PlaylistHandler() {
         jsonString = "";
         try {
-            File file = new File("playlists.json");
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            //read json text here
-            while ((jsonString += br.readLine()) != null){}
+            String path = "D:\\MY STUFF\\CSULB Senior Spring 2019 Semester\\CECS 327\\NotSpotify\\app\\src\\main\\assets\\playlists.json";
+            File file = new File(path);
+            Scanner in = new Scanner(file);
+            while(in.hasNextLine())
+                jsonString += in.nextLine();
+            Log.d("jsonString", jsonString);
         }
-        catch (IOException e) {}
-
-        //At this point, the json file has been read and saved in jsonString
-
+        catch(FileNotFoundException e) {Log.d("NOWORK", "File reading doesn't work");}
 
     }
 
