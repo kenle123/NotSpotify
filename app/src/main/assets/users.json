@@ -4,7 +4,6 @@
     {
       "username": "Wei",
       "password": "password",
-      "playlistJson": "weishengPL.json",
       "login": false
       //"playlistJson": "weishengPL.json"
     },
@@ -12,35 +11,30 @@
     {
       "username": "Ken",
       "password": "password",
-      "playlistJson": "kenPL.json",
       "login": false
     },
 
     {
       "username": "Peter",
       "password": "password",
-      "playlistJson": "peterPL.json",
       "login": false
     },
 
     {
       "username": "Preston",
       "password": "password",
-      "playlistJson": "prestonPL.json",
       "login": false
     },
 
     {
       "username": "Chad",
       "password": "password",
-      "playlistJson": "chadPL.json",
       "login": false
     },
 
     {
       "username": "Tony",
       "password": "password",
-      "playlistJson": "tonyPL.json",
       "login": false
     }
 

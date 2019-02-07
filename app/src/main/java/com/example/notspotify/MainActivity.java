@@ -43,30 +43,25 @@ public class MainActivity extends AppCompatActivity {
 
         final UserList userList = loadJsonIntoUserList();
 
-
-
-        final MusicList musicList = loadJsonIntoMusicList();
-
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
-
-        User user1 = new User();
-        user1.setUserName("Bob");
-        user1.setPassword("password");
-        user1.setJson("users.json");
-
-        //addUser("Bob", "password", "users.json", userList);
-
         final UserList newUserList =  updateUserList(file);
 
-        //Log.d("MUSICLIST", musicList.toString());
+        /*
+        User newUser = new User();
+        newUser.setUserName("Bob");
+        newUser.setPassword("password");
+        newUser.setJson("users.json");
+        */
+
+        //addUser("Bob", "password", "users.json", userList);
 
         // Button listener for clicking on the log in button
         if (session.getLogin() == true) {
             Intent intent = new Intent(this, BottomNavActivity.class);
             startActivity(intent);
         }
-//
+
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -76,9 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
                 //Log.d("USERLIST", userList.toString());
 
-                Boolean loginCheck = checkCredentials(inputUserName.getText().toString(),
-                        inputPassword.getText().toString(), userList.getList(), v);
-                if (loginCheck == true) {
+                if(file.exists())
+                {
+                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
+                    //Log.d("ADDUSER", newUserList.toString());
+                }
+
+                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
+
+                if (login == true) {
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
@@ -86,16 +87,6 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     session.setLoginFalse("Login");
                 }
-
-                if(file.exists())
-                {
-                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
-
-
-                    Log.d("ADDUSER", newUserList.toString());
-                }
-
-                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
 
                 signIn(v, login);
             }
@@ -110,35 +101,35 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (file.exists()) {
-                Log.d("ADDUSER", "file exists");
+                //Log.d("ADDUSER", "file exists");
                 InputStream inputStream = new FileInputStream(file);
                 String myJson = inputStreamToString(inputStream);
                 userTemp = new Gson().fromJson(myJson, UserList.class);
                 inputStream.close();
 
-
-
                 //Log.d("ADDUSER", userList.toString());
+
                 return userTemp;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return userTemp;
 
+        return userTemp;
     }
+
     public void addUser(String name, String password, String json , UserList userlist)
     {
-        Log.d("ADDUSER", "adding user");
-        Log.d("ADDUSER", getFilesDir().getPath());
+        //Log.d("ADDUSER", "adding user");
+        //Log.d("ADDUSER", getFilesDir().getPath());
 
-        User user1 = new User();
-        user1.setUserName(name);
-        user1.setPassword(password);
-        user1.setJson(json);
+        User newUser = new User();
+        newUser.setUserName(name);
+        newUser.setPassword(password);
+        newUser.setJson(json);
 
-        userlist.addToList(user1);
+        userlist.addToList(newUser);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(userlist);
@@ -154,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             fileOutputStream.write(strJson.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
-            Log.d("ADDUSER", "OUTPUTTED");
+            //Log.d("ADDUSER", "OUTPUTTED");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -172,23 +163,6 @@ public class MainActivity extends AppCompatActivity {
             String myJson = inputStreamToString(getAssets().open("users.json"));
             UserList userList  = new Gson().fromJson(myJson, UserList.class);
             return userList;
-        }
-        catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Loads the music from the music.json file into musicList object using GSON
-     * @return the populatd music list
-     */
-    public MusicList loadJsonIntoMusicList()
-    {
-        try
-        {
-            String myJson = inputStreamToString(getAssets().open("music.json"));
-            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
-            return musicList;
         }
         catch (IOException e) {
             return null;

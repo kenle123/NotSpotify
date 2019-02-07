@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -16,6 +19,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
@@ -34,6 +38,8 @@ public class BrowseFragment extends Fragment {
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String songTitle;
     private static String songID;
+
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +71,46 @@ public class BrowseFragment extends Fragment {
                 }).show();
             }
         });
+
+        // Dislays all the songs that are all playable but not searchable(have to use search button)
+        listView = view.findViewById(R.id.list_view);
+        final List<SearchModel> songList = new ArrayList<>();
+        List<Music> musicList2 = musicList.getList();
+
+        // Add songs to songList which will contain the artist name and title of each song
+        for(int i = 0; i < musicList2.size(); i++) {
+            songList.add(new SearchModel(musicList2.get(i).getArtistName(), musicList2.get(i).getSongID(), musicList2.get(i).getSongTitle()));
+        }
+
+        // Set up adapter
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, songList);
+        listView.setAdapter(arrayAdapter);
+
+        // On click listener for when user clicks on song which will go to play activity which plays the song
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Set the global variables to the song that is selected
+                songTitle = songList.get(i).getTitle();
+                songID = songList.get(i).getID();
+
+                // Call intent to go to play activity where user can play the song
+                Intent intent = new Intent(getActivity(), PlayActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // On item LONG click listener
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Call dialog to display detail
+                // Create dialog activity
+                return true;
+            }
+        });
+
+
 
         return view;
     }

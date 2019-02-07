@@ -42,4 +42,9 @@ public class SearchModel implements Searchable {
         return this;
 
     }
+
+    @Override
+    public String toString() {
+        return mName + " - " + mTitle;
+    }
 }
