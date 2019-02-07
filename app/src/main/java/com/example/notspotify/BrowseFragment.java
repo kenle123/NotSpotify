@@ -100,6 +100,15 @@ public class BrowseFragment extends Fragment {
             }
         });
 
+        // On item LONG click listener
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                return true;
+            }
+        });
+
 
 
         return view;

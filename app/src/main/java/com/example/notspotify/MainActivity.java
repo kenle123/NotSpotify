@@ -43,10 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         final UserList userList = loadJsonIntoUserList();
 
-
-
-        final MusicList musicList = loadJsonIntoMusicList();
-
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
 
@@ -116,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 userTemp = new Gson().fromJson(myJson, UserList.class);
                 inputStream.close();
 
-
-
                 //Log.d("ADDUSER", userList.toString());
                 return userTemp;
             }
@@ -172,23 +166,6 @@ public class MainActivity extends AppCompatActivity {
             String myJson = inputStreamToString(getAssets().open("users.json"));
             UserList userList  = new Gson().fromJson(myJson, UserList.class);
             return userList;
-        }
-        catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Loads the music from the music.json file into musicList object using GSON
-     * @return the populatd music list
-     */
-    public MusicList loadJsonIntoMusicList()
-    {
-        try
-        {
-            String myJson = inputStreamToString(getAssets().open("music.json"));
-            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
-            return musicList;
         }
         catch (IOException e) {
             return null;
