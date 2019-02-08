@@ -47,30 +47,28 @@ public class LibraryFragment extends Fragment {
         session = new Session(getActivity());
         username = session.getUsername();
 
-        // MusicList variable to hold the music information
+        // Load the playlist from playlist.json into playlistHandler
         final PlaylistHandler playlistHandler = loadJsonIntoPlaylist();
 
+        // Get current user's username and set the text to {Username} playlist as header
         Session session = new Session(getActivity());
         mPlaylistUser = view.findViewById(R.id.textview_playlists);
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
         listView = view.findViewById(R.id.list_view);
-        final List<PlaylistSearchModel> playlist = new ArrayList<>();
+        List<PlaylistSearchModel> playlist = new ArrayList<>();
         List<UserPlaylist> playlist2 = playlistHandler.getList();
 
-
-        // Find which playlists belong to which user
-        for (int i = 0; i < playlist2.size(); i++) {
-            if (username.equals(playlist2.get(i).getUsername())) {
-                usersPlaylist = playlist2.get(i);
+        boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
+        if(hasPlaylist) {
+            // Add playlist names to listview which will display each playlist name
+            for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
+                playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName()));
             }
         }
-
-        // Add playlist names to listview which will display each playlist name
-        for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
-            playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName()));
+        else {
+            // User does not have a playlist, so will just display nothing
         }
-
         // Array adapter needed to display the listview
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, playlist);
         listView.setAdapter(arrayAdapter);
@@ -116,5 +114,21 @@ public class LibraryFragment extends Fragment {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    /**
+     * Checks if the user has a playlist
+     * @param up The userplaylist object to loop through
+     * @param username The username that is currently logged in
+     * @return true if the user has a playlist, false if doesn't
+     */
+    public boolean checkIfUserHasPlaylist(List<UserPlaylist> up, String username) {
+        for (int i = 0; i < up.size(); i++) {
+            if (username.equals(up.get(i).getUsername())) {
+                usersPlaylist = up.get(i);
+                return true;
+            }
+        }
+        return false;
     }
 }
