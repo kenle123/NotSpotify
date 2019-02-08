@@ -24,7 +24,9 @@ import java.util.List;
 import android.content.SharedPreferences;
 
 
-
+/**
+ * Main Activity class handles the Login page
+ */
 public class MainActivity extends AppCompatActivity {
 
     Session session;
@@ -45,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
-        final UserList newUserList =  updateUserList(file);
 
         //TODO: Used this for testing: ORIGINALLY NOT HERE
         final MusicList musicList = loadJsonIntoMusicList();
@@ -57,14 +58,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("PLAYLISTS", pls.toString());
 
-        /*
-        User newUser = new User();
-        newUser.setUserName("Bob");
-        newUser.setPassword("password");
-        newUser.setJson("users.json");
-        */
-
-        //addUser("Bob", "password", "users.json", userList);
 
         // Button listener for clicking on the log in button
         if (session.getLogin() == true) {
@@ -83,11 +76,16 @@ public class MainActivity extends AppCompatActivity {
 
                 if(file.exists())
                 {
+                    UserList newUserList =  updateUserList(file);
+
                     login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
-                    //Log.d("ADDUSER", newUserList.toString());
+                    //Log.d("ADDUSER", " IN MAIN" + newUserList.toString());
+                }
+                else
+                {
+                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
                 }
 
-                login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
 
                 if (login == true) {
                     session.setUsername(inputUserName.getText().toString());
@@ -117,7 +115,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Updates userList using local memory json file
+     * @param file - file of local json
+     * @return UsrList - new updated user list
+     */
     public UserList updateUserList(File file)
     {
         UserList userTemp = null;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (file.exists()) {
-                //Log.d("ADDUSER", "file exists");
+                //Log.d("ADDUSER", "file exists IN MAIN");
                 InputStream inputStream = new FileInputStream(file);
                 String myJson = inputStreamToString(inputStream);
                 userTemp = new Gson().fromJson(myJson, UserList.class);
@@ -143,38 +145,7 @@ public class MainActivity extends AppCompatActivity {
         return userTemp;
     }
 
-    public void addUser(String name, String password, String json , UserList userlist)
-    {
-        //Log.d("ADDUSER", "adding user");
-        //Log.d("ADDUSER", getFilesDir().getPath());
 
-        User newUser = new User();
-        newUser.setUserName(name);
-        newUser.setPassword(password);
-        newUser.setJson(json);
-
-        userlist.addToList(newUser);
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String strJson = gson.toJson(userlist);
-
-        //String filename = "users.json";
-        String fileContents = strJson;
-        FileOutputStream outputStream;
-
-        try {
-            String filePath =   getFilesDir().getAbsolutePath() + "/users.json";
-            File file = new File(filePath);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(strJson.getBytes());
-            fileOutputStream.flush();
-            fileOutputStream.close();
-            //Log.d("ADDUSER", "OUTPUTTED");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
 
     /**
      * Loads the users from the users.json file into userlist object using GSON

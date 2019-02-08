@@ -3,6 +3,7 @@ package com.example.notspotify;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * Main Activity class handles the Sign in page
+ */
 public class SignUpActivity extends AppCompatActivity {
     boolean userExist = false;
 
@@ -34,7 +38,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
-        final UserList newUserList =  updateUserList(file);
 
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -42,19 +45,33 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(file.exists())
                 {
+                    UserList newUserList =  updateUserList(file);
+
                     userExist = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
-                    //Log.d("ADDUSER", newUserList.toString());
+                    //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
+                }
+                else
+                {
+                    userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
                 }
 
-                userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
 
                 if(userExist == false){
-                    addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
+                    if(file.exists())
+                    {
+                        UserList newUserList =  updateUserList(file);
+                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", newUserList);
+
+                    }
+                    else
+                    {
+                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
+
+                    }
                     signUp(v);
                 }else{
                     Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
                 }
-
             }
         });
 
@@ -63,6 +80,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Updates userList using local memory json file
+     * @param file - file of local json
+     * @return UsrList - new updated user list
+     */
     public UserList updateUserList(File file)
     {
         UserList userTemp = null;
@@ -70,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
             if (file.exists()) {
-                //Log.d("ADDUSER", "file exists");
+                //Log.d("ADDUSER", "file exists IN SIGN IN");
                 InputStream inputStream = new FileInputStream(file);
                 String myJson = inputStreamToString(inputStream);
                 userTemp = new Gson().fromJson(myJson, UserList.class);
@@ -88,6 +110,13 @@ public class SignUpActivity extends AppCompatActivity {
         return userTemp;
     }
 
+    /**
+     * Adds user to user list
+     * @param name - string, user name
+     * @param password - string, user password
+     * @param json - string, json filename
+     * @param userlist UserList - user list
+     */
     public void addUser(String name, String password, String json , UserList userlist)
     {
         //Log.d("ADDUSER", "adding user");
