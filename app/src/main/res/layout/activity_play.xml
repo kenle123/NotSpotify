@@ -28,10 +28,10 @@
         android:textAlignment="center"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:src="@drawable/song_icon"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="50dp"/>
 
     <SeekBar
         android:id="@+id/positionBar"

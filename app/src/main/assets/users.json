@@ -3,40 +3,32 @@
 
     {
       "username": "Wei",
-      "password": "password",
-      "login": false
-      //"playlistJson": "weishengPL.json"
+      "password": "password"
     },
 
     {
       "username": "Ken",
-      "password": "password",
-      "login": false
+      "password": "password"
     },
 
     {
       "username": "Peter",
-      "password": "password",
-      "login": false
+      "password": "password"
     },
 
     {
       "username": "Preston",
-      "password": "password",
-      "login": false
+      "password": "password"
     },
 
     {
       "username": "Chad",
-      "password": "password",
-      "login": false
+      "password": "password"
     },
 
     {
       "username": "Tony",
-      "password": "password",
-      "login": false
+      "password": "password"
     }
-
   ]
 }
