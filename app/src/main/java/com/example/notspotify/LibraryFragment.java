@@ -1,6 +1,7 @@
 package com.example.notspotify;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,7 +25,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class LibraryFragment extends Fragment {
-
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -79,7 +79,8 @@ public class LibraryFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getActivity(), "i is: " + i, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), PlaylistSongsActivity.class);
+                startActivity(intent);
             }
         });
         return view;
