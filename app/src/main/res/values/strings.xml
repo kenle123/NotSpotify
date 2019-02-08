@@ -10,4 +10,5 @@
     <string name="placeholder">Placeholder</string>
     <!-- Strings related to Sign Up -->
     <string name="signup_button">Create An Account</string>
+    <string name="signup_register">Register</string>
 </resources>

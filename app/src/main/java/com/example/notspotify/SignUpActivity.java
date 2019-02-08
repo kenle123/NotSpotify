@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -20,15 +21,18 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Main Activity class handles the Sign in page
+ * Sign up page for creating an account
  */
 public class SignUpActivity extends AppCompatActivity {
     boolean userExist = false;
+    ImageButton backButtonSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        backButtonSignUp = findViewById(R.id.button_back_signup);
 
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_uSignUp);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_pSignUp);
@@ -75,9 +79,12 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
-
-
+        backButtonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -147,7 +154,6 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -207,7 +213,5 @@ public class SignUpActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         Toast.makeText(this, "Account created, please log in!", Toast.LENGTH_LONG).show();
-
-
     }
 }
