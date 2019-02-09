@@ -47,15 +47,11 @@ public class MainActivity extends AppCompatActivity {
         final File file = new File(path);
 
         //TODO: Used this for testing: ORIGINALLY NOT HERE
-        final MusicList musicList = loadJsonIntoMusicList();
+        //final MusicList musicList = loadJsonIntoMusicList();
         //Log.d("MUSIC", musicList.toString());
-
-
-        PlaylistHandler pls = loadJsonIntoPlaylist();
-        pls.setupPlaylist(musicList);
-
-        Log.d("PLAYLISTS", pls.toString());
-
+        //PlaylistHandler pls = loadJsonIntoPlaylist();
+        //pls.setupPlaylist(musicList);
+        //Log.d("PLAYLISTS", pls.toString());
 
         // Button listener for clicking on the log in button
         if (session.getLogin() == true) {
@@ -122,8 +118,6 @@ public class MainActivity extends AppCompatActivity {
     {
         UserList userTemp = null;
         try{
-
-
             if (file.exists()) {
                 //Log.d("ADDUSER", "file exists IN MAIN");
                 InputStream inputStream = new FileInputStream(file);
@@ -142,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
         return userTemp;
     }
-
-
 
     /**
      * Loads the users from the users.json file into userlist object using GSON
@@ -231,6 +223,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Go to create account page
+     * @param view The view object
+     */
     public void goToSignUp(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);

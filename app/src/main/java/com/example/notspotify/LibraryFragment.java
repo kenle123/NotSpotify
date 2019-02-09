@@ -37,9 +37,6 @@ public class LibraryFragment extends Fragment {
     String username;
     UserPlaylist usersPlaylist;
 
-    // Used to fix bug where each time user goes on library fragment, adds repeating playlists to the list
-    int curr = 1;
-
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
@@ -66,8 +63,7 @@ public class LibraryFragment extends Fragment {
         List<UserPlaylist> playlist2 = playlistHandler.getList();
 
         boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
-        if((hasPlaylist) && (curr == 1)) {
-            curr++;
+        if((hasPlaylist) && (playlist.size() == 0)) {
             // Add playlist names to listview which will display each playlist name
             for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
                 playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName()));
