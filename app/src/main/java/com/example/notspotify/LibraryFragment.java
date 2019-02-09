@@ -37,6 +37,13 @@ public class LibraryFragment extends Fragment {
     String username;
     UserPlaylist usersPlaylist;
 
+    // Used to fix bug where each time user goes on library fragment, adds repeating playlists to the list
+    int curr = 1;
+
+    // Declare global variables to be used throughout each activity/fragment
+    private static List<PlaylistSearchModel> playlist = new ArrayList<>();
+    private static int playlistUserClickedOn = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,11 +63,11 @@ public class LibraryFragment extends Fragment {
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
         listView = view.findViewById(R.id.list_view);
-        List<PlaylistSearchModel> playlist = new ArrayList<>();
         List<UserPlaylist> playlist2 = playlistHandler.getList();
 
         boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
-        if(hasPlaylist) {
+        if((hasPlaylist) && (curr == 1)) {
+            curr++;
             // Add playlist names to listview which will display each playlist name
             for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
                 playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName()));
@@ -77,6 +84,7 @@ public class LibraryFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                playlistUserClickedOn = i;
                 Intent intent = new Intent(getActivity(), PlaylistSongsActivity.class);
                 startActivity(intent);
             }
@@ -131,4 +139,8 @@ public class LibraryFragment extends Fragment {
         }
         return false;
     }
+
+    // Getters for playlist information
+    public static List<PlaylistSearchModel> getPlaylist() { return playlist; }
+    public static int getPlaylistUserClickedOn() { return playlistUserClickedOn; }
 }

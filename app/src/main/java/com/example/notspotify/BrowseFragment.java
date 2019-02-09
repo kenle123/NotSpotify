@@ -38,6 +38,7 @@ public class BrowseFragment extends Fragment {
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String songTitle;
     private static String songID;
+    private static List<SearchModel> songList = new ArrayList<>();
 
     ListView listView;
 
@@ -74,7 +75,6 @@ public class BrowseFragment extends Fragment {
 
         // Dislays all the songs that are all playable but not searchable(have to use search button)
         listView = view.findViewById(R.id.list_view);
-        final List<SearchModel> songList = new ArrayList<>();
         List<Music> musicList2 = musicList.getList();
 
         // Add songs to songList which will contain the artist name and title of each song
@@ -115,9 +115,6 @@ public class BrowseFragment extends Fragment {
                 return true;
             }
         });
-
-
-
         return view;
     }
 
@@ -172,8 +169,10 @@ public class BrowseFragment extends Fragment {
     public static String getSongTitle() {
         return songTitle;
     }
-
     public static String getSongID() {
         return songID;
     }
+
+    // Getter for song list
+    public static List<SearchModel> getSongList() { return songList; }
 }

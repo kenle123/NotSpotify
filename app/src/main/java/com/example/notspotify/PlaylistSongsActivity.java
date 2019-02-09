@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
     ImageButton backButton;
     ListView listViewPlaylistSongs;
+    TextView tv_playlistSongs;
+
+    // Get playlist name and index from library fragment
+    List<PlaylistSearchModel> playlist = LibraryFragment.getPlaylist();
+    int playlistUserClickedOn = LibraryFragment.getPlaylistUserClickedOn();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +34,7 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
         backButton = findViewById(R.id.button_back_playlistSongs);
         listViewPlaylistSongs = findViewById(R.id.listview_playlistSongs);
+        tv_playlistSongs = findViewById(R.id.textview_playlistSongs);
 
         // On click listener for back button
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +43,9 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Set textview to playlist name
+        tv_playlistSongs.setText(playlist.get(playlistUserClickedOn).getPlaylistName());
 
         //Test data
         List<String> playlistSongs = new ArrayList<>();

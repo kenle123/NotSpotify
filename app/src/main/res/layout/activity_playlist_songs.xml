@@ -28,7 +28,7 @@
             android:textSize="20sp"
             android:id="@+id/textview_playlistSongs"
             android:layout_marginTop="20dp"
-            android:layout_marginLeft="100dp"/>
+            android:layout_marginLeft="110dp"/>
     </LinearLayout>
 
     <ListView
