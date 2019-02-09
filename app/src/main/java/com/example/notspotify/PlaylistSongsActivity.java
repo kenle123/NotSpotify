@@ -1,9 +1,11 @@
 package com.example.notspotify;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -29,6 +31,10 @@ public class PlaylistSongsActivity extends AppCompatActivity {
     // Used for songs before added to playlist
     List<String> playlistSongsBefore;
     String playlistSongsOneString;
+
+    // Declare global song variables which will be passed to play activity to play a certain song
+    private static String songTitle2;
+    private static String songID2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +75,27 @@ public class PlaylistSongsActivity extends AppCompatActivity {
         //Array adapter needed to display the listview
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, playlistSongs);
         listViewPlaylistSongs.setAdapter(arrayAdapter);
+
+        //TODO: get i for playlist will only get from 0-length, have to make dynamic
+        listViewPlaylistSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Set the global variables to the song that is selected
+                songTitle2 = songList.get(i).getTitle();
+                songID2 = songList.get(i).getID();
+
+                // Call intent to go to play activity where user can play the song
+                Intent intent = new Intent(PlaylistSongsActivity.this, PlayActivity2.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    // Getters for the song variables
+    public static String getSongTitle() {
+        return songTitle2;
+    }
+    public static String getSongID() {
+        return songID2;
     }
 }
