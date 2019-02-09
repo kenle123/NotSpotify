@@ -32,9 +32,13 @@ public class PlaylistSongsActivity extends AppCompatActivity {
     List<String> playlistSongsBefore;
     String playlistSongsOneString;
 
-    // Declare global song variables which will be passed to play activity to play a certain song
+    // Declare global song variables which will be passed to play activity 2 to play a certain song
     private static String songTitle2;
     private static String songID2;
+
+    // Arraylist used to determine what song was picked in the playist
+    List<String> title = new ArrayList<>();
+    List<String> identification = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,21 +72,25 @@ public class PlaylistSongsActivity extends AppCompatActivity {
             for(int j = 0; j < songList.size(); j++) {
                 if(playlistSongsBefore.get(i).equals(songList.get(j).getID())) {
                     playlistSongs.add(songList.get(j).getTitle());
+
+                    // Store title and id into arraylists to use in onclick function
+                    title.add(songList.get(j).getTitle());
+                    identification.add(songList.get(j).getID());
                 }
             }
         }
 
-        //Array adapter needed to display the listview
+        // Array adapter needed to display the listview
         ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, playlistSongs);
         listViewPlaylistSongs.setAdapter(arrayAdapter);
 
-        //TODO: get i for playlist will only get from 0-length, have to make dynamic
+        // On click listener when user clicks on a song in a playlist
         listViewPlaylistSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Set the global variables to the song that is selected
-                songTitle2 = songList.get(i).getTitle();
-                songID2 = songList.get(i).getID();
+                songTitle2 = title.get(i);
+                songID2 = identification.get(i);
 
                 // Call intent to go to play activity where user can play the song
                 Intent intent = new Intent(PlaylistSongsActivity.this, PlayActivity2.class);
