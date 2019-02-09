@@ -164,7 +164,6 @@ public class BrowseFragment extends Fragment {
         for(int i = 0; i < musicList.size(); i++) {
             items.add(new SearchModel(musicList.get(i).getArtistName(), musicList.get(i).getSongID(), musicList.get(i).getSongTitle()));
         }
-
         return items;
     }
 

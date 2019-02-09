@@ -25,7 +25,6 @@ public class ProfileFragment extends Fragment {
 
     TextView username;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

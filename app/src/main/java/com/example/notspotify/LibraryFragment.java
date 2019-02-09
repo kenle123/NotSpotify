@@ -66,7 +66,7 @@ public class LibraryFragment extends Fragment {
         if((hasPlaylist) && (playlist.size() == 0)) {
             // Add playlist names to listview which will display each playlist name
             for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
-                playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName()));
+                playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
             }
         }
         else {
