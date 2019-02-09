@@ -22,10 +22,23 @@
     android:layout_height="0dp"
     android:layout_weight=".8"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".06"
-        android:text="Add playlist"
-        android:id="@+id/button_add_playlist"/>
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addPlaylist_library"
+            android:id="@+id/button_add_playlist"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/deletePlaylist_library"
+            android:id="@+id/button_delete_playlist"/>
+    </LinearLayout>
+
 </LinearLayout>

@@ -8,7 +8,12 @@
     <string name="login_button_signin">Sign In</string>
     <string name="title_activity_login">Sign in</string>
     <string name="placeholder">Placeholder</string>
+
     <!-- Strings related to Sign Up -->
     <string name="signup_button">Create An Account</string>
     <string name="signup_register">Register</string>
+
+    <!-- Strings related to Library Fragment -->
+    <string name="addPlaylist_library">Add Playlist</string>
+    <string name="deletePlaylist_library">Delete Playlist</string>
 </resources>
