@@ -40,6 +40,9 @@ public class BrowseFragment extends Fragment {
     private static String songID;
     private static List<SearchModel> songList = new ArrayList<>();
 
+    // Prevent repeating songs from being added to list
+    int curr = 1;
+
     ListView listView;
 
     @Override
@@ -77,9 +80,13 @@ public class BrowseFragment extends Fragment {
         listView = view.findViewById(R.id.list_view);
         List<Music> musicList2 = musicList.getList();
 
-        // Add songs to songList which will contain the artist name and title of each song
-        for(int i = 0; i < musicList2.size(); i++) {
-            songList.add(new SearchModel(musicList2.get(i).getArtistName(), musicList2.get(i).getSongID(), musicList2.get(i).getSongTitle()));
+        // Prevent repeating songs to be added
+        if(curr == 1) {
+            curr++;
+            // Add songs to songList which will contain the artist name and title of each song
+            for (int i = 0; i < musicList2.size(); i++) {
+                songList.add(new SearchModel(musicList2.get(i).getArtistName(), musicList2.get(i).getSongID(), musicList2.get(i).getSongTitle()));
+            }
         }
 
         // Set up adapter
