@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,9 @@ public class LibraryFragment extends Fragment {
     String username;
     UserPlaylist usersPlaylist;
 
+    Button addPlaylistButton;
+    Button deletePlaylistButton;
+
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
@@ -46,6 +50,10 @@ public class LibraryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        // Bind buttons for adding and delete playlists
+        addPlaylistButton = view.findViewById(R.id.button_add_playlist);
+        deletePlaylistButton = view.findViewById(R.id.button_delete_playlist);
 
         // Get username from session
         session = new Session(getActivity());
@@ -85,6 +93,23 @@ public class LibraryFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // On click listener for add playlist button
+        addPlaylistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        // On click listener for delete playlist button
+        deletePlaylistButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return view;
     }
 
