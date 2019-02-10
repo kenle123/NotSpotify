@@ -61,9 +61,6 @@ public class LibraryFragment extends Fragment {
         session = new Session(getActivity());
         username = session.getUsername();
 
-        //Log.i("ggezcurr", currUser);
-        //Log.i("ggez", username);
-
         // Load the playlist from playlist.json into playlistHandler
         final PlaylistHandler playlistHandler = loadJsonIntoPlaylist();
 
@@ -75,11 +72,10 @@ public class LibraryFragment extends Fragment {
         listView = view.findViewById(R.id.list_view);
         List<UserPlaylist> playlist2 = playlistHandler.getList();
 
-        Log.i("gg", "curr username is: " + currUser);
-        Log.i("gg", "username is: " + username);
-
         boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
         if((hasPlaylist)) {
+            // Curruser variable used to make sure previous user's playlists are cleared before
+            // going into new user's playlists
             if(currUser.equals("")) {
                 currUser = username;
                 playlist.clear();
