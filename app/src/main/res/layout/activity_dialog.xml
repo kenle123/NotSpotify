@@ -9,21 +9,9 @@
     android:id="@+id/linearLayout_Dialog"
     tools:context=".DialogActivity">
 
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Playlist1"-->
-        <!--android:id="@+id/playlist1"/>-->
-        <!--&lt;!&ndash;android:layout_marginRight="16dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginBottom="5dp"/>&ndash;&gt;-->
-
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Playlist2"-->
-        <!--android:id="@+id/playlist2"/>-->
-        <!--&lt;!&ndash;android:layout_marginRight="16dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_marginBottom="10dp"&ndash;&gt;-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addToPlaylist_dialog"
+        android:textColor="@color/colorBlack"/>
 </LinearLayout>

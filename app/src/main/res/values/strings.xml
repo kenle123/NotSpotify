@@ -16,4 +16,7 @@
     <!-- Strings related to Library Fragment -->
     <string name="addPlaylist_library">Add Playlist</string>
     <string name="deletePlaylist_library">Delete Playlist</string>
+
+    <!-- Strings related to Dialog Activity -->
+    <string name="addToPlaylist_dialog">Add To Which Playlist</string>
 </resources>
