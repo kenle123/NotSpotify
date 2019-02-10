@@ -4,6 +4,7 @@ package com.example.notspotify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class LibraryFragment extends Fragment {
 
     Session session;
     String username;
+    String currUser = "";
     UserPlaylist usersPlaylist;
 
     Button addPlaylistButton;
@@ -59,6 +61,9 @@ public class LibraryFragment extends Fragment {
         session = new Session(getActivity());
         username = session.getUsername();
 
+        //Log.i("ggezcurr", currUser);
+        //Log.i("ggez", username);
+
         // Load the playlist from playlist.json into playlistHandler
         final PlaylistHandler playlistHandler = loadJsonIntoPlaylist();
 
@@ -70,11 +75,18 @@ public class LibraryFragment extends Fragment {
         listView = view.findViewById(R.id.list_view);
         List<UserPlaylist> playlist2 = playlistHandler.getList();
 
+        Log.i("gg", "curr username is: " + currUser);
+        Log.i("gg", "username is: " + username);
+
         boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
-        if((hasPlaylist) && (playlist.size() == 0)) {
-            // Add playlist names to listview which will display each playlist name
-            for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
-                playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
+        if((hasPlaylist)) {
+            if(currUser.equals("")) {
+                currUser = username;
+                playlist.clear();
+                // Add playlist names to listview which will display each playlist name
+                for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
+                    playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
+                }
             }
         }
         else {

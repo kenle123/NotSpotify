@@ -6,23 +6,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:id="@+id/linearLayout_Dialog"
     tools:context=".DialogActivity">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Playlist1"
-        android:id="@+id/playlist1"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="5dp"/>
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Playlist1"-->
+        <!--android:id="@+id/playlist1"/>-->
+        <!--&lt;!&ndash;android:layout_marginRight="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginBottom="5dp"/>&ndash;&gt;-->
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Playlist2"
-        android:id="@+id/playlist2"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="10dp"/>
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Playlist2"-->
+        <!--android:id="@+id/playlist2"/>-->
+        <!--&lt;!&ndash;android:layout_marginRight="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginLeft="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginBottom="10dp"&ndash;&gt;-->
 </LinearLayout>
