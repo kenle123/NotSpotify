@@ -4,6 +4,7 @@ package com.example.notspotify;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,14 +90,33 @@ public class LibraryFragment extends Fragment {
         if((hasPlaylist)) {
             // Curruser variable used to make sure previous user's playlists are cleared before
             // going into new user's playlists
-            if(currUser.equals("")) {
-                currUser = username;
-                playlist.clear();
-                // Add playlist names to listview which will display each playlist name
-                for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
-                    playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
-                }
+            //if(currUser.equals("")) {
+            currUser = username;
+            playlist.clear();
+            final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+            final File file = new File(path);
+            UserPlaylist uPList;
+            if(file.exists())
+            {
+                PlaylistHandler newPlaylistHandler = updatePlaylistHandler(file);
+                uPList = newPlaylistHandler.getUserPlaylist(username);
             }
+            else
+            {
+                uPList = playlistHandler.getUserPlaylist(username);
+                // Add playlist names to listview which will display each playlist name
+            }
+            // Add playlist names to listview which will display each playlist name
+            for (int i = 0; i < uPList.getPlaylist().size(); i++) {
+                playlist.add(new PlaylistSearchModel(uPList.getPlaylist().get(i).getPlaylistName(), uPList.getPlaylist().get(i).getSongs()));
+            }
+
+
+//                // Add playlist names to listview which will display each playlist name
+//                for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
+//                    playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
+//                }
+            //}
         }
         else {
             // User does not have a playlist, so will just display nothing
@@ -300,6 +320,8 @@ public class LibraryFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 
     // Getters for playlist information
