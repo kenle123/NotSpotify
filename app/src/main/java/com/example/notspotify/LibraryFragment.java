@@ -3,6 +3,7 @@ package com.example.notspotify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -47,9 +48,9 @@ public class LibraryFragment extends Fragment {
     UserPlaylist usersPlaylist;
 
     Button addPlaylistButton;
-    Button deletePlaylistButton;
     EditText nameToAddEdittext;
     Button addToPlaylistButtonInvis;
+    Button cancelAddingToPlaylistInvis;
     String nameToAddString;
 
     // Declare global variables to be used throughout each activity/fragment
@@ -65,9 +66,9 @@ public class LibraryFragment extends Fragment {
 
         // Bind buttons for adding and delete playlists
         addPlaylistButton = view.findViewById(R.id.button_add_playlist);
-        deletePlaylistButton = view.findViewById(R.id.button_delete_playlist);
         nameToAddEdittext = view.findViewById(R.id.edittext_libraryfragmentAddtoPlaylist);
         addToPlaylistButtonInvis = view.findViewById(R.id.button_addPlaylistInLibraryFragment);
+        cancelAddingToPlaylistInvis = view.findViewById(R.id.button_cancelAddingPlaylist);
 
         // Get username from session
         session = new Session(getActivity());
@@ -157,9 +158,9 @@ public class LibraryFragment extends Fragment {
             public void onClick(View view) {
                 nameToAddEdittext.setVisibility(View.VISIBLE);
                 addToPlaylistButtonInvis.setVisibility(View.VISIBLE);
+                cancelAddingToPlaylistInvis.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 addPlaylistButton.setVisibility(View.GONE);
-                deletePlaylistButton.setVisibility(View.GONE);
             }
         });
 
@@ -176,13 +177,19 @@ public class LibraryFragment extends Fragment {
                     nameToAddString = nameToAddEdittext.getText().toString();
                     nameToAddEdittext.setVisibility(View.GONE);
                     addToPlaylistButtonInvis.setVisibility(View.GONE);
+                    cancelAddingToPlaylistInvis.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
                     addPlaylistButton.setVisibility(View.VISIBLE);
-                    deletePlaylistButton.setVisibility(View.VISIBLE);
-
-
                 }
-                //TODO: Put add fucntions here
+
+                cancelAddingToPlaylistInvis.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                //TODO: Put add functions here
                 //TODO: Reads playlists file
                 final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
                 final File file = new File(path);
@@ -217,15 +224,6 @@ public class LibraryFragment extends Fragment {
 //                }
             }
         });
-
-        // On click listener for delete playlist button
-        deletePlaylistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         return view;
     }
 
