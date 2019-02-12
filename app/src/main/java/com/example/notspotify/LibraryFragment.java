@@ -290,7 +290,7 @@ public class LibraryFragment extends Fragment {
     /**
      * Updates userList using local memory json file
      * @param file - file of local json
-     * @return UsrList - new updated user list
+     * @return pTemp - new updated PlaylistHandler
      */
     public PlaylistHandler updatePlaylistHandler(File file)
     {
@@ -322,7 +322,7 @@ public class LibraryFragment extends Fragment {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(p);
         String fileContents = strJson;
-        Log.d("ADDPLAYLIST", p.getUserPlaylist(username).toString());
+        //Log.d("ADDPLAYLIST", p.getUserPlaylist(username).toString());
         try {
             String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
             File file = new File(filePath);
@@ -343,7 +343,7 @@ public class LibraryFragment extends Fragment {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(p);
         String fileContents = strJson;
-        Log.d("DELETEPLAYLIST", p.getUserPlaylist(username).toString());
+        //Log.d("DELETEPLAYLIST", p.getUserPlaylist(username).toString());
         try {
             String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
             File file = new File(filePath);
