@@ -22,4 +22,5 @@
 
     <!--Strings related to DialogAddPlaylistActivity-->
     <string name="addPlaylisthint_dialogaddplaylist">Name of Playlist to Add</string>
+    <string name="cancelAddingPlaylist">Cancel</string>
 </resources>

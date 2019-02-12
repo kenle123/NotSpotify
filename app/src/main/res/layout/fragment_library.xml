@@ -17,10 +17,10 @@
         android:layout_marginTop="20dp"/>
 
     <ListView
-    android:id="@+id/list_view"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight=".8"/>
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".8"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -39,27 +39,19 @@
         android:text="@string/addPlaylist_library"
         android:visibility="gone"/>
 
-    <LinearLayout
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight=".01"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/button_cancelAddingPlaylist"
+        android:text="@string/cancelAddingPlaylist"
+        android:visibility="gone"/>
+
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/addPlaylist_library"
-            android:id="@+id/button_add_playlist"
-            android:layout_marginRight="-3dp"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/deletePlaylist_library"
-            android:id="@+id/button_delete_playlist"
-            android:layout_marginLeft="-3dp"/>
-    </LinearLayout>
-
+        android:layout_height="0dp"
+        android:layout_weight=".08"
+        android:text="@string/addPlaylist_library"
+        android:id="@+id/button_add_playlist" />
 </LinearLayout>

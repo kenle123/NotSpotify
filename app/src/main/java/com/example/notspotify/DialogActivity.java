@@ -16,6 +16,9 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
+    Session session;
+    String username;
+
     // Linearlayout for dialog that will display the buttons
     LinearLayout ll;
     Button playlistButton;
@@ -29,6 +32,10 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
+
+        // Get username
+        session = new Session(this);
+        username = session.getUsername();
 
         // Bind linear layout based on id declared in activity_dialog.xml
         ll = findViewById(R.id.linearLayout_Dialog);
