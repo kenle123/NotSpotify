@@ -91,7 +91,6 @@ public class LibraryFragment extends Fragment {
             // Curruser variable used to make sure previous user's playlists are cleared before
             // going into new user's playlists
             //if(currUser.equals("")) {
-            currUser = username;
             playlist.clear();
             final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
             final File file = new File(path);
@@ -132,6 +131,16 @@ public class LibraryFragment extends Fragment {
                 playlistUserClickedOn = i;
                 Intent intent = new Intent(getActivity(), PlaylistSongsActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // Long click listener for when user wants to delete a playlist
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                return true;
             }
         });
 
