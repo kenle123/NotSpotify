@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -56,6 +57,9 @@ public class LibraryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+        final File file = new File(path);
 
         // Bind buttons for adding and delete playlists
         addPlaylistButton = view.findViewById(R.id.button_add_playlist);
@@ -115,6 +119,8 @@ public class LibraryFragment extends Fragment {
                 nameToAddEdittext.setVisibility(View.VISIBLE);
                 addToPlaylistButtonInvis.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
+                addPlaylistButton.setVisibility(View.GONE);
+                deletePlaylistButton.setVisibility(View.GONE);
             }
         });
 
@@ -124,7 +130,7 @@ public class LibraryFragment extends Fragment {
             public void onClick(View view) {
                 // Empty input
                 if(nameToAddEdittext.getText().toString().equals("")) {
-                    Toast.makeText(getActivity(), "Plalist Name Cannot Be Empty!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Playlist Name Cannot Be Empty!", Toast.LENGTH_LONG).show();
                 }
                 //Non empty input which will be new playlist name
                 else {
@@ -132,6 +138,10 @@ public class LibraryFragment extends Fragment {
                     nameToAddEdittext.setVisibility(View.GONE);
                     addToPlaylistButtonInvis.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
+                    addPlaylistButton.setVisibility(View.VISIBLE);
+                    deletePlaylistButton.setVisibility(View.VISIBLE);
+
+
                 }
             }
         });

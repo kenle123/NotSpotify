@@ -188,7 +188,6 @@ public class SignUpActivity extends AppCompatActivity {
             {
                 return true;
             }
-
         }
         return false;
     }
