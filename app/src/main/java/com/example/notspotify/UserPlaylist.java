@@ -32,6 +32,7 @@ public class UserPlaylist implements Serializable {
     public void addPlaylist(String p) {
         plst.add(new Playlist(p));
     }
+    public void deletePlaylist(int i) {plst.remove(i);}
 
     public void stringToArrayPlaylist(MusicList m) {
         for(int i = 0; i < plst.size(); i++) {

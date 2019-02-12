@@ -138,8 +138,15 @@ public class LibraryFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
+                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+                final File file = new File(path);
+                if(file.exists())
+                {
+                    PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
+                    deletePlaylist(newPlaylistHandler, i);                }
+                else
+                {
+                    deletePlaylist(playlistHandler, i);                }
                 return true;
             }
         });
@@ -318,6 +325,27 @@ public class LibraryFragment extends Fragment {
         String strJson = gson.toJson(p);
         String fileContents = strJson;
         Log.d("ADDPLAYLIST", p.getUserPlaylist(username).toString());
+        try {
+            String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            //Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+
+    public void deletePlaylist(PlaylistHandler p, int i) {
+        p.getUserPlaylist(username).deletePlaylist(i);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(p);
+        String fileContents = strJson;
+        Log.d("DELETEPLAYLIST", p.getUserPlaylist(username).toString());
         try {
             String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
             File file = new File(filePath);
