@@ -147,8 +147,8 @@ public class LibraryFragment extends Fragment {
                 else
                 {
                     deletePlaylist(playlistHandler, i);                }
-                return true;
-            }
+                    return true;
+                }
         });
 
         // On click listener for add playlist button which makes views invisible

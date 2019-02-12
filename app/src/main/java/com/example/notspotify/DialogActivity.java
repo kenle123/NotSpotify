@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DialogActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // Get song information user clicked on to add to playlist
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
@@ -22,6 +22,8 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
 
     // Get playlists from library fragment
     List<PlaylistSearchModel> playlistsDialog = LibraryFragment.getPlaylist();
+
+    String playlistToAddSongTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +44,20 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    // The variables I got are: songTitle, songID which come from song u long click in browse fragment
+    // playlistToAddSongTo which is the button user click when dialog box open and this is a string of a playlist name
     // On click listener to detect which playlist the user clicked on
     @Override
     public void onClick(View view) {
         String str = view.getTag().toString();
         for(int i = 0; i < playlistsDialog.size(); i++) {
             if (str.equals(playlistsDialog.get(i).getPlaylistName())) {
-                Toast.makeText(getApplicationContext(), playlistsDialog.get(i).getPlaylistName(), Toast.LENGTH_LONG).show();
+                playlistToAddSongTo = playlistsDialog.get(i).getPlaylistName();
+
+                // Adding to playlist should happen here i think...
+                // u might have to copy pasta ur writing functions from library fragment here
             }
         }
     }
+
 }

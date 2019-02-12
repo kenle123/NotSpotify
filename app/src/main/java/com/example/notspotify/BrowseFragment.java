@@ -111,6 +111,8 @@ public class BrowseFragment extends Fragment {
                 songTitle = songList.get(i).getTitle();
                 songID = songList.get(i).getID();
 
+
+
                 // Call dialog to display detail
                 // Create dialog activity
                 Intent intent = new Intent(getActivity(), DialogActivity.class);
