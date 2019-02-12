@@ -66,9 +66,7 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    // The variables I got are: songTitle, songID which come from song u long click in browse fragment
-    // stringOfPlaylistToAddSongTo which is the button user click when dialog box open and this is a string of a playlist name
-    // On click listener to detect which playlist the user clicked on
+    // On click listener for when user selects a playlist to add a song to
     @Override
     public void onClick(View view) {
         String str = view.getTag().toString();
@@ -81,15 +79,13 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
                 {
                     PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
                     addSongToPlaylist(newPlaylistHandler);
+                    Toast.makeText(this, songTitle + " was added to the playlist " + stringOfPlaylistToAddSongTo, Toast.LENGTH_LONG).show();
                 }
                 else
                 {
                     addSongToPlaylist(playlistHandler);
 
                 }
-
-                // Adding to playlist should happen here i think...
-                // u might have to copy pasta ur writing functions from library fragment here
             }
         }
     }
