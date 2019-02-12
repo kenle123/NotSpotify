@@ -12,6 +12,11 @@ public class UserPlaylist implements Serializable {
         @SerializedName("songs")
         String songs;
         List<Music> songList;
+        public Playlist(String pName){
+            playlistName = pName;
+            songs = "";
+            songList = new ArrayList<Music>();
+        }
         public void setPlaylistName(String n){playlistName = n;}
         public String getPlaylistName(){return playlistName;}
         public String getSongs(){return songs;}
@@ -23,6 +28,10 @@ public class UserPlaylist implements Serializable {
     String username;
     @SerializedName("playLists")
     List<Playlist> plst = new ArrayList<Playlist>();
+
+    public void addPlaylist(String p) {
+        plst.add(new Playlist(p));
+    }
 
     public void stringToArrayPlaylist(MusicList m) {
         for(int i = 0; i < plst.size(); i++) {

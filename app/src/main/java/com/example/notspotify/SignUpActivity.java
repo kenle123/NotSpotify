@@ -141,7 +141,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         //String filename = "users.json";
         String fileContents = strJson;
-        FileOutputStream outputStream;
 
         try {
             String filePath =   getFilesDir().getAbsolutePath() + "/users.json";

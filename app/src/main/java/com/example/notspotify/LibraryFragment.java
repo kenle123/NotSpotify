@@ -17,8 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -51,15 +54,13 @@ public class LibraryFragment extends Fragment {
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
+    List<SearchModel> songList = BrowseFragment.getSongList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
-
-        final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
-        final File file = new File(path);
 
         // Bind buttons for adding and delete playlists
         addPlaylistButton = view.findViewById(R.id.button_add_playlist);
@@ -70,9 +71,11 @@ public class LibraryFragment extends Fragment {
         // Get username from session
         session = new Session(getActivity());
         username = session.getUsername();
+        final MusicList musicList = loadJsonIntoMusicList();
 
         // Load the playlist from playlist.json into playlistHandler
         final PlaylistHandler playlistHandler = loadJsonIntoPlaylist();
+        playlistHandler.setupPlaylist(musicList);
 
         // Get current user's username and set the text to {Username} playlist as header
         Session session = new Session(getActivity());
@@ -143,6 +146,39 @@ public class LibraryFragment extends Fragment {
 
 
                 }
+                //TODO: Put add fucntions here
+                //TODO: Reads playlists file
+                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+                final File file = new File(path);
+                boolean playlistExists = false;
+                if(file.exists())
+                {
+                    PlaylistHandler newPlaylistHandler = updatePlaylistHandler(file);
+                    //playlistExists = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
+                    //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
+                }
+                else
+                {
+                    //playlistExists = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
+                }
+
+
+                if(playlistExists == false){
+                    if(file.exists())
+                    {
+                        PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
+                        addPlayList(newPlaylistHandler);
+
+                    }
+                    else
+                    {
+                        addPlayList(playlistHandler);
+
+                    }
+                }
+//                else{
+//                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
+//                }
             }
         });
 
@@ -203,6 +239,67 @@ public class LibraryFragment extends Fragment {
             }
         }
         return false;
+    }
+
+    public MusicList loadJsonIntoMusicList()
+    {
+        try {
+            String myJson = inputStreamToString(getActivity().getAssets().open("music.json"));
+            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
+            return musicList;
+        }
+        catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Updates userList using local memory json file
+     * @param file - file of local json
+     * @return UsrList - new updated user list
+     */
+    public PlaylistHandler updatePlaylistHandler(File file)
+    {
+        PlaylistHandler pTemp = null;
+        try{
+
+
+            if (file.exists()) {
+                //Log.d("ADDUSER", "file exists IN SIGN IN");
+                InputStream inputStream = new FileInputStream(file);
+                String myJson = inputStreamToString(inputStream);
+                pTemp = new Gson().fromJson(myJson, PlaylistHandler.class);
+                inputStream.close();
+
+                //Log.d("ADDUSER", userList.toString());
+
+                return pTemp;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return pTemp;
+    }
+
+    public void addPlayList(PlaylistHandler p) {
+        p.getUserPlaylist(username).addPlaylist(nameToAddString);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(p);
+        String fileContents = strJson;
+        Log.d("ADDPLAYLIST", p.getUserPlaylist(username).toString());
+        try {
+            String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            //Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Getters for playlist information

@@ -20,6 +20,14 @@ public class PlaylistHandler {
         }
     }
 
+    public UserPlaylist getUserPlaylist(String uName) {
+        for(UserPlaylist p : list)
+        {
+            if(p.getUsername().equals(uName))
+                return p;
+        }
+        return null;
+    }
     @Override
     public String toString()
     {
