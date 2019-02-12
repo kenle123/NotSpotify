@@ -22,9 +22,12 @@ import java.util.List;
 
 public class DialogActivity extends AppCompatActivity implements View.OnClickListener {
 
+    String path;
+    File file;
     MusicList musicList;
     // Load the playlist from playlist.json into playlistHandler
     PlaylistHandler playlistHandler;
+    UserPlaylist user;
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
@@ -35,32 +38,35 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
     LinearLayout ll;
     Button playlistButton;
 
-    // Get playlists from library fragment
-    List<PlaylistSearchModel> playlistsDialog = LibraryFragment.getPlaylist();
-
     String stringOfPlaylistToAddSongTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        musicList = loadJsonIntoMusicList();
-        playlistHandler = loadJsonIntoPlaylist();
-        playlistHandler.setupPlaylist(musicList);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialog);
-
+        path = getFilesDir().getAbsolutePath() + "/playlists.json";
+        file = new File(path);
         // Get username
         session = new Session(this);
         username = session.getUsername();
+        musicList = loadJsonIntoMusicList();
+        playlistHandler = loadJsonIntoPlaylist();
+        playlistHandler.setupPlaylist(musicList);
+        if(file.exists()) {
+            playlistHandler = updatePlaylistHandler(file);
+        }
+
+        user = playlistHandler.getUserPlaylist(username);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dialog);
 
         // Bind linear layout based on id declared in activity_dialog.xml
         ll = findViewById(R.id.linearLayout_Dialog);
 
         // Dynamically adds number of buttons to dialog box based on how many playlists the user has
-        for(int i = 0; i < playlistsDialog.size(); i++) {
+        for(int i = 0; i < user.getPlaylist().size(); i++) {
             playlistButton = new Button(DialogActivity.this);
             playlistButton.setId(i);
-            playlistButton.setText(playlistsDialog.get(i).getPlaylistName());
-            playlistButton.setTag(playlistsDialog.get(i).getPlaylistName());
+            playlistButton.setText(user.getPlaylist().get(i).getPlaylistName());
+            playlistButton.setTag(user.getPlaylist().get(i).getPlaylistName());
             ll.addView(playlistButton);
             playlistButton.setOnClickListener(DialogActivity.this);
         }
@@ -70,11 +76,9 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         String str = view.getTag().toString();
-        for(int i = 0; i < playlistsDialog.size(); i++) {
-            if (str.equals(playlistsDialog.get(i).getPlaylistName())) {
-                stringOfPlaylistToAddSongTo = playlistsDialog.get(i).getPlaylistName();
-                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
-                final File file = new File(path);
+        for(int i = 0; i < user.getPlaylist().size(); i++) {
+            if (str.equals(user.getPlaylist().get(i).getPlaylistName())) {
+                stringOfPlaylistToAddSongTo = user.getPlaylist().get(i).getPlaylistName();
                 if(file.exists())
                 {
                     PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
@@ -182,6 +186,5 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
-
 
 }
