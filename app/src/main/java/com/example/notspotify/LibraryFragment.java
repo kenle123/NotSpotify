@@ -110,7 +110,7 @@ public class LibraryFragment extends Fragment {
             }
         }
         else {
-            //playlist.clear();
+            playlist.clear();
         }
         // Array adapter needed to display the listview
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, playlist);
