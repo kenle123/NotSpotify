@@ -53,6 +53,10 @@ public class LibraryFragment extends Fragment {
     Button cancelAddingToPlaylistInvis;
     String nameToAddString;
 
+    PlaylistHandler playlistHandler;
+    String path;
+    File file;
+
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
@@ -75,8 +79,11 @@ public class LibraryFragment extends Fragment {
         username = session.getUsername();
         final MusicList musicList = loadJsonIntoMusicList();
 
+        path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+        file = new File(path);
+
         // Load the playlist from playlist.json into playlistHandler
-        final PlaylistHandler playlistHandler = loadJsonIntoPlaylist();
+        playlistHandler = loadJsonIntoPlaylist();
         playlistHandler.setupPlaylist(musicList);
 
         // Get current user's username and set the text to {Username} playlist as header
@@ -85,16 +92,18 @@ public class LibraryFragment extends Fragment {
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
         listView = view.findViewById(R.id.list_view);
-        List<UserPlaylist> playlist2 = playlistHandler.getList();
 
-        boolean hasPlaylist = checkIfUserHasPlaylist(playlist2, username);
+        if(file.exists())
+        {
+            playlistHandler =  updatePlaylistHandler(file);
+        }
+
+        boolean hasPlaylist = checkIfUserHasPlaylist();
         if((hasPlaylist)) {
             // Curruser variable used to make sure previous user's playlists are cleared before
             // going into new user's playlists
             //if(currUser.equals("")) {
             playlist.clear();
-            final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
-            final File file = new File(path);
             UserPlaylist uPList;
             if(file.exists())
             {
@@ -139,8 +148,6 @@ public class LibraryFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
-                final File file = new File(path);
                 if(file.exists())
                 {
                     PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
@@ -189,10 +196,6 @@ public class LibraryFragment extends Fragment {
                     }
                 });
 
-                //TODO: Put add functions here
-                //TODO: Reads playlists file
-                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
-                final File file = new File(path);
                 boolean playlistExists = false;
                 if(file.exists())
                 {
@@ -209,15 +212,9 @@ public class LibraryFragment extends Fragment {
                 if(playlistExists == false){
                     if(file.exists())
                     {
-                        PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
-                        addPlayList(newPlaylistHandler);
-
+                        playlistHandler =  updatePlaylistHandler(file);
                     }
-                    else
-                    {
-                        addPlayList(playlistHandler);
-
-                    }
+                    addPlayList(playlistHandler);
                 }
 //                else{
 //                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
@@ -261,18 +258,13 @@ public class LibraryFragment extends Fragment {
 
     /**
      * Checks if the user has a playlist
-     * @param up The userplaylist object to loop through
-     * @param username The username that is currently logged in
      * @return true if the user has a playlist, false if doesn't
      */
-    public boolean checkIfUserHasPlaylist(List<UserPlaylist> up, String username) {
-        for (int i = 0; i < up.size(); i++) {
-            if (username.equals(up.get(i).getUsername())) {
-                usersPlaylist = up.get(i);
-                return true;
-            }
-        }
-        return false;
+    public boolean checkIfUserHasPlaylist() {
+        if(playlistHandler.getUserPlaylist(username).getPlaylist().size() > 0)
+            return true;
+        else
+            return false;
     }
 
     public MusicList loadJsonIntoMusicList()
@@ -330,7 +322,6 @@ public class LibraryFragment extends Fragment {
             fileOutputStream.write(strJson.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
-            //Log.d("ADDUSER", "OUTPUTTED");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -351,7 +342,6 @@ public class LibraryFragment extends Fragment {
             fileOutputStream.write(strJson.getBytes());
             fileOutputStream.flush();
             fileOutputStream.close();
-            //Log.d("ADDUSER", "OUTPUTTED");
         } catch (Exception e) {
             e.printStackTrace();
         }
