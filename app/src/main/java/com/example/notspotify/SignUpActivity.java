@@ -26,11 +26,19 @@ import java.util.List;
 public class SignUpActivity extends AppCompatActivity {
     boolean userExist = false;
     ImageButton backButtonSignUp;
+    MusicList musicList;
+    // Load the playlist from playlist.json into playlistHandler
+    PlaylistHandler playlistHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        musicList = loadJsonIntoMusicList();
+        playlistHandler = loadJsonIntoPlaylist();
+        playlistHandler.setupPlaylist(musicList);
 
         backButtonSignUp = findViewById(R.id.button_back_signup);
 
@@ -118,6 +126,36 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     /**
+     * Updates userList using local memory json file
+     * @param file - file of local json
+     * @return pTemp - new updated PlaylistHandler
+     */
+    public PlaylistHandler updatePlaylistHandler(File file)
+    {
+        PlaylistHandler pTemp = null;
+        try{
+
+
+            if (file.exists()) {
+                //Log.d("ADDUSER", "file exists IN SIGN IN");
+                InputStream inputStream = new FileInputStream(file);
+                String myJson = inputStreamToString(inputStream);
+                pTemp = new Gson().fromJson(myJson, PlaylistHandler.class);
+                inputStream.close();
+
+                //Log.d("ADDUSER", userList.toString());
+
+                return pTemp;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return pTemp;
+    }
+
+    /**
      * Adds user to user list
      * @param name - string, user name
      * @param password - string, user password
@@ -136,6 +174,19 @@ public class SignUpActivity extends AppCompatActivity {
 
         userlist.addToList(newUser);
 
+        //TODO: Add playlist add here
+        final String path2 = getFilesDir().getAbsolutePath() + "/playlists.json";
+        final File file2 = new File(path2);
+        if(file2.exists())
+        {
+            PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file2);
+            addUserToPlaylist(newPlaylistHandler, name);
+        }
+        else
+        {
+            addUserToPlaylist(playlistHandler, name);
+        }
+
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(userlist);
 
@@ -144,6 +195,25 @@ public class SignUpActivity extends AppCompatActivity {
 
         try {
             String filePath =   getFilesDir().getAbsolutePath() + "/users.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            //Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addUserToPlaylist(PlaylistHandler p, String uName) {
+        p.addUserPlaylist(uName);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(p);
+        String fileContents = strJson;
+        //Log.d("ADDSONG", p.getUserPlaylist(username).toString());
+        try {
+            String filePath = getFilesDir().getAbsolutePath() + "/playlists.json";
             File file = new File(filePath);
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(strJson.getBytes());
@@ -168,6 +238,33 @@ public class SignUpActivity extends AppCompatActivity {
             return userList;
         }
         catch (IOException e) {
+            return null;
+        }
+    }
+
+    public MusicList loadJsonIntoMusicList()
+    {
+        try {
+            String myJson = inputStreamToString(getAssets().open("music.json"));
+            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
+            return musicList;
+        }
+        catch (IOException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Loads the users from the playlists.json file into playlist object using GSON
+     *
+     * @return the populated playlists
+     */
+    public PlaylistHandler loadJsonIntoPlaylist() {
+        try {
+            String myJson = inputStreamToString(getAssets().open("playlists.json"));
+            PlaylistHandler playlist = new Gson().fromJson(myJson, PlaylistHandler.class);
+            return playlist;
+        } catch (IOException e) {
             return null;
         }
     }

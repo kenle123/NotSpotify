@@ -33,6 +33,11 @@ public class UserPlaylist implements Serializable {
     @SerializedName("playLists")
     List<Playlist> plst = new ArrayList<Playlist>();
 
+    public UserPlaylist(String uName) {
+        username = uName;
+        plst = new ArrayList<Playlist>();
+    }
+
     public void addPlaylist(String p) {
         plst.add(new Playlist(p));
     }

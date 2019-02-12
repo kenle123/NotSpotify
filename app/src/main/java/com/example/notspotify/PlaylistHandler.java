@@ -28,6 +28,11 @@ public class PlaylistHandler {
         }
         return null;
     }
+
+    public void addUserPlaylist(String uName) {
+        getList().add(new UserPlaylist(uName));
+    }
+
     @Override
     public String toString()
     {
