@@ -1,6 +1,8 @@
 package com.example.notspotify;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -64,9 +66,30 @@ public class BrowseFragment extends Fragment {
                         songTitle = item.getTitle();
                         songID = item.getID();
 
-                        // Call intent to go to play activity where user can play the song
-                        Intent intent = new Intent(getActivity(), PlayActivity.class);
-                        startActivity(intent);
+// Alert dialog to alert user whether he/she wants to delete the playlist or not
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                        alertDialog.setMessage("Select an option...").setCancelable(false)
+                                .setPositiveButton("Add to Playlist", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int is) {
+                                        // Call dialog to display detail
+                                        // Create dialog activity
+                                        Intent intent = new Intent(getActivity(), DialogActivity.class);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton("Play Song", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        // Call intent to go to play activity where user can play the song
+                                        Intent intent = new Intent(getActivity(), PlayActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                        AlertDialog alert = alertDialog.create();
+                        alert.setTitle("What would you like to do?");
+                        alert.show();
                         baseSearchDialogCompat.dismiss();
                     }
                 }).show();

@@ -1,6 +1,8 @@
 package com.example.notspotify;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -52,6 +54,7 @@ public class LibraryFragment extends Fragment {
     Button addToPlaylistButtonInvis;
     Button cancelAddingToPlaylistInvis;
     String nameToAddString;
+    int playlistUserClickedOn_LibraryFragment = 0;
 
     PlaylistHandler playlistHandler;
     String path;
@@ -148,15 +151,37 @@ public class LibraryFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(file.exists())
-                {
-                    PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
-                    deletePlaylist(newPlaylistHandler, i);                }
-                else
-                {
-                    deletePlaylist(playlistHandler, i);                }
-                    return true;
-                }
+                final String path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+                final File file = new File(path);
+                playlistUserClickedOn_LibraryFragment = i;
+
+                // Alert dialog to alert user whether he/she wants to delete the playlist or not
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setMessage("Do you want to delete this playlist?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int is) {
+                                if(file.exists()) {
+                                    PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
+                                    deletePlaylist(newPlaylistHandler, playlistUserClickedOn_LibraryFragment);
+                                }
+                                else {
+                                    deletePlaylist(playlistHandler, playlistUserClickedOn_LibraryFragment);
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+
+                AlertDialog alert = alertDialog.create();
+                alert.setTitle("Delete Playlist");
+                alert.show();
+                return true;
+            }
         });
 
         // On click listener for add playlist button which makes views invisible
@@ -168,6 +193,17 @@ public class LibraryFragment extends Fragment {
                 cancelAddingToPlaylistInvis.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 addPlaylistButton.setVisibility(View.GONE);
+            }
+        });
+
+        cancelAddingToPlaylistInvis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nameToAddEdittext.setVisibility(View.GONE);
+                addToPlaylistButtonInvis.setVisibility(View.GONE);
+                cancelAddingToPlaylistInvis.setVisibility(View.GONE);
+                listView.setVisibility(View.VISIBLE);
+                addPlaylistButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -188,13 +224,6 @@ public class LibraryFragment extends Fragment {
                     listView.setVisibility(View.VISIBLE);
                     addPlaylistButton.setVisibility(View.VISIBLE);
                 }
-
-                cancelAddingToPlaylistInvis.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
 
                 boolean playlistExists = false;
                 if(file.exists())
