@@ -19,4 +19,7 @@
 
     <!-- Strings related to Dialog Activity -->
     <string name="addToPlaylist_dialog">Add To Which Playlist</string>
+
+    <!--Strings related to DialogAddPlaylistActivity-->
+    <string name="addPlaylisthint_dialogaddplaylist">Name of Playlist to Add</string>
 </resources>

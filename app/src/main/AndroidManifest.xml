@@ -14,7 +14,7 @@
         android:roundIcon="@drawable/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlayActivity2"></activity>
+        <activity android:name=".PlayActivity2" />
         <activity android:name=".PlaylistSongsActivity" />
         <activity android:name=".PlayActivity" />
         <activity android:name=".BottomNavActivity" />
@@ -27,8 +27,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DialogActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
+        android:name=".DialogActivity"
+        android:theme="@style/Theme.AppCompat.Light.Dialog.Alert" />
     </application>
 
 </manifest>

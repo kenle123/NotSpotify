@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +43,9 @@ public class LibraryFragment extends Fragment {
 
     Button addPlaylistButton;
     Button deletePlaylistButton;
+    EditText nameToAddEdittext;
+    Button addToPlaylistButtonInvis;
+    String nameToAddString;
 
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
@@ -56,6 +60,8 @@ public class LibraryFragment extends Fragment {
         // Bind buttons for adding and delete playlists
         addPlaylistButton = view.findViewById(R.id.button_add_playlist);
         deletePlaylistButton = view.findViewById(R.id.button_delete_playlist);
+        nameToAddEdittext = view.findViewById(R.id.edittext_libraryfragmentAddtoPlaylist);
+        addToPlaylistButtonInvis = view.findViewById(R.id.button_addPlaylistInLibraryFragment);
 
         // Get username from session
         session = new Session(getActivity());
@@ -102,11 +108,31 @@ public class LibraryFragment extends Fragment {
             }
         });
 
-        // On click listener for add playlist button
+        // On click listener for add playlist button which makes views invisible
         addPlaylistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nameToAddEdittext.setVisibility(View.VISIBLE);
+                addToPlaylistButtonInvis.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+            }
+        });
 
+        // On click listener for getting the name of the playlist
+        addToPlaylistButtonInvis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Empty input
+                if(nameToAddEdittext.getText().toString().equals("")) {
+                    Toast.makeText(getActivity(), "Plalist Name Cannot Be Empty!", Toast.LENGTH_LONG).show();
+                }
+                //Non empty input which will be new playlist name
+                else {
+                    nameToAddString = nameToAddEdittext.getText().toString();
+                    nameToAddEdittext.setVisibility(View.GONE);
+                    addToPlaylistButtonInvis.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                }
             }
         });
 
