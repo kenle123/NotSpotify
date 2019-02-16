@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class PlayActivity extends AppCompatActivity {
 
+    // MediaPlayer
     private static MediaPlayer mp;
     Button playBtn;
     SeekBar positionBar;
@@ -28,28 +29,32 @@ public class PlayActivity extends AppCompatActivity {
     TextView artistAndSongName;
     ImageButton backBtn;
 
+    // Get song title and song ID from Browse Fragment
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
+    // Session
+    Session session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        final Session session = new Session(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        playBtn = (Button)findViewById(R.id.playBtn);
-        elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel);
-        remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
+        session = new Session(getApplicationContext());
 
-        artistAndSongName = (TextView)findViewById(R.id.artist_songname);
-        backBtn = (ImageButton)findViewById(R.id.button_back);
+        // Bind media player variables
+        playBtn = findViewById(R.id.playBtn);
+        elapsedTimeLabel = findViewById(R.id.elapsedTimeLabel);
+        remainingTimeLabel = findViewById(R.id.remainingTimeLabel);
+
+        artistAndSongName = findViewById(R.id.artist_songname);
+        backBtn = findViewById(R.id.button_back);
 
         // On click listener for back button
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //mp.stop();
                 finish();
             }
         });
@@ -76,10 +81,10 @@ public class PlayActivity extends AppCompatActivity {
             mp = MediaPlayer.create(this, R.raw.imperialmarch);
         }
 
-        if(session.getMediaPlayer() != null)
-        {
-            if(session.getMediaPlayer().isPlaying())
-            {
+        // Checks if the mediaplayer is currently playing, if so,
+        // stop current song
+        if(session.getMediaPlayer() != null) {
+            if(session.getMediaPlayer().isPlaying()) {
                 session.getMediaPlayer().stop();
                 session.getMediaPlayer().reset();
                 session.getMediaPlayer().release();
@@ -91,11 +96,13 @@ public class PlayActivity extends AppCompatActivity {
         session.getMediaPlayer().start();
         playBtn.setBackgroundResource(R.drawable.stop);
 
-        //mp.setLooping(true);
+        // Set looping to false and start track at 0 and set volume
+        mp.setLooping(false);
         session.getMediaPlayer().seekTo(0);
         session.getMediaPlayer().setVolume(0.5f, 0.5f);
         totalTime = mp.getDuration();
 
+        // On click listener for when user presses play button
         playBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,9 +210,11 @@ public class PlayActivity extends AppCompatActivity {
         return timeLabel;
     }
 
+
     /**
-     * For when play button is clicked to play/pause song
-     * @param view
+     * Action to be taken when user clicks on play button
+     * @param view The view
+     * @param session The session
      */
     public void playBtnClick(View view, Session session) {
         if(!session.getMediaPlayer().isPlaying()) {

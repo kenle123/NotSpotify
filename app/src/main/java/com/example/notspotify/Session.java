@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * A login screen that offers login via email/password.
+ * Session object to keep track of global variables
  */
 public class Session  {
     private SharedPreferences pref;
@@ -63,7 +63,5 @@ public class Session  {
     {
         this.mp = mp;
     }
-
-
 }
 
