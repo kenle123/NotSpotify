@@ -6,22 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import ir.mirrajabi.searchdialog.SimpleSearchDialogCompat;
@@ -29,19 +25,23 @@ import ir.mirrajabi.searchdialog.core.BaseSearchDialogCompat;
 import ir.mirrajabi.searchdialog.core.SearchResultListener;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Browse fragment which is the first tab in the bottom navigation bar
+ * Will display all the songs and users will be able to make a search by artist name and song title
  */
 public class BrowseFragment extends Fragment {
 
     public BrowseFragment() {
-        // Required empty public constructor
+        // Required empty constructor
     }
 
     // Declare global song variables which will be passed to play activity to play a certain song
-    private static String songTitle;
-    private static String songID;
+    private static String mSongTitle;
+    private static String mSongID;
+
+    // Song list which has an arraylist of all the songs
     private static List<SearchModel> songList = new ArrayList<>();
 
+    // Listview which will display all of the songs
     ListView listView;
 
     @Override
@@ -63,10 +63,10 @@ public class BrowseFragment extends Fragment {
                     public void onSelected(BaseSearchDialogCompat baseSearchDialogCompat, SearchModel item, int i) {
 
                         // Set the global variables to the song that is selected
-                        songTitle = item.getTitle();
-                        songID = item.getID();
+                        mSongTitle = item.getTitle();
+                        mSongID = item.getID();
 
-// Alert dialog to alert user whether he/she wants to delete the playlist or not
+                        // Alert dialog to alert user whether he/she wants to add to playlist or play the song
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
                         alertDialog.setMessage("Select an option...").setCancelable(false)
                                 .setPositiveButton("Add to Playlist", new DialogInterface.OnClickListener() {
@@ -117,8 +117,8 @@ public class BrowseFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Set the global variables to the song that is selected
-                songTitle = songList.get(i).getTitle();
-                songID = songList.get(i).getID();
+                mSongTitle = songList.get(i).getTitle();
+                mSongID = songList.get(i).getID();
 
                 // Call intent to go to play activity where user can play the song
                 Intent intent = new Intent(getActivity(), PlayActivity.class);
@@ -131,11 +131,11 @@ public class BrowseFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Set the global variables to the song that is selected
-                songTitle = songList.get(i).getTitle();
-                songID = songList.get(i).getID();
+                mSongTitle = songList.get(i).getTitle();
+                mSongID = songList.get(i).getID();
 
-                // Call dialog to display detail
-                // Create dialog activity
+                // Call intent to dialog activity which displays a dialog box for which playlist
+                // the user wants to add the song to
                 Intent intent = new Intent(getActivity(), DialogActivity.class);
                 startActivity(intent);
                 return true;
@@ -192,10 +192,10 @@ public class BrowseFragment extends Fragment {
 
     // Getters for the song variables
     public static String getSongTitle() {
-        return songTitle;
+        return mSongTitle;
     }
     public static String getSongID() {
-        return songID;
+        return mSongID;
     }
 
     // Getter for song list

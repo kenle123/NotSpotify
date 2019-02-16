@@ -20,36 +20,54 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Dialog box which appears when user clicks on a song to add to a playlist
+ */
 public class DialogActivity extends AppCompatActivity implements View.OnClickListener {
 
+    // Local memory path
     String path;
     File file;
     MusicList musicList;
-    // Load the playlist from playlist.json into playlistHandler
-    PlaylistHandler playlistHandler;
-    UserPlaylist user;
+
+    // Get song information
     String songTitle = BrowseFragment.getSongTitle();
     String songID = BrowseFragment.getSongID();
 
+    // Load the playlist from playlist.json into playlistHandler
+    PlaylistHandler playlistHandler;
+    UserPlaylist user;
+
+    // Session information regarding the user's username
     Session session;
     String username;
 
-    // Linearlayout for dialog that will display the buttons
+    // Linearlayout that will display the buttons
     LinearLayout ll;
     Button playlistButton;
 
+    // The string name of the song to add to the playlist
     String stringOfPlaylistToAddSongTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dialog);
+
+        // Get local memory information
         path = getFilesDir().getAbsolutePath() + "/playlists.json";
         file = new File(path);
+
         // Get username
         session = new Session(this);
         username = session.getUsername();
+
+        // Load music list and playlist information into respective variables
         musicList = loadJsonIntoMusicList();
         playlistHandler = loadJsonIntoPlaylist();
         playlistHandler.setupPlaylist(musicList);
+
+        // Check if file exists, otherwise, check local memory
         if(file.exists()) {
             playlistHandler = updatePlaylistHandler(file);
         }
@@ -60,8 +78,6 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         user = playlistHandler.getUserPlaylist(username);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dialog);
 
         // Bind linear layout based on id declared in activity_dialog.xml
         ll = findViewById(R.id.linearLayout_Dialog);
@@ -84,21 +100,22 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
         for(int i = 0; i < user.getPlaylist().size(); i++) {
             if (str.equals(user.getPlaylist().get(i).getPlaylistName())) {
                 stringOfPlaylistToAddSongTo = user.getPlaylist().get(i).getPlaylistName();
-                if(file.exists())
-                {
+                if(file.exists()) {
                     PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file);
                     addSongToPlaylist(newPlaylistHandler);
                     Toast.makeText(this, songTitle + " was added to the playlist " + stringOfPlaylistToAddSongTo, Toast.LENGTH_LONG).show();
                 }
-                else
-                {
+                else {
                     addSongToPlaylist(playlistHandler);
-
                 }
             }
         }
     }
 
+    /**
+     * Loads the music from the music.json file into musicList object using GSON
+     * @return the populatd music list
+     */
     public MusicList loadJsonIntoMusicList()
     {
         try {
@@ -113,7 +130,6 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * Loads the users from the playlists.json file into playlist object using GSON
-     *
      * @return the populated playlists
      */
     public PlaylistHandler loadJsonIntoPlaylist() {
@@ -173,6 +189,10 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
         return pTemp;
     }
 
+    /**
+     * Adds a song to a playlist
+     * @param p The playlist object
+     */
     public void addSongToPlaylist(PlaylistHandler p) {
         p.getUserPlaylist(username).getOnePlaylist(stringOfPlaylistToAddSongTo).addSong(musicList.getSong(songID));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -191,6 +211,10 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
+    /**
+     * Adds user to a playlist
+     */
     public void addUserToPlaylist() {
         playlistHandler.addUserPlaylist(username);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -209,6 +233,4 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
-
-
 }
