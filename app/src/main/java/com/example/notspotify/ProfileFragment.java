@@ -13,9 +13,8 @@ import android.widget.Button;
 import android.content.SharedPreferences;
 import android.widget.TextView;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Profile fragment which includes the user's username and sign out button
  */
 public class ProfileFragment extends Fragment {
 
@@ -23,7 +22,14 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    TextView username;
+    // The user's username
+    TextView mUsername;
+
+    // Button to sign out
+    Button mSignOutButton;
+
+    //The session
+    Session session;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,26 +37,29 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        // Set username
-        final Session session = new Session(getActivity());
-        username = view.findViewById(R.id.tvName);
-        username.setText(session.getUsername());
+        // Create new session
+        session = new Session(getActivity());
+
+        // Get and set username
+        mUsername = view.findViewById(R.id.tvName);
+        mUsername.setText(session.getUsername());
 
         // Sign Out button listener
-        Button signout = view.findViewById(R.id.button_sign_out);
-        signout.setOnClickListener(new View.OnClickListener() {
+        mSignOutButton = view.findViewById(R.id.button_sign_out);
+        mSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(session.getMediaPlayer().isPlaying())
-                {
-                    session.getMediaPlayer().stop();
-                    session.getMediaPlayer().reset();
-                    session.getMediaPlayer().release();
-                    session.setMediaPlayer(null);
+                if(session.getMediaPlayer() != null) {
+                    if(session.getMediaPlayer().isPlaying()) {
+                        session.getMediaPlayer().stop();
+                        session.getMediaPlayer().reset();
+                        session.getMediaPlayer().release();
+                        session.setMediaPlayer(null);
+                    }
                 }
-                Session session;//global variable
-                session = new Session(getContext());
                 session.setLoginFalse("Login");
+
+                // Call intent to go back to sign up page
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
