@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // Set username
-        Session session = new Session(getActivity());
+        final Session session = new Session(getActivity());
         username = view.findViewById(R.id.tvName);
         username.setText(session.getUsername());
 
@@ -41,6 +41,13 @@ public class ProfileFragment extends Fragment {
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(session.getMediaPlayer().isPlaying())
+                {
+                    session.getMediaPlayer().stop();
+                    session.getMediaPlayer().reset();
+                    session.getMediaPlayer().release();
+                    session.setMediaPlayer(null);
+                }
                 Session session;//global variable
                 session = new Session(getContext());
                 session.setLoginFalse("Login");

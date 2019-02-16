@@ -54,6 +54,11 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
             playlistHandler = updatePlaylistHandler(file);
         }
 
+        if(playlistHandler.getUserPlaylist(username) == null) {
+            addUserToPlaylist();
+            playlistHandler = updatePlaylistHandler(file);
+        }
+
         user = playlistHandler.getUserPlaylist(username);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
@@ -186,5 +191,24 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+    public void addUserToPlaylist() {
+        playlistHandler.addUserPlaylist(username);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(playlistHandler);
+        String fileContents = strJson;
+        //Log.d("ADDSONG", p.getUserPlaylist(username).toString());
+        try {
+            String filePath = getFilesDir().getAbsolutePath() + "/playlists.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            //Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

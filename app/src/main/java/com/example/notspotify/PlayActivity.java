@@ -33,6 +33,8 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        final Session session = new Session(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
@@ -47,7 +49,7 @@ public class PlayActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mp.stop();
+                //mp.stop();
                 finish();
             }
         });
@@ -74,14 +76,32 @@ public class PlayActivity extends AppCompatActivity {
             mp = MediaPlayer.create(this, R.raw.imperialmarch);
         }
 
+        if(session.getMediaPlayer() != null)
+        {
+            if(session.getMediaPlayer().isPlaying())
+            {
+                session.getMediaPlayer().stop();
+                session.getMediaPlayer().reset();
+                session.getMediaPlayer().release();
+            }
+        }
+
         // Start the media player
-        mp.start();
+        session.setMediaPlayer(mp);
+        session.getMediaPlayer().start();
         playBtn.setBackgroundResource(R.drawable.stop);
 
-        mp.setLooping(true);
-        mp.seekTo(0);
-        mp.setVolume(0.5f, 0.5f);
+        //mp.setLooping(true);
+        session.getMediaPlayer().seekTo(0);
+        session.getMediaPlayer().setVolume(0.5f, 0.5f);
         totalTime = mp.getDuration();
+
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playBtnClick(v,session);
+            }
+        });
 
         // Position Bar
         positionBar = (SeekBar)findViewById(R.id.positionBar);
@@ -134,10 +154,10 @@ public class PlayActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(mp != null) {
+                while(session.getMediaPlayer() != null) {
                     try {
                         Message msg = new Message();
-                        msg.what = mp.getCurrentPosition();
+                        msg.what = session.getMediaPlayer().getCurrentPosition();
                         handler.sendMessage(msg);
                         Thread.sleep(1000);
                     } catch(InterruptedException e ) {}
@@ -187,15 +207,15 @@ public class PlayActivity extends AppCompatActivity {
      * For when play button is clicked to play/pause song
      * @param view
      */
-    public void playBtnClick(View view) {
-        if(!mp.isPlaying()) {
+    public void playBtnClick(View view, Session session) {
+        if(!session.getMediaPlayer().isPlaying()) {
             // Play
-            mp.start();
+            session.getMediaPlayer().start();
             playBtn.setBackgroundResource(R.drawable.stop);
         }
         else {
             // Pause
-            mp.pause();
+            session.getMediaPlayer().pause();
             playBtn.setBackgroundResource(R.drawable.play);
         }
     }

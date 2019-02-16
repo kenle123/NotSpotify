@@ -3,6 +3,8 @@ package com.example.notspotify;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.media.MediaPlayer;
+
 import android.support.v7.app.AppCompatActivity;
 import com.google.gson.Gson;
 
@@ -17,6 +19,8 @@ import java.util.List;
  */
 public class Session  {
     private SharedPreferences pref;
+
+    private static MediaPlayer mp;
 
     public Session(Context cntx) {
 
@@ -50,6 +54,16 @@ public class Session  {
         Boolean login = pref.getBoolean("Login", false);
         return login;
     }
+
+    public MediaPlayer getMediaPlayer()
+    {
+        return this.mp;
+    }
+    public void setMediaPlayer(MediaPlayer mp)
+    {
+        this.mp = mp;
+    }
+
 
 }
 

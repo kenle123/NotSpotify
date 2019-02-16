@@ -100,7 +100,6 @@ public class LibraryFragment extends Fragment {
         {
             playlistHandler =  updatePlaylistHandler(file);
         }
-
         boolean hasPlaylist = checkIfUserHasPlaylist();
         if((hasPlaylist)) {
             // Curruser variable used to make sure previous user's playlists are cleared before
@@ -290,6 +289,10 @@ public class LibraryFragment extends Fragment {
      * @return true if the user has a playlist, false if doesn't
      */
     public boolean checkIfUserHasPlaylist() {
+        if(playlistHandler.getUserPlaylist(username) == null) {
+            addUserToPlaylist();
+            playlistHandler = updatePlaylistHandler(file);
+        }
         if(playlistHandler.getUserPlaylist(username).getPlaylist().size() > 0)
             return true;
         else
@@ -376,6 +379,25 @@ public class LibraryFragment extends Fragment {
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
+    }
+
+    public void addUserToPlaylist() {
+        playlistHandler.addUserPlaylist(username);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String strJson = gson.toJson(playlistHandler);
+        String fileContents = strJson;
+        //Log.d("ADDSONG", p.getUserPlaylist(username).toString());
+        try {
+            String filePath = getActivity().getApplicationContext().getFilesDir().getAbsolutePath() + "/playlists.json";
+            File file = new File(filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(strJson.getBytes());
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            //Log.d("ADDUSER", "OUTPUTTED");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Getters for playlist information

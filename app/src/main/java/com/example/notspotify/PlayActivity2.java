@@ -29,21 +29,23 @@ public class PlayActivity2 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        final Session session = new Session(getApplicationContext());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play2);
+        setContentView(R.layout.activity_play);
 
-        playBtn = (Button)findViewById(R.id.playBtn_2);
-        elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel_2);
-        remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel_2);
+        playBtn = (Button)findViewById(R.id.playBtn);
+        elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel);
+        remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
 
-        artistAndSongName = (TextView)findViewById(R.id.artist_songname_2);
-        backBtn = (ImageButton)findViewById(R.id.button_back_2);
+        artistAndSongName = (TextView)findViewById(R.id.artist_songname);
+        backBtn = (ImageButton)findViewById(R.id.button_back);
 
         // On click listener for back button
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mp.stop();
+                //mp.stop();
                 finish();
             }
         });
@@ -70,17 +72,35 @@ public class PlayActivity2 extends AppCompatActivity {
             mp = MediaPlayer.create(this, R.raw.imperialmarch);
         }
 
+        if(session.getMediaPlayer() != null)
+        {
+            if(session.getMediaPlayer().isPlaying())
+            {
+                session.getMediaPlayer().stop();
+                session.getMediaPlayer().reset();
+                session.getMediaPlayer().release();
+            }
+        }
+
         // Start the media player
-        mp.start();
+        session.setMediaPlayer(mp);
+        session.getMediaPlayer().start();
         playBtn.setBackgroundResource(R.drawable.stop);
 
-        mp.setLooping(true);
-        mp.seekTo(0);
-        mp.setVolume(0.5f, 0.5f);
+        //mp.setLooping(true);
+        session.getMediaPlayer().seekTo(0);
+        session.getMediaPlayer().setVolume(0.5f, 0.5f);
         totalTime = mp.getDuration();
 
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playBtnClick(v,session);
+            }
+        });
+
         // Position Bar
-        positionBar = (SeekBar)findViewById(R.id.positionBar_2);
+        positionBar = (SeekBar)findViewById(R.id.positionBar);
         positionBar.setMax(totalTime);
         positionBar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
@@ -105,7 +125,7 @@ public class PlayActivity2 extends AppCompatActivity {
         );
 
         // Volume Bar
-        volumeBar = (SeekBar)findViewById(R.id.volumeBar_2);
+        volumeBar = (SeekBar)findViewById(R.id.volumeBar);
         volumeBar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
@@ -130,10 +150,10 @@ public class PlayActivity2 extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(mp != null) {
+                while(session.getMediaPlayer() != null) {
                     try {
                         Message msg = new Message();
-                        msg.what = mp.getCurrentPosition();
+                        msg.what = session.getMediaPlayer().getCurrentPosition();
                         handler.sendMessage(msg);
                         Thread.sleep(1000);
                     } catch(InterruptedException e ) {}
@@ -183,15 +203,15 @@ public class PlayActivity2 extends AppCompatActivity {
      * For when play button is clicked to play/pause song
      * @param view
      */
-    public void playBtnClick(View view) {
-        if(!mp.isPlaying()) {
+    public void playBtnClick(View view, Session session) {
+        if(!session.getMediaPlayer().isPlaying()) {
             // Play
-            mp.start();
+            session.getMediaPlayer().start();
             playBtn.setBackgroundResource(R.drawable.stop);
         }
         else {
             // Pause
-            mp.pause();
+            session.getMediaPlayer().pause();
             playBtn.setBackgroundResource(R.drawable.play);
         }
     }
