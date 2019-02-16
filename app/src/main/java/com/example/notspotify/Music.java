@@ -21,7 +21,7 @@ public class Music implements Serializable {
     @SerializedName("song")
     Song song;
 
-    //Functions
+    // Getters and setters
     public void setArtistName(String n) {
         this.artist.artistName = n;
     }

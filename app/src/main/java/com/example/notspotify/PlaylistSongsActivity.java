@@ -15,13 +15,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Displays all the songs in a playlist
+ */
 public class PlaylistSongsActivity extends AppCompatActivity {
 
     ImageButton backButton;
     ListView listViewPlaylistSongs;
     TextView tv_playlistSongs;
 
-    // Get songlist from browse fragment
+    // Get song list from browse fragment
     List<SearchModel> songList = BrowseFragment.getSongList();
 
     // Get playlist name and index from library fragment
@@ -45,6 +48,7 @@ public class PlaylistSongsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playlist_songs);
 
+        // Bind variables
         backButton = findViewById(R.id.button_back_playlistSongs);
         listViewPlaylistSongs = findViewById(R.id.listview_playlistSongs);
         tv_playlistSongs = findViewById(R.id.textview_playlistSongs);
@@ -100,10 +104,6 @@ public class PlaylistSongsActivity extends AppCompatActivity {
     }
 
     // Getters for the song variables
-    public static String getSongTitle() {
-        return songTitle2;
-    }
-    public static String getSongID() {
-        return songID2;
-    }
+    public static String getSongTitle() { return songTitle2; }
+    public static String getSongID() { return songID2; }
 }

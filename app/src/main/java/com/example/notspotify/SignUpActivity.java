@@ -24,69 +24,72 @@ import java.util.List;
  * Sign up page for creating an account
  */
 public class SignUpActivity extends AppCompatActivity {
+
     boolean userExist = false;
     ImageButton backButtonSignUp;
-    MusicList musicList;
-    // Load the playlist from playlist.json into playlistHandler
-    PlaylistHandler playlistHandler;
+    EditText inputUserName;
+    EditText inputPassword;
+    Button signUpButton;
 
+    // Variables to be to have information loaded into
+    PlaylistHandler playlistHandler;
+    MusicList musicList;
+    UserList userList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        // Load the songs and playlists from their respective files
         musicList = loadJsonIntoMusicList();
         playlistHandler = loadJsonIntoPlaylist();
+        userList = loadJsonIntoUserList();
         playlistHandler.setupPlaylist(musicList);
 
+        // Bind variables
         backButtonSignUp = findViewById(R.id.button_back_signup);
+        inputUserName = findViewById(R.id.text_input_uSignUp);
+        inputPassword = findViewById(R.id.text_input_pSignUp);
+        signUpButton = findViewById(R.id.button_signUp);
 
-        final EditText inputUserName = (EditText) findViewById(R.id.text_input_uSignUp);
-        final EditText inputPassword = (EditText) findViewById(R.id.text_input_pSignUp);
-        final Button signUpButton = (Button) findViewById(R.id.button_signUp);
-
-        final UserList userList = loadJsonIntoUserList();
-
+        // Get path to local memory
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
 
-
+        // On click listener for sign up button
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(file.exists())
-                {
+                // Checks if local memory exists
+                if(file.exists()) {
                     UserList newUserList =  updateUserList(file);
 
                     userExist = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
                     //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
                 }
-                else
-                {
+                else {
                     userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
                 }
 
-
-                if(userExist == false){
-                    if(file.exists())
-                    {
+                // Since user does not exist yet, add to local memory
+                if(!userExist){
+                    if(file.exists()) {
                         UserList newUserList =  updateUserList(file);
                         addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", newUserList);
-
                     }
-                    else
-                    {
+                    else {
                         addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
-
                     }
                     signUp(v);
-                }else{
+                }
+                else {
                     Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        // On click listener for back button
         backButtonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,12 +103,9 @@ public class SignUpActivity extends AppCompatActivity {
      * @param file - file of local json
      * @return UsrList - new updated user list
      */
-    public UserList updateUserList(File file)
-    {
+    public UserList updateUserList(File file) {
         UserList userTemp = null;
-        try{
-
-
+        try {
             if (file.exists()) {
                 //Log.d("ADDUSER", "file exists IN SIGN IN");
                 InputStream inputStream = new FileInputStream(file);
@@ -114,14 +114,11 @@ public class SignUpActivity extends AppCompatActivity {
                 inputStream.close();
 
                 //Log.d("ADDUSER", userList.toString());
-
                 return userTemp;
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return userTemp;
     }
 
@@ -130,12 +127,9 @@ public class SignUpActivity extends AppCompatActivity {
      * @param file - file of local json
      * @return pTemp - new updated PlaylistHandler
      */
-    public PlaylistHandler updatePlaylistHandler(File file)
-    {
+    public PlaylistHandler updatePlaylistHandler(File file) {
         PlaylistHandler pTemp = null;
-        try{
-
-
+        try {
             if (file.exists()) {
                 //Log.d("ADDUSER", "file exists IN SIGN IN");
                 InputStream inputStream = new FileInputStream(file);
@@ -151,7 +145,6 @@ public class SignUpActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return pTemp;
     }
 
@@ -162,11 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
      * @param json - string, json filename
      * @param userlist UserList - user list
      */
-    public void addUser(String name, String password, String json , UserList userlist)
-    {
-        //Log.d("ADDUSER", "adding user");
-        //Log.d("ADDUSER", getFilesDir().getPath());
-
+    public void addUser(String name, String password, String json , UserList userlist) {
         User newUser = new User();
         newUser.setUserName(name);
         newUser.setPassword(password);
@@ -177,21 +166,16 @@ public class SignUpActivity extends AppCompatActivity {
         //TODO: Add playlist add here
         final String path2 = getFilesDir().getAbsolutePath() + "/playlists.json";
         final File file2 = new File(path2);
-        if(file2.exists())
-        {
+        if(file2.exists()) {
             PlaylistHandler newPlaylistHandler =  updatePlaylistHandler(file2);
             addUserToPlaylist(newPlaylistHandler, name);
         }
-        else
-        {
+        else {
             addUserToPlaylist(playlistHandler, name);
         }
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String strJson = gson.toJson(userlist);
-
-        //String filename = "users.json";
-        String fileContents = strJson;
 
         try {
             String filePath =   getFilesDir().getAbsolutePath() + "/users.json";
@@ -206,6 +190,11 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add playlist to user's account
+     * @param p The user's playlists
+     * @param uName The username
+     */
     public void addUserToPlaylist(PlaylistHandler p, String uName) {
         p.addUserPlaylist(uName);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -229,10 +218,8 @@ public class SignUpActivity extends AppCompatActivity {
      * Loads the users from the users.json file into userlist object using GSON
      * @return the populated user list
      */
-    public UserList loadJsonIntoUserList()
-    {
-        try
-        {
+    public UserList loadJsonIntoUserList() {
+        try {
             String myJson = inputStreamToString(getAssets().open("users.json"));
             UserList userList  = new Gson().fromJson(myJson, UserList.class);
             return userList;
@@ -242,8 +229,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    public MusicList loadJsonIntoMusicList()
-    {
+    public MusicList loadJsonIntoMusicList() {
         try {
             String myJson = inputStreamToString(getAssets().open("music.json"));
             MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
@@ -275,8 +261,7 @@ public class SignUpActivity extends AppCompatActivity {
      * @param userlist The user list which contains all the users
      * @param v The view object
      */
-    public boolean checkUserName(String username, List<User> userlist, View v)
-    {
+    public boolean checkUserName(String username, List<User> userlist, View v) {
         for (int i = 0; i < userlist.size(); i++)
         {
 
@@ -304,6 +289,10 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create the account for the user
+     * @param view The view
+     */
     public void signUp(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

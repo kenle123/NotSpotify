@@ -23,11 +23,9 @@ public class MusicList {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         String results = "";
-        for(Music m : list)
-        {
+        for(Music m : list) {
             results += m.toString();
         }
         return results;
