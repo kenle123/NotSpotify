@@ -35,53 +35,46 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Bind session object
         session = new Session(getApplicationContext());
 
+        // Bind edittext widgets and login button
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_username);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
 
+        // Load the users into userList
         final UserList userList = loadJsonIntoUserList();
 
+        // Get path for local memory
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
         final File file = new File(path);
 
-        //TODO: Used this for testing: ORIGINALLY NOT HERE
-        //final MusicList musicList = loadJsonIntoMusicList();
-        //Log.d("MUSIC", musicList.toString());
-        //PlaylistHandler pls = loadJsonIntoPlaylist();
-        //pls.setupPlaylist(musicList);
-        //Log.d("PLAYLISTS", pls.toString());
-
         // Button listener for clicking on the log in button
-        if (session.getLogin() == true) {
+        if (session.getLogin()) {
             Intent intent = new Intent(this, BottomNavActivity.class);
             startActivity(intent);
         }
 
+        // On click listener for login button
         loginButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
-            {
-                //Log.d("ONCLICKUSER", inputUserName.getText().toString());
-                //Log.d("ONCLICKPASSWOR",inputPassword.getText().toString());
-                //Log.d("USERLIST", userList.toString());
-
-                if(file.exists())
-                {
+            public void onClick(View v) {
+                // If file exists, then write new user to local memory
+                if(file.exists()) {
                     UserList newUserList =  updateUserList(file);
 
                     login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
                     //Log.d("ADDUSER", " IN MAIN" + newUserList.toString());
                 }
-                else
-                {
+                else {
                     login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
                 }
 
-
-                if (login == true) {
+                // Set username and password in session so user won't have to log in again when
+                // he or she opens the app again
+                if(login) {
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
@@ -89,24 +82,9 @@ public class MainActivity extends AppCompatActivity {
                 else{
                     session.setLoginFalse("Login");
                 }
-
                 signIn(v, login);
             }
-
         });
-    }
-
-    //TODO: Used this for testing: ORIGINALLY NOT HERE
-    public MusicList loadJsonIntoMusicList()
-    {
-        try {
-            String myJson = inputStreamToString(getAssets().open("music.json"));
-            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
-            return musicList;
-        }
-        catch (IOException e) {
-            return null;
-        }
     }
 
     /**
@@ -114,10 +92,9 @@ public class MainActivity extends AppCompatActivity {
      * @param file - file of local json
      * @return UsrList - new updated user list
      */
-    public UserList updateUserList(File file)
-    {
+    public UserList updateUserList(File file) {
         UserList userTemp = null;
-        try{
+        try {
             if (file.exists()) {
                 //Log.d("ADDUSER", "file exists IN MAIN");
                 InputStream inputStream = new FileInputStream(file);
@@ -133,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return userTemp;
     }
 
@@ -141,30 +117,11 @@ public class MainActivity extends AppCompatActivity {
      * Loads the users from the users.json file into userlist object using GSON
      * @return the populated user list
      */
-    public UserList loadJsonIntoUserList()
-    {
-        try
-        {
+    public UserList loadJsonIntoUserList() {
+        try {
             String myJson = inputStreamToString(getAssets().open("users.json"));
             UserList userList  = new Gson().fromJson(myJson, UserList.class);
             return userList;
-        }
-        catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Loads the users from the playlists.json file into playlist object using GSON
-     * @return the populated playlists
-     */
-    public PlaylistHandler loadJsonIntoPlaylist()
-    {
-        try
-        {
-            String myJson = inputStreamToString(getAssets().open("playlists.json"));
-            PlaylistHandler playlist  = new Gson().fromJson(myJson, PlaylistHandler.class);
-            return playlist;
         }
         catch (IOException e) {
             return null;
@@ -194,23 +151,18 @@ public class MainActivity extends AppCompatActivity {
      * @param userlist The user list which contains all the users
      * @param v The view object
      */
-    public boolean checkCredentials(String username, String password, List<User> userlist, View v)
-    {
-        for (int i = 0; i < userlist.size(); i++)
-        {
-
-            if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword()))
-            {
+    public boolean checkCredentials(String username, String password, List<User> userlist, View v) {
+        for (int i = 0; i < userlist.size(); i++) {
+            if(username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword())) {
                 signIn(v, true);
                 return true;
             }
-
         }
         return false;
     }
 
     /**
-     * Sign into another activity using an intent
+     * If the user has the correct credentials, then go to main app with bottom navigation
      * @param view The view object
      */
     public void signIn(View view, boolean correctInput) {
