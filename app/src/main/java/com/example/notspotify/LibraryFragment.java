@@ -1,14 +1,11 @@
 package com.example.notspotify;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +28,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Library fragment which displays all the user's playlists
  */
 public class LibraryFragment extends Fragment {
 
@@ -46,8 +42,6 @@ public class LibraryFragment extends Fragment {
 
     Session session;
     String username;
-    String currUser = "";
-    UserPlaylist usersPlaylist;
 
     Button addPlaylistButton;
     EditText nameToAddEdittext;
@@ -63,7 +57,6 @@ public class LibraryFragment extends Fragment {
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
-    List<SearchModel> songList = BrowseFragment.getSongList();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,57 +70,49 @@ public class LibraryFragment extends Fragment {
         addToPlaylistButtonInvis = view.findViewById(R.id.button_addPlaylistInLibraryFragment);
         cancelAddingToPlaylistInvis = view.findViewById(R.id.button_cancelAddingPlaylist);
 
+        // Bind listview
+        listView = view.findViewById(R.id.list_view);
+
         // Get username from session
         session = new Session(getActivity());
         username = session.getUsername();
         final MusicList musicList = loadJsonIntoMusicList();
 
+        // Get path for local memory
         path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
         file = new File(path);
-
-        // Load the playlist from playlist.json into playlistHandler
-        playlistHandler = loadJsonIntoPlaylist();
-        playlistHandler.setupPlaylist(musicList);
 
         // Get current user's username and set the text to {Username} playlist as header
         Session session = new Session(getActivity());
         mPlaylistUser = view.findViewById(R.id.textview_playlists);
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
-        listView = view.findViewById(R.id.list_view);
+        // Load the playlist from playlist.json into playlistHandler
+        playlistHandler = loadJsonIntoPlaylist();
+        playlistHandler.setupPlaylist(musicList);
 
-        if(file.exists())
-        {
+        if(file.exists()) {
             playlistHandler =  updatePlaylistHandler(file);
         }
+
+        // Checks if a user has at least one playlist
         boolean hasPlaylist = checkIfUserHasPlaylist();
         if((hasPlaylist)) {
-            // Curruser variable used to make sure previous user's playlists are cleared before
-            // going into new user's playlists
-            //if(currUser.equals("")) {
             playlist.clear();
             UserPlaylist uPList;
-            if(file.exists())
-            {
+
+            if(file.exists()) {
                 PlaylistHandler newPlaylistHandler = updatePlaylistHandler(file);
                 uPList = newPlaylistHandler.getUserPlaylist(username);
             }
-            else
-            {
+            else {
                 uPList = playlistHandler.getUserPlaylist(username);
-                // Add playlist names to listview which will display each playlist name
             }
+
             // Add playlist names to listview which will display each playlist name
             for (int i = 0; i < uPList.getPlaylist().size(); i++) {
                 playlist.add(new PlaylistSearchModel(uPList.getPlaylist().get(i).getPlaylistName(), uPList.getPlaylist().get(i).getSongs()));
             }
-
-
-//                // Add playlist names to listview which will display each playlist name
-//                for (int i = 0; i < usersPlaylist.getPlaylist().size(); i++) {
-//                    playlist.add(new PlaylistSearchModel(usersPlaylist.getPlaylist().get(i).getPlaylistName(), usersPlaylist.getPlaylist().get(i).getSongs()));
-//                }
-            //}
         }
         else {
             // User does not have a playlist, so will just display nothing
@@ -195,6 +180,7 @@ public class LibraryFragment extends Fragment {
             }
         });
 
+        // On click button which will cancel the adding playlist views and make them invisible
         cancelAddingToPlaylistInvis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -225,28 +211,22 @@ public class LibraryFragment extends Fragment {
                 }
 
                 boolean playlistExists = false;
-                if(file.exists())
-                {
+                if(file.exists()) {
                     PlaylistHandler newPlaylistHandler = updatePlaylistHandler(file);
                     //playlistExists = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
                     //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
                 }
-                else
-                {
+                else {
                     //playlistExists = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
                 }
 
 
                 if(playlistExists == false){
-                    if(file.exists())
-                    {
+                    if(file.exists()) {
                         playlistHandler =  updatePlaylistHandler(file);
                     }
                     addPlayList(playlistHandler);
                 }
-//                else{
-//                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
-//                }
             }
         });
         return view;
@@ -254,7 +234,6 @@ public class LibraryFragment extends Fragment {
 
     /**
      * Loads the users from the playlists.json file into playlist object using GSON
-     *
      * @return the populated playlists
      */
     public PlaylistHandler loadJsonIntoPlaylist() {
@@ -269,7 +248,6 @@ public class LibraryFragment extends Fragment {
 
     /**
      * Reads a file using inputstream
-     *
      * @param inputStream a file to read from
      * @return a string of the read in file
      */
@@ -299,6 +277,10 @@ public class LibraryFragment extends Fragment {
             return false;
     }
 
+    /**
+     * Loads the music from the music.json file into musicList object using GSON
+     * @return the populatd music list
+     */
     public MusicList loadJsonIntoMusicList()
     {
         try {
@@ -319,9 +301,7 @@ public class LibraryFragment extends Fragment {
     public PlaylistHandler updatePlaylistHandler(File file)
     {
         PlaylistHandler pTemp = null;
-        try{
-
-
+        try {
             if (file.exists()) {
                 //Log.d("ADDUSER", "file exists IN SIGN IN");
                 InputStream inputStream = new FileInputStream(file);
@@ -330,17 +310,19 @@ public class LibraryFragment extends Fragment {
                 inputStream.close();
 
                 //Log.d("ADDUSER", userList.toString());
-
                 return pTemp;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return pTemp;
     }
 
+    /**
+     * Add a playlist
+     * @param p The playlists the user has
+     */
     public void addPlayList(PlaylistHandler p) {
         p.getUserPlaylist(username).addPlaylist(nameToAddString);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -361,6 +343,11 @@ public class LibraryFragment extends Fragment {
         ft.detach(this).attach(this).commit();
     }
 
+    /**
+     * Delete a playlist
+     * @param p The playlists the user has
+     * @param i The index of the playlist to delete
+     */
     public void deletePlaylist(PlaylistHandler p, int i) {
         p.getUserPlaylist(username).deletePlaylist(i);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -381,6 +368,10 @@ public class LibraryFragment extends Fragment {
         ft.detach(this).attach(this).commit();
     }
 
+
+    /**
+     * Adds a use rto a playlist
+     */
     public void addUserToPlaylist() {
         playlistHandler.addUserPlaylist(username);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
