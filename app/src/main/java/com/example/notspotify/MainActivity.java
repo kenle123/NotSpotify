@@ -1,8 +1,6 @@
 package com.example.notspotify;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +10,9 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.DatagramPacket;
@@ -24,9 +20,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Scanner;
 
-import android.content.SharedPreferences;
 
 /**
  * Main Activity class handles the Login page
@@ -37,20 +31,15 @@ public class MainActivity extends AppCompatActivity {
     boolean login = false;
 
     private static InetAddress host;
-    private static final int PORT=5000;
+    private static final int PORT=1234;
     private static DatagramSocket datagramSocket;
     private static DatagramPacket inPacket,outPacket;
     private static byte[] buffer;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("ggez", "Got here 3445");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("ggez", "Got here 345");
-
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -75,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BottomNavActivity.class);
             startActivity(intent);
         }
-        Log.d("ggez", "Got here 123");
-
 
         // On click listener for login button
         // The user will click the login button and it should send the message "Sent the message from Android" to the server running in terminal
@@ -104,11 +91,12 @@ public class MainActivity extends AppCompatActivity {
 //                    session.setLoginFalse("Login");
 //                }
 //                signIn(v, login);
-                Log.d("ggez", "Got here 100");
 
                 try
                 {
-                    host=InetAddress.getLocalHost();
+                    host = InetAddress.getByName("192.168.1.158");
+                    //host=InetAddress.getLocalHost();
+
                 }
                 catch(UnknownHostException uhEx)
                 {
@@ -124,29 +112,16 @@ public class MainActivity extends AppCompatActivity {
     {
         try
         {
-            host = InetAddress.getLocalHost();
+            datagramSocket=new DatagramSocket();
+            String message="ggez420",response="";
 
-            buffer=new byte[256];
-            Log.d("ggez", "Got here 1");
-            Log.d("ggez", "Port: " + PORT);
-            Log.d("ggez", "Host: " + host);
-            //Scanner userEntry=new Scanner(System.in);
-            //String message="sgs",response="";
-            String message = "Sent the message from Android";
-
-            //System.out.println("enter message :");
-            //message=userEntry.nextLine();
-
-            inPacket=new DatagramPacket(buffer,buffer.length);
-            Log.d("ggez", "Got here 5");
-            datagramSocket.receive(inPacket);
-            Log.d("ggez", "Got here 6");
-            outPacket=new DatagramPacket(message.getBytes(),message.length(),host, PORT);
-            Log.d("ggez", "Got here 3" + outPacket);
+            outPacket=new DatagramPacket(message.getBytes(),message.length(),host,PORT);
             datagramSocket.send(outPacket);
-            Log.d("ggez", "Got here 4");
-            //response=new String(inPacket.getData(),0,inPacket.getLength());
-            //System.out.println(" \n SERVER-->>" +response);
+            buffer=new byte[256];
+            inPacket=new DatagramPacket(buffer,buffer.length);
+            datagramSocket.receive(inPacket);
+            response=new String(inPacket.getData(),0,inPacket.getLength());
+            Log.d("GGEZ", response);
         }
         catch(IOException ioEx)
         {
