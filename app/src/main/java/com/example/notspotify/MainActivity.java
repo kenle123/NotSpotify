@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
                 try
                 {
-                    host = InetAddress.getByName("192.168.1.158");
-                    //host=InetAddress.getLocalHost();
-
+                    host = InetAddress.getByName("10.0.2.2");
                 }
                 catch(UnknownHostException uhEx)
                 {
