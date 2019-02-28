@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 //                    session.setLoginFalse("Login");
 //                }
 //                signIn(v, login);
-
+                String userInput = inputUserName.getText().toString() + "," + inputPassword.getText().toString();
                 try
                 {
                     host = InetAddress.getByName("10.0.2.2");
@@ -101,17 +103,19 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("HOST ID not found.. ");
                     System.exit(1);
                 }
-                accessServer();
+                accessServer(userInput, v, inputUserName.getText().toString(), inputPassword.getText().toString());
             }
         });
     }
 
-    private static void accessServer()
+    private void accessServer(String input, View view, String username, String password)
     {
         try
         {
             datagramSocket=new DatagramSocket();
-            String message="ggez420",response="";
+            String message=input;
+            String response;
+            //JSONObject response;
 
             outPacket=new DatagramPacket(message.getBytes(),message.length(),host,PORT);
             datagramSocket.send(outPacket);
@@ -119,7 +123,21 @@ public class MainActivity extends AppCompatActivity {
             inPacket=new DatagramPacket(buffer,buffer.length);
             datagramSocket.receive(inPacket);
             response=new String(inPacket.getData(),0,inPacket.getLength());
+            //response=new JSONObject(inPacket.getData(),0,inPacket.getLength());
             Log.d("GGEZ", response);
+            Log.d("GGEZ", "" + response.length());
+
+            if(response.length() != 2) {
+                login = true;
+                session.setUsername(username);
+                session.setPassword(password);
+                session.setLoginTrue("Login");
+            }
+            else {
+                session.setLoginFalse("Login");
+            }
+            signIn(view, login);
+
         }
         catch(IOException ioEx)
         {
@@ -135,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Updates userList using local memory json file
-     *
      * @param file - file of local json
      * @return UsrList - new updated user list
      */
@@ -162,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Loads the users from the users.json file into userlist object using GSON
-     *
      * @return the populated user list
      */
     public UserList loadJsonIntoUserList() {
@@ -177,7 +193,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Reads a file using inputstream
-     *
      * @param inputStream a file to read from
      * @return a string of the read in file
      */
@@ -194,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Checks if username and password that user inputted matches a user profile provided from the json file
-     *
      * @param username The username the user inputted
      * @param password The password the user inputted
      * @param userlist The user list which contains all the users
@@ -212,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * If the user has the correct credentials, then go to main app with bottom navigation
-     *
      * @param view The view object
      */
     public void signIn(View view, boolean correctInput) {
@@ -226,7 +239,6 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Go to create account page
-     *
      * @param view The view object
      */
     public void goToSignUp(View view) {

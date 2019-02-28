@@ -1,7 +1,5 @@
 package com.example.notspotify;
 
-import android.text.TextUtils;
-
 import java .util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
