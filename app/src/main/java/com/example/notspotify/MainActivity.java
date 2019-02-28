@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
             response=new String(inPacket.getData(),0,inPacket.getLength());
             //response=new JSONObject(inPacket.getData(),0,inPacket.getLength());
             Log.d("GGEZ", response);
-            Log.d("GGEZ", "" + response.length());
+            Log.d("GGEZ", "length: " + response.length());
 
             if(response.length() != 2) {
                 login = true;
