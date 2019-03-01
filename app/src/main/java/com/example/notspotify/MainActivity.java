@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
-
 import org.json.JSONObject;
 
 import java.io.File;
@@ -29,6 +28,7 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
+    JSONObject ret;
     Session session;
     boolean login = false;
 
@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
 //                    session.setLoginFalse("Login");
 //                }
 //                signIn(v, login);
+
+                Proxy prox = new Proxy();
+
                 String userInput = inputUserName.getText().toString() + "," + inputPassword.getText().toString();
                 try
                 {
@@ -207,22 +210,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Checks if username and password that user inputted matches a user profile provided from the json file
-     * @param username The username the user inputted
-     * @param password The password the user inputted
-     * @param userlist The user list which contains all the users
-     * @param v        The view object
-     */
-    public boolean checkCredentials(String username, String password, List<User> userlist, View v) {
-        for (int i = 0; i < userlist.size(); i++) {
-            if (username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword())) {
-                signIn(v, true);
-                return true;
-            }
-        }
-        return false;
-    }
+
+    //TODO: get rid of this later --- at server side now
+//    /**
+//     * Checks if username and password that user inputted matches a user profile provided from the json file
+//     * @param username The username the user inputted
+//     * @param password The password the user inputted
+//     * @param userlist The user list which contains all the users
+//     * @param v        The view object
+//     */
+//    public boolean checkCredentials(String username, String password, List<User> userlist, View v) {
+//        for (int i = 0; i < userlist.size(); i++) {
+//            if (username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword())) {
+//                signIn(v, true);
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * If the user has the correct credentials, then go to main app with bottom navigation
