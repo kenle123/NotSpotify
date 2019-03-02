@@ -8,16 +8,20 @@ package com.example.notspotify;
  * @since   2019-01-24
  */
 
+import android.util.Log;
+
 import com.example.notspotify.CommunicationModule;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.Gson;
 
 
 public class Proxy implements ProxyInterface {
-    CommunicationModule cm = new CommunicationModule();
+    CommunicationModule cm;
 //    Dispatcher dispacher;   // This is only for test. it should use the Communication  Module
     public Proxy()
     {
+        cm = new CommunicationModule();
 //        this.dispacher = dispacher;
     }
 
@@ -27,34 +31,50 @@ public class Proxy implements ProxyInterface {
      */
     public JsonObject synchExecution(String remoteMethod, String[] param)
     {
-        JsonObject jsonRequest = new JsonObject();
-        JsonObject jsonParam = new JsonObject();
+        RemoteRef rr = new RemoteRef();
+        JsonObject metadata = rr.getRemoteReference(remoteMethod);
+        JsonObject exe = new JsonObject();
+        JsonObject jsonparam = new JsonObject();
+        jsonparam.addProperty("username", param[0]);
+        jsonparam.addProperty("password", param[1]);
+        metadata.addProperty("remoteMethod", remoteMethod);
+        metadata.add("param", jsonparam);
+//        metadata.addProperty("return", "Integer");
+        metadata.addProperty("requestID", "123456");
+        metadata.addProperty("call-semantics", "maybe");
+        exe.add("execute", metadata);
 
-        jsonRequest.addProperty("remoteMethod", remoteMethod);
-        jsonRequest.addProperty("objectName", "SongServices");
+        JsonObject ret = cm.send(exe);
+        return ret;
+
+
+//        JsonObject temp = new Gson().fromJson(exe.toString(),JsonObject.class);
+//        Log.d("Json", temp.get("execute").getAsJsonObject().get("param").getAsJsonObject().get("username").getAsString());
+
+//        JsonObject jsonRequest = new JsonObject();
+//        JsonObject jsonParam = new JsonObject();
+//
+//        jsonRequest.addProperty("remoteMethod", remoteMethod);
+//        jsonRequest.addProperty("objectName", "SongServices");
         // It is hardcoded. Instead it should be dynamic using  RemoteRef
-        if (remoteMethod.equals("Login"))
-        {
+//        if (remoteMethod.equals("getSongChunk"))
+//        {
+//
+//            jsonParam.addProperty("song", param[0]);
+//            jsonParam.addProperty("fragment", param[1]);
+//
+//        }
+//        if (remoteMethod.equals("getFileSize"))
+//        {
+//            jsonParam.addProperty("song", param[0]);
+//        }
+//        jsonRequest.add("param", jsonParam);
 
-        }
-        if (remoteMethod.equals("getSongChunk"))
-        {
-
-            jsonParam.addProperty("song", param[0]);
-            jsonParam.addProperty("fragment", param[1]);
-
-        }
-        if (remoteMethod.equals("getFileSize"))
-        {
-            jsonParam.addProperty("song", param[0]);
-        }
-        jsonRequest.add("param", jsonParam);
-
-        JsonParser parser = new JsonParser();
+//        JsonParser parser = new JsonParser();
 //        String strRet =  this.dispacher.dispatch(jsonRequest.toString());
 
 //        return parser.parse(strRet).getAsJsonObject();
-        return null;
+//        return null;
     }
 
     /*
@@ -66,10 +86,6 @@ public class Proxy implements ProxyInterface {
     public void asynchExecution(String remoteMethod, String[] param)
     {
         return;
-    }
-
-    public String sendRequest(JsonObject j) {
-        return cm.send(j);
     }
 }
 

@@ -10,7 +10,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +20,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -28,7 +28,6 @@ import java.util.List;
  */
 public class MainActivity extends AppCompatActivity {
 
-    JSONObject ret;
     Session session;
     boolean login = false;
 
@@ -93,20 +92,35 @@ public class MainActivity extends AppCompatActivity {
 //                    session.setLoginFalse("Login");
 //                }
 //                signIn(v, login);
-
-                Proxy prox = new Proxy();
-
-                String userInput = inputUserName.getText().toString() + "," + inputPassword.getText().toString();
-                try
-                {
-                    host = InetAddress.getByName("10.0.2.2");
-                }
-                catch(UnknownHostException uhEx)
-                {
-                    System.out.println("HOST ID not found.. ");
-                    System.exit(1);
-                }
-                accessServer(userInput, v, inputUserName.getText().toString(), inputPassword.getText().toString());
+                JsonObject ret;
+                Proxy proxy = new Proxy();
+//                ArrayList<String> array = new ArrayList<String>();
+//                array.add(inputUserName.getText().toString());
+//                array.add(inputPassword.getText().toString());
+                String[] array = {  inputUserName.getText().toString(),
+                                    inputPassword.getText().toString()};
+                ret = proxy.synchExecution("Login", array);
+//                if(ret.dataReturn == 1) {
+//                    login = true;
+//                    session.setUsername(inputUserName.getText().toString());
+//                    session.setPassword(inputPassword.getText().toString());
+//                    session.setLoginTrue("Login");
+//                }
+//                else {
+//                    session.setLoginFalse("Login");
+//                }
+//
+//                String userInput = inputUserName.getText().toString() + "," + inputPassword.getText().toString();
+//                try
+//                {
+//                    host = InetAddress.getByName("10.0.2.2");
+//                }
+//                catch(UnknownHostException uhEx)
+//                {
+//                    System.out.println("HOST ID not found.. ");
+//                    System.exit(1);
+//                }
+//                accessServer(userInput, v, inputUserName.getText().toString(), inputPassword.getText().toString());
             }
         });
     }

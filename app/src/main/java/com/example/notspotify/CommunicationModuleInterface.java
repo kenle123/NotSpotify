@@ -42,7 +42,7 @@ public interface CommunicationModuleInterface {
 * given at compilation time, for example 2) times. It blocks until 
 * it completes or fails (through an exception)
 */ 
-    String send(JsonObject request);
+    JsonObject send(JsonObject request);
 }
 
 
