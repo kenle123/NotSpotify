@@ -32,12 +32,6 @@ public class MainActivity extends AppCompatActivity {
     Session session;
     boolean login = false;
 
-    private static InetAddress host;
-    private static final int PORT=1234;
-    private static DatagramSocket datagramSocket;
-    private static DatagramPacket inPacket,outPacket;
-    private static byte[] buffer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         final EditText inputUserName = (EditText) findViewById(R.id.text_input_username);
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
-
-        // Load the users into userList
-        final UserList userList = loadJsonIntoUserList();
 
         // Get path for local memory
         final String path = getFilesDir().getAbsolutePath() + "/users.json";
@@ -73,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< Updated upstream
                 // If file exists, then write new user to local memory
 //                if (file.exists()) {
 //                    UserList newUserList = updateUserList(file);
@@ -104,10 +96,27 @@ public class MainActivity extends AppCompatActivity {
                     System.exit(1);
                 }
                 accessServer(userInput, v, inputUserName.getText().toString(), inputPassword.getText().toString());
+=======
+                JsonObject ret;
+                Proxy proxy = new Proxy();
+                String[] array = {  inputUserName.getText().toString(),
+                                    inputPassword.getText().toString()};
+                ret = proxy.synchExecution("Login", array);
+                if(!ret.toString().equals("{}")) {
+                    login = true;
+                    session.setUsername(inputUserName.getText().toString());
+                    session.setLoginTrue("Login");
+                }
+                else {
+                    session.setLoginFalse("Login");
+                }
+                signIn(v, login);
+>>>>>>> Stashed changes
             }
         });
     }
 
+<<<<<<< Updated upstream
     private void accessServer(String input, View view, String username, String password)
     {
         try
@@ -224,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+=======
+>>>>>>> Stashed changes
     /**
      * If the user has the correct credentials, then go to main app with bottom navigation
      * @param view The view object
