@@ -12,7 +12,7 @@ import java.net.InetAddress;
 public class CommunicationModule implements CommunicationModuleInterface {
     public JsonObject send(JsonObject request) {
         JsonObject temp = new Gson().fromJson(request.toString(),JsonObject.class);
-        String callSem = temp.get("execute").getAsJsonObject().get("call-semantics").getAsString();
+//        String callSem = temp.get("execute").getAsJsonObject().get("call-semantics").getAsString();
 
         toServer(temp);
 

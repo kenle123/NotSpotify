@@ -18,11 +18,9 @@ import com.google.gson.Gson;
 
 public class Proxy implements ProxyInterface {
     CommunicationModule cm;
-//    Dispatcher dispacher;   // This is only for test. it should use the Communication  Module
     public Proxy()
     {
         cm = new CommunicationModule();
-//        this.dispacher = dispacher;
     }
 
     /*
@@ -33,7 +31,7 @@ public class Proxy implements ProxyInterface {
     {
         RemoteRef rr = new RemoteRef();
         JsonObject metadata = rr.getRemoteReference(remoteMethod);
-        JsonObject exe = new JsonObject();
+//        JsonObject exe = new JsonObject();
         JsonObject jsonparam = new JsonObject();
         jsonparam.addProperty("username", param[0]);
         jsonparam.addProperty("password", param[1]);
@@ -42,9 +40,9 @@ public class Proxy implements ProxyInterface {
 //        metadata.addProperty("return", "Integer");
         metadata.addProperty("requestID", "123456");
         metadata.addProperty("call-semantics", "maybe");
-        exe.add("execute", metadata);
+//        exe.add("execute", metadata);
 
-        JsonObject ret = cm.send(exe);
+        JsonObject ret = cm.send(metadata);
         return ret;
 
 
