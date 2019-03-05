@@ -10,8 +10,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.gson.Gson;
-
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +20,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -64,39 +63,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< Updated upstream
-                // If file exists, then write new user to local memory
-//                if (file.exists()) {
-//                    UserList newUserList = updateUserList(file);
-//
-//                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), newUserList.getList(), v);
-//                    //Log.d("ADDUSER", " IN MAIN" + newUserList.toString());
-//                } else {
-//                    login = checkCredentials(inputUserName.getText().toString(), inputPassword.getText().toString(), userList.getList(), v);
-//                }
-//
-//                // Set username and password in session so user won't have to log in again when
-//                // he or she opens the app again
-//                if (login) {
-//                    session.setUsername(inputUserName.getText().toString());
-//                    session.setPassword(inputPassword.getText().toString());
-//                    session.setLoginTrue("Login");
-//                } else {
-//                    session.setLoginFalse("Login");
-//                }
-//                signIn(v, login);
-                String userInput = inputUserName.getText().toString() + "," + inputPassword.getText().toString();
-                try
-                {
-                    host = InetAddress.getByName("10.0.2.2");
-                }
-                catch(UnknownHostException uhEx)
-                {
-                    System.out.println("HOST ID not found.. ");
-                    System.exit(1);
-                }
-                accessServer(userInput, v, inputUserName.getText().toString(), inputPassword.getText().toString());
-=======
                 JsonObject ret;
                 Proxy proxy = new Proxy();
                 String[] array = {  inputUserName.getText().toString(),
@@ -111,130 +77,10 @@ public class MainActivity extends AppCompatActivity {
                     session.setLoginFalse("Login");
                 }
                 signIn(v, login);
->>>>>>> Stashed changes
             }
         });
     }
 
-<<<<<<< Updated upstream
-    private void accessServer(String input, View view, String username, String password)
-    {
-        try
-        {
-            datagramSocket=new DatagramSocket();
-            String message=input;
-            String response;
-            //JSONObject response;
-
-            outPacket=new DatagramPacket(message.getBytes(),message.length(),host,PORT);
-            datagramSocket.send(outPacket);
-            buffer=new byte[256];
-            inPacket=new DatagramPacket(buffer,buffer.length);
-            datagramSocket.receive(inPacket);
-            response=new String(inPacket.getData(),0,inPacket.getLength());
-            //response=new JSONObject(inPacket.getData(),0,inPacket.getLength());
-            Log.d("GGEZ", response);
-            Log.d("GGEZ", "length: " + response.length());
-
-            if(response.length() != 2) {
-                login = true;
-                session.setUsername(username);
-                session.setPassword(password);
-                session.setLoginTrue("Login");
-            }
-            else {
-                session.setLoginFalse("Login");
-            }
-            signIn(view, login);
-
-        }
-        catch(IOException ioEx)
-        {
-            ioEx.printStackTrace();
-        }
-
-        finally
-        {
-            System.out.println("\n closing connection.... ");
-            datagramSocket.close();
-        }
-    }
-
-    /**
-     * Updates userList using local memory json file
-     * @param file - file of local json
-     * @return UsrList - new updated user list
-     */
-    public UserList updateUserList(File file) {
-        UserList userTemp = null;
-        try {
-            if (file.exists()) {
-                //Log.d("ADDUSER", "file exists IN MAIN");
-                InputStream inputStream = new FileInputStream(file);
-                String myJson = inputStreamToString(inputStream);
-                userTemp = new Gson().fromJson(myJson, UserList.class);
-                inputStream.close();
-
-                //Log.d("ADDUSER", userList.toString());
-
-                return userTemp;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return userTemp;
-    }
-
-    /**
-     * Loads the users from the users.json file into userlist object using GSON
-     * @return the populated user list
-     */
-    public UserList loadJsonIntoUserList() {
-        try {
-            String myJson = inputStreamToString(getAssets().open("users.json"));
-            UserList userList = new Gson().fromJson(myJson, UserList.class);
-            return userList;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Reads a file using inputstream
-     * @param inputStream a file to read from
-     * @return a string of the read in file
-     */
-    public String inputStreamToString(InputStream inputStream) {
-        try {
-            byte[] bytes = new byte[inputStream.available()];
-            inputStream.read(bytes, 0, bytes.length);
-            String json = new String(bytes);
-            return json;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Checks if username and password that user inputted matches a user profile provided from the json file
-     * @param username The username the user inputted
-     * @param password The password the user inputted
-     * @param userlist The user list which contains all the users
-     * @param v        The view object
-     */
-    public boolean checkCredentials(String username, String password, List<User> userlist, View v) {
-        for (int i = 0; i < userlist.size(); i++) {
-            if (username.equals(userlist.get(i).getUserName()) && password.equals(userlist.get(i).getPassword())) {
-                signIn(v, true);
-                return true;
-            }
-        }
-        return false;
-    }
-
-=======
->>>>>>> Stashed changes
     /**
      * If the user has the correct credentials, then go to main app with bottom navigation
      * @param view The view object
