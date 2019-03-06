@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,31 +62,47 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            JsonObject ret;
+            Proxy proxy = new Proxy();
+            String[] array = {
+                    inputUserName.getText().toString(),
+                    inputPassword.getText().toString()};
+            ret = proxy.synchExecution("SignUp", array);
+            if(!ret.toString().equals("{}")) {
+                signUp(v);
+
+            }
+            else {
+              Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
+            }
+
+
+
                 // Checks if local memory exists
-                if(file.exists()) {
-                    UserList newUserList =  updateUserList(file);
-
-                    userExist = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
-                    //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
-                }
-                else {
-                    userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
-                }
-
-                // Since user does not exist yet, add to local memory
-                if(!userExist){
-                    if(file.exists()) {
-                        UserList newUserList =  updateUserList(file);
-                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", newUserList);
-                    }
-                    else {
-                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
-                    }
-                    signUp(v);
-                }
-                else {
-                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
-                }
+//                if(file.exists()) {
+//                    UserList newUserList =  updateUserList(file);
+//
+//                    userExist = checkUserName(inputUserName.getText().toString(), newUserList.getList(), v);
+//                    //Log.d("ADDUSER", "IN SIGN IN" +newUserList.toString());
+//                }
+//                else {
+//                    userExist = checkUserName(inputUserName.getText().toString(), userList.getList(), v);
+//                }
+//
+//                // Since user does not exist yet, add to local memory
+//                if(!userExist){
+//                    if(file.exists()) {
+//                        UserList newUserList =  updateUserList(file);
+//                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", newUserList);
+//                    }
+//                    else {
+//                        addUser(inputUserName.getText().toString(), inputPassword.getText().toString(), "users.json", userList);
+//                    }
+//                    signUp(v);
+//                }
+//                else {
+//                    Toast.makeText(SignUpActivity.this, "Username already exist, please try another name", Toast.LENGTH_LONG).show();
+//                }
             }
         });
 

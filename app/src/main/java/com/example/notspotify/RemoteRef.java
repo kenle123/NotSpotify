@@ -9,6 +9,11 @@ public class RemoteRef implements RemoteRefInterface {
 
         if(remoteMethod.equals("Login")) {
             //returnJson.addProperty("remoteMethod", "handleSignIn");
+            returnJson.addProperty("object", "SignIn"); // SignIn = classname
+        }
+
+        if(remoteMethod.equals("SignUp")) {
+            //returnJson.addProperty("remoteMethod", "handleSignIn");
             returnJson.addProperty("object", "SignIn");
         }
 

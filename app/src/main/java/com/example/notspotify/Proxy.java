@@ -31,10 +31,17 @@ public class Proxy implements ProxyInterface {
     {
         RemoteRef rr = new RemoteRef();
         JsonObject metadata = rr.getRemoteReference(remoteMethod);
+
 //        JsonObject exe = new JsonObject();
         JsonObject jsonparam = new JsonObject();
-        jsonparam.addProperty("username", param[0]);
-        jsonparam.addProperty("password", param[1]);
+        if (remoteMethod.equals("Login")) {
+            jsonparam.addProperty("username", param[0]);
+            jsonparam.addProperty("password", param[1]);
+        }
+        else if (remoteMethod.equals("SignUp")) {
+            jsonparam.addProperty("username", param[0]);
+            jsonparam.addProperty("password", param[1]);
+        }
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
 //        metadata.addProperty("return", "Integer");
