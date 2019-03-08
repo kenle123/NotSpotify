@@ -1,26 +1,17 @@
 package com.example.notspotify;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
-import com.google.gson.Gson;
+
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 
 /**
@@ -28,7 +19,7 @@ import java.util.ArrayList;
  */
 public class MainActivity extends AppCompatActivity {
 
-    Session session;
+    static Session session;
     boolean login = false;
 
     @Override
@@ -47,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
         final EditText inputPassword = (EditText) findViewById(R.id.text_input_password);
         final Button loginButton = (Button) findViewById(R.id.button_signIn);
 
-        // Get path for local memory
-        final String path = getFilesDir().getAbsolutePath() + "/users.json";
-        final File file = new File(path);
-
         // Button listener for clicking on the log in button
         if (session.getLogin()) {
             Intent intent = new Intent(this, BottomNavActivity.class);
@@ -68,24 +55,26 @@ public class MainActivity extends AppCompatActivity {
                 String[] array = {  inputUserName.getText().toString(),
                                     inputPassword.getText().toString()};
                 ret = proxy.synchExecution("Login", array);
-                if(!ret.toString().equals("{}")) {
+                if(ret.size() > 2) {
                     login = true;
                     session.setUsername(inputUserName.getText().toString());
+                    session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
+                    session.setUser(ret.toString());
                 }
                 else {
                     session.setLoginFalse("Login");
                 }
-                signIn(v, login);
+                signIn(login);
             }
         });
     }
 
     /**
      * If the user has the correct credentials, then go to main app with bottom navigation
-     * @param view The view object
+     *
      */
-    public void signIn(View view, boolean correctInput) {
+    public void signIn(boolean correctInput) {
         if (correctInput) {
             Intent intent = new Intent(this, BottomNavActivity.class);
             startActivity(intent);
@@ -101,5 +90,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToSignUp(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
+    }
+
+    public static Session getSession() {
+        return session;
     }
 }

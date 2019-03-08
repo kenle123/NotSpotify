@@ -31,7 +31,7 @@ public class CommunicationModule implements CommunicationModuleInterface {
             //JSONObject response;
             outPacket = new DatagramPacket(message.getBytes(), message.length(), host, PORT);
             datagramSocket.send(outPacket);
-            buffer = new byte[message.getBytes("utf-8").length];
+            buffer = new byte[65535];
             inPacket = new DatagramPacket(buffer, buffer.length);
             datagramSocket.receive(inPacket);
             response = new Gson().fromJson(new String(inPacket.getData(), 0, inPacket.getLength()), JsonObject.class);

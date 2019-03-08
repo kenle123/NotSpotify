@@ -19,13 +19,10 @@ import java.util.List;
  * Displays all the songs in a playlist
  */
 public class PlaylistSongsActivity extends AppCompatActivity {
-
+    Session session = new Session(this);
     ImageButton backButton;
     ListView listViewPlaylistSongs;
     TextView tv_playlistSongs;
-
-    // Get song list from browse fragment
-    List<SearchModel> songList = BrowseFragment.getSongList();
 
     // Get playlist name and index from library fragment
     List<PlaylistSearchModel> playlist = LibraryFragment.getPlaylist();
@@ -73,13 +70,13 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
         // If the playlist song ID matches the song list ID, add to playlistSongs arraylist
         for(int i = 0; i < playlistSongsBefore.size(); i++) {
-            for(int j = 0; j < songList.size(); j++) {
-                if(playlistSongsBefore.get(i).equals(songList.get(j).getID())) {
-                    playlistSongs.add(songList.get(j).getTitle());
+            for(int j = 0; j < session.getMusicList().size(); j++) {
+                if(playlistSongsBefore.get(i).equals(session.getMusicList().get(j).getSongID())) {
+                    playlistSongs.add(session.getMusicList().get(j).getSongTitle());
 
                     // Store title and id into arraylists to use in onclick function
-                    title.add(songList.get(j).getTitle());
-                    identification.add(songList.get(j).getID());
+                    title.add(session.getMusicList().get(j).getSongTitle());
+                    identification.add(session.getMusicList().get(j).getSongID());
                 }
             }
         }
