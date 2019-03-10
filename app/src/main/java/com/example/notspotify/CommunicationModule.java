@@ -34,6 +34,8 @@ public class CommunicationModule implements CommunicationModuleInterface {
         catch(SocketException e)
         {
             Log.d("Exception", "CM DS constructor");
+            Log.d("Exception", "CM DS constructor");
+
         }
         catch(UnknownHostException e)
         {
