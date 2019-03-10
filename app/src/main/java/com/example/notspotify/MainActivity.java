@@ -19,7 +19,7 @@ import com.google.gson.JsonObject;
  */
 public class MainActivity extends AppCompatActivity {
 
-    static Session session;
+    private static Session session;
     boolean login = false;
 
     @Override
@@ -50,17 +50,15 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JsonObject ret;
                 Proxy proxy = new Proxy();
-                String[] array = {  inputUserName.getText().toString(),
-                                    inputPassword.getText().toString()};
-                ret = proxy.synchExecution("Login", array);
+                String[] array = {  session.getUsername(),
+                        session.getPassword()};
+                JsonObject ret = proxy.synchExecution("Login", array);
                 if(ret.size() > 2) {
                     login = true;
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
-                    session.setUser(ret.toString());
                 }
                 else {
                     session.setLoginFalse("Login");

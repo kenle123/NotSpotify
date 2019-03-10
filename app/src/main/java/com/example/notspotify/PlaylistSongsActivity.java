@@ -70,13 +70,13 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
         // If the playlist song ID matches the song list ID, add to playlistSongs arraylist
         for(int i = 0; i < playlistSongsBefore.size(); i++) {
-            for(int j = 0; j < session.getMusicList().size(); j++) {
-                if(playlistSongsBefore.get(i).equals(session.getMusicList().get(j).getSongID())) {
-                    playlistSongs.add(session.getMusicList().get(j).getSongTitle());
+            for(int j = 0; j < BrowseFragment.getMusicList().size(); j++) {
+                if(playlistSongsBefore.get(i).equals(BrowseFragment.getMusicList().get(j).getSongID())) {
+                    playlistSongs.add(BrowseFragment.getMusicList().get(j).getSongTitle());
 
                     // Store title and id into arraylists to use in onclick function
-                    title.add(session.getMusicList().get(j).getSongTitle());
-                    identification.add(session.getMusicList().get(j).getSongID());
+                    title.add(BrowseFragment.getMusicList().get(j).getSongTitle());
+                    identification.add(BrowseFragment.getMusicList().get(j).getSongID());
                 }
             }
         }

@@ -12,18 +12,11 @@ import com.google.gson.Gson;
  */
 public class Session  {
     private SharedPreferences pref;
-    private MusicList musicList;
     private User user;
     private static MediaPlayer mp;
 
     public Session(Context cntx) {
         pref = PreferenceManager.getDefaultSharedPreferences(cntx);
-    }
-    public void setMusicList(String jObj) {
-        musicList = new Gson().fromJson(jObj, MusicList.class);
-    }
-    public MusicList getMusicList() {
-        return musicList;
     }
     public void setUser(String jObj) {
         user = new Gson().fromJson(jObj, User.class);
