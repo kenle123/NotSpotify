@@ -14,9 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +34,7 @@ public class BrowseFragment extends Fragment {
         // Required empty constructor
     }
 
+    MusicList musicList;
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String mSongTitle;
     private static String mSongID;
@@ -47,11 +48,22 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Proxy proxy = new Proxy();
+        JsonObject ret;
+        JsonArray jArray = new JsonArray();
+        JsonObject jObj = new JsonObject();
+        String[] array2 = {"0"};
+        do {
+            ret = proxy.synchExecution("returnSongs", array2);
+            jArray.addAll(ret.get("musiclist").getAsJsonArray());
+            array2[0] = ret.get("currentIndex").getAsString();
+        } while(ret.get("keepPulling").getAsString().equals("true"));
+        jObj.add("music",jArray);
+        musicList = new Gson().fromJson(jObj.toString(), MusicList.class);
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
-
-        // MusicList variable to hold the music information
-        final MusicList musicList = loadJsonIntoMusicList();
 
         // Whenever user clicks on search button, will open on click listener to search for a song/artist
         view.findViewById(R.id.button_search).setOnClickListener(new View.OnClickListener() {
@@ -96,7 +108,7 @@ public class BrowseFragment extends Fragment {
             }
         });
 
-        // Dislays all the songs that are all playable but not searchable(have to use search button)
+        // Displays all the songs that are all playable but not searchable(have to use search button)
         listView = view.findViewById(R.id.list_view);
         List<Music> musicList2 = musicList.getList();
 
@@ -142,38 +154,6 @@ public class BrowseFragment extends Fragment {
             }
         });
         return view;
-    }
-
-    /**
-     * Loads the music from the music.json file into musicList object using GSON
-     * @return the populatd music list
-     */
-    public MusicList loadJsonIntoMusicList()
-    {
-        try {
-            String myJson = inputStreamToString(getActivity().getAssets().open("music.json"));
-            MusicList musicList  = new Gson().fromJson(myJson, MusicList.class);
-            return musicList;
-        }
-        catch (IOException e) {
-            return null;
-        }
-    }
-
-    /**
-     * Reads a file using inputstream
-     * @param inputStream a file to read from
-     * @return a string of the read in file
-     */
-    public String inputStreamToString(InputStream inputStream) {
-        try {
-            byte[] bytes = new byte[inputStream.available()];
-            inputStream.read(bytes, 0, bytes.length);
-            String json = new String(bytes);
-            return json;
-        } catch (IOException e) {
-            return null;
-        }
     }
 
     /**

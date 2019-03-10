@@ -17,6 +17,9 @@ public class RemoteRef implements RemoteRefInterface {
             returnJson.addProperty("object", "SignIn");
         }
 
+        if(remoteMethod.equals("returnSongs"))
+            returnJson.addProperty("object", "MusicList");
+
         return returnJson;
     }
 }

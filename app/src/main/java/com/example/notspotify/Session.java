@@ -2,29 +2,34 @@ package com.example.notspotify;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 
-import android.support.v7.app.AppCompatActivity;
 import com.google.gson.Gson;
-
-import android.os.Bundle;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * Session object to keep track of global variables
  */
 public class Session  {
     private SharedPreferences pref;
-
+    private MusicList musicList;
+    private User user;
     private static MediaPlayer mp;
 
     public Session(Context cntx) {
-
         pref = PreferenceManager.getDefaultSharedPreferences(cntx);
+    }
+    public void setMusicList(String jObj) {
+        musicList = new Gson().fromJson(jObj, MusicList.class);
+    }
+    public MusicList getMusicList() {
+        return musicList;
+    }
+    public void setUser(String jObj) {
+        user = new Gson().fromJson(jObj, User.class);
+    }
+    public User getUser() {
+        return user;
     }
     public void setLoginTrue(String login) {
         pref.edit().putBoolean("Login", true).apply();

@@ -76,14 +76,13 @@ public class LibraryFragment extends Fragment {
         // Get username from session
         session = new Session(getActivity());
         username = session.getUsername();
-        final MusicList musicList = loadJsonIntoMusicList();
+        MusicList musicList = loadJsonIntoMusicList();
 
         // Get path for local memory
         path = view.getContext().getFilesDir().getAbsolutePath() + "/playlists.json";
         file = new File(path);
 
         // Get current user's username and set the text to {Username} playlist as header
-        Session session = new Session(getActivity());
         mPlaylistUser = view.findViewById(R.id.textview_playlists);
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 

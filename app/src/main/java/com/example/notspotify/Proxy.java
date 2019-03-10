@@ -51,6 +51,9 @@ public class Proxy implements ProxyInterface {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("password", param[1]);
         }
+        else if (remoteMethod.equals("returnSongs")) {
+            jsonparam.addProperty("s", param[0]);
+        }
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
 //        metadata.addProperty("return", "Integer");
