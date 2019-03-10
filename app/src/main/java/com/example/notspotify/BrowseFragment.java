@@ -33,8 +33,8 @@ public class BrowseFragment extends Fragment {
     public BrowseFragment() {
         // Required empty constructor
     }
-
-    MusicList musicList;
+    private static Session session = MainActivity.getSession();
+    private static MusicList musicList;
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String mSongTitle;
     private static String mSongID;
@@ -48,19 +48,10 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Proxy proxy = new Proxy();
-        JsonObject ret;
-        JsonArray jArray = new JsonArray();
-        JsonObject jObj = new JsonObject();
-        String[] array2 = {"0"};
-        do {
-            ret = proxy.synchExecution("returnSongs", array2);
-            jArray.addAll(ret.get("musiclist").getAsJsonArray());
-            array2[0] = ret.get("currentIndex").getAsString();
-        } while(ret.get("keepPulling").getAsString().equals("true"));
-        jObj.add("music",jArray);
-        musicList = new Gson().fromJson(jObj.toString(), MusicList.class);
-
+        if (musicList == null)
+            musicList = getMusicListFromServer();
+        if (session.getUser() == null)
+            session.setUser(getUserFromServer());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
@@ -154,6 +145,31 @@ public class BrowseFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public static MusicList getMusicListFromServer() {
+        Proxy proxy = new Proxy();
+        JsonObject ret;
+        JsonArray jArray = new JsonArray();
+        JsonObject jObj = new JsonObject();
+        String[] array2 = {"0"};
+        do {
+            ret = proxy.synchExecution("returnSongs", array2);
+            jArray.addAll(ret.get("musiclist").getAsJsonArray());
+            array2[0] = ret.get("currentIndex").getAsString();
+        } while(ret.get("keepPulling").getAsString().equals("true"));
+        jObj.add("music",jArray);
+        return new Gson().fromJson(jObj.toString(), MusicList.class);
+    }
+    public static String getUserFromServer() {
+        Proxy proxy = new Proxy();
+        String[] array = {  session.getUsername(),
+                            session.getPassword()    };
+        JsonObject ret = proxy.synchExecution("Login", array);
+        return ret.get("user").getAsJsonObject().toString();
+    }
+    public static MusicList getMusicList() {
+        return musicList;
     }
 
     /**

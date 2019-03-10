@@ -58,7 +58,7 @@ public class Proxy implements ProxyInterface {
         metadata.add("param", jsonparam);
 //        metadata.addProperty("return", "Integer");
         metadata.addProperty("requestID", Integer.toString(requestID));
-        metadata.addProperty("call-semantics", "at-most-one");
+        metadata.addProperty("call-semantics", "maybe");
 //        exe.add("execute", metadata);
 
         cm.send(metadata);

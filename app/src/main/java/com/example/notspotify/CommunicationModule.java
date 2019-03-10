@@ -25,7 +25,7 @@ public class CommunicationModule implements CommunicationModuleInterface {
         try
         {
             datagramSocket = new DatagramSocket();
-            host = InetAddress.getByName("192.168.43.241");
+            host = InetAddress.getByName("10.0.2.2");
             datagramSocket.setSoTimeout(200);   // set the timeout in millisecounds.
 
 
@@ -44,13 +44,10 @@ public class CommunicationModule implements CommunicationModuleInterface {
     }
 
     public void send(JsonObject request) {
-        //DatagramSocket datagramSocket;
         DatagramPacket outPacket;
         try {
 
             String message = request.toString();
-
-            //Log.d("RETCM", "call semantic check");
 
             String callSemantic = ((request).get("call-semantics").getAsString());
 
@@ -119,7 +116,6 @@ public class CommunicationModule implements CommunicationModuleInterface {
     public JsonObject receive() throws SocketTimeoutException
 
     {
-//        String callSem = temp.get("execute").getAsJsonObject().get("call-semantics").getAsString();
 
         DatagramPacket inPacket;
         JsonObject response = null;
@@ -127,7 +123,7 @@ public class CommunicationModule implements CommunicationModuleInterface {
         try {
 
             //MAX to be received
-            buffer = new byte[256];
+            buffer = new byte[65000];
             inPacket = new DatagramPacket(buffer, buffer.length);
             datagramSocket.receive(inPacket);
             response = new Gson().fromJson(new String(inPacket.getData(), 0, inPacket.getLength()), JsonObject.class);
@@ -141,20 +137,8 @@ public class CommunicationModule implements CommunicationModuleInterface {
         return response;
 
     }
-
-    public DatagramSocket getDatagramSocket() {
-        return datagramSocket;
-    }
-
     public JsonObject getRet()
     {
         return ret;
     }
-
-
-    //public DatagramSocket toServer(JsonObject j) {
-
-    //}
-
-
 }
