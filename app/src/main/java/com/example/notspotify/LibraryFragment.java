@@ -39,7 +39,6 @@ public class LibraryFragment extends Fragment {
     TextView mPlaylistUser;
 
     static Session session = MainActivity.getSession();
-    MusicList musicList;
     String username;
 
     Button addPlaylistButton;
@@ -70,7 +69,6 @@ public class LibraryFragment extends Fragment {
 
         // Get username from session
         username = session.getUsername();
-        MusicList musicList = BrowseFragment.getMusicList();
 
         // Get path for local memory
         // Get current user's username and set the text to {Username} playlist as header
