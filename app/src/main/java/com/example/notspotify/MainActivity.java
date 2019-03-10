@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
-
     public static Session getSession() {
         return session;
     }

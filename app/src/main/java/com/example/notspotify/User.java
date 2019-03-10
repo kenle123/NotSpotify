@@ -40,6 +40,16 @@ public class User implements Serializable {
             }
             return ret;
         }
+        public String getSongsAsString() {
+            String ret = "";
+            for (int i = 0; i < size(); i++) {
+                if (i == size()-1)
+                    ret += get(i);
+                else
+                    ret += get(i) + ",";
+            }
+            return ret;
+        }
         public void addSong(String sID) {
             songIDs.add(new Song(sID));
         }

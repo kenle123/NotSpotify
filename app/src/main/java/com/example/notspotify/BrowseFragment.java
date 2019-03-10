@@ -33,7 +33,7 @@ public class BrowseFragment extends Fragment {
     public BrowseFragment() {
         // Required empty constructor
     }
-    private static Session session;
+    private static Session session = MainActivity.getSession();
     private static MusicList musicList;
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String mSongTitle;
@@ -48,11 +48,10 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        session = MainActivity.getSession();
-        if (session.getUser() == null)
-            session.setUser(getUserFromServer());
         if (musicList == null)
             musicList = getMusicListFromServer();
+        if (session.getUser() == null)
+            session.setUser(getUserFromServer());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
@@ -165,9 +164,9 @@ public class BrowseFragment extends Fragment {
     public static String getUserFromServer() {
         Proxy proxy = new Proxy();
         String[] array = {  session.getUsername(),
-                session.getPassword()};
+                            session.getPassword()    };
         JsonObject ret = proxy.synchExecution("Login", array);
-        return ret.toString();
+        return ret.get("user").getAsJsonObject().toString();
     }
     public static MusicList getMusicList() {
         return musicList;
