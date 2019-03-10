@@ -8,6 +8,7 @@ package com.example.notspotify;
  * @since   2019-01-24
  */
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.example.notspotify.CommunicationModule;
@@ -15,9 +16,17 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+
 
 public class Proxy implements ProxyInterface {
     CommunicationModule cm;
+    private static int requestID = 1;
     public Proxy()
     {
         cm = new CommunicationModule();
@@ -45,11 +54,40 @@ public class Proxy implements ProxyInterface {
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
 //        metadata.addProperty("return", "Integer");
-        metadata.addProperty("requestID", "123456");
-        metadata.addProperty("call-semantics", "maybe");
+        metadata.addProperty("requestID", Integer.toString(requestID));
+        metadata.addProperty("call-semantics", "at-most-one");
 //        exe.add("execute", metadata);
 
-        JsonObject ret = cm.send(metadata);
+        cm.send(metadata);
+        requestID += 1;
+        //Log.d("RETCM", "sent");
+        JsonObject ret = null;
+
+
+
+
+//                try {
+//                    ret = cm.receive();
+//                    //Log.d("RETCM", "right after" +ret.toString());
+//
+//                    //String rcvd = "rcvd from " + dp.getAddress() + ", " + dp.getPort() + ": "+ new String(dp.getData(), 0, dp.getLength());
+//                    //System.out.println(rcvd);
+//                }
+//                catch (SocketTimeoutException e) {
+//                    // timeout exception.
+//                   Log.d("RETCM", "Timeout achieved");
+//                    cm.getDatagramSocket().close();
+//                }
+
+        ret = cm.getRet();
+
+
+
+
+
+
+        //JsonObject ret = cm.receive();
+        //Log.d("RETCM", ret.toString());
         return ret;
 
 
@@ -92,6 +130,10 @@ public class Proxy implements ProxyInterface {
     {
         return;
     }
+
+
+
+
 }
 
 

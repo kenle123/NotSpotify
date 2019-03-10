@@ -1,7 +1,12 @@
 package com.example.notspotify;
 
+import android.provider.ContactsContract;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import java.net.DatagramSocket;
+import java.net.SocketTimeoutException;
 
 
 public interface CommunicationModuleInterface {
@@ -42,7 +47,9 @@ public interface CommunicationModuleInterface {
 * given at compilation time, for example 2) times. It blocks until 
 * it completes or fails (through an exception)
 */ 
-    JsonObject send(JsonObject request);
+    void send(JsonObject request);
+
+    JsonObject receive() throws SocketTimeoutException;
 }
 
 
