@@ -55,12 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 String[] array = {  inputUserName.getText().toString(),
                                     inputPassword.getText().toString()};
                 ret = proxy.synchExecution("Login", array);
-                if(ret.size() > 2) {
+                if(ret.size() > 0) {
                     login = true;
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
                     session.setLoginTrue("Login");
-                    session.setUser(ret.toString());
                 }
                 else {
                     session.setLoginFalse("Login");
