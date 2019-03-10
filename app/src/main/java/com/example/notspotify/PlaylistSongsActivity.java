@@ -19,7 +19,8 @@ import java.util.List;
  * Displays all the songs in a playlist
  */
 public class PlaylistSongsActivity extends AppCompatActivity {
-    Session session = new Session(this);
+    static Session session = MainActivity.getSession();
+    MusicList musicList = BrowseFragment.getMusicList();
     ImageButton backButton;
     ListView listViewPlaylistSongs;
     TextView tv_playlistSongs;
@@ -70,13 +71,13 @@ public class PlaylistSongsActivity extends AppCompatActivity {
 
         // If the playlist song ID matches the song list ID, add to playlistSongs arraylist
         for(int i = 0; i < playlistSongsBefore.size(); i++) {
-            for(int j = 0; j < session.getMusicList().size(); j++) {
-                if(playlistSongsBefore.get(i).equals(session.getMusicList().get(j).getSongID())) {
-                    playlistSongs.add(session.getMusicList().get(j).getSongTitle());
+            for(int j = 0; j < musicList.size(); j++) {
+                if(playlistSongsBefore.get(i).equals(musicList.get(j).getSongID())) {
+                    playlistSongs.add(musicList.get(j).getSongTitle());
 
                     // Store title and id into arraylists to use in onclick function
-                    title.add(session.getMusicList().get(j).getSongTitle());
-                    identification.add(session.getMusicList().get(j).getSongID());
+                    title.add(musicList.get(j).getSongTitle());
+                    identification.add(musicList.get(j).getSongID());
                 }
             }
         }

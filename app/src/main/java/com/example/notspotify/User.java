@@ -40,6 +40,16 @@ public class User implements Serializable {
             }
             return ret;
         }
+        public String getSongIDsAsString() {
+            String ret = "";
+            for (int i = 0; i < getPlaylistSongIDs().size(); i++) {
+                if (i == getPlaylistSongIDs().size() - 1)
+                    ret += getPlaylistSongIDs().get(i);
+                else
+                    ret += getPlaylistSongIDs().get(i) + ",";
+            }
+            return ret;
+        }
         public void addSong(String sID) {
             songIDs.add(new Song(sID));
         }
@@ -67,7 +77,6 @@ public class User implements Serializable {
         password = pw;
         listOfPlaylists = new ArrayList<Playlist>();
     }
-
     public void setUserName(String name)
     {
         this.username = name;

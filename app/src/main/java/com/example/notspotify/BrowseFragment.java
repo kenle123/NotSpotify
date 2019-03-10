@@ -50,8 +50,7 @@ public class BrowseFragment extends Fragment {
                              Bundle savedInstanceState) {
         if (musicList == null)
             musicList = getMusicListFromServer();
-        if (session.getUser() == null)
-            session.setUser(getUserFromServer());
+        session.setUser(getUserFromServer());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
