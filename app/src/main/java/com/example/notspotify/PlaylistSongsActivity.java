@@ -114,7 +114,6 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 deleteSongFromPlaylist(playlist.get(playlistUserClickedOn).getPlaylistName());
 //                LibraryFragment lf = new LibraryFragment();
 //                lf.refreshFrag();
-                //getSupportFragmentManager().beginTransaction().detach(new LibraryFragment()).attach(new LibraryFragment()).commit();
                 return true;
             }
         });
