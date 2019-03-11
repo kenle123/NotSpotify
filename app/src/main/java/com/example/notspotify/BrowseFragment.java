@@ -163,10 +163,9 @@ public class BrowseFragment extends Fragment {
     }
     public static String getUserFromServer() {
         Proxy proxy = new Proxy();
-        String[] array = {  session.getUsername(),
-                            session.getPassword()    };
-        JsonObject ret = proxy.synchExecution("Login", array);
-        return ret.get("user").getAsJsonObject().toString();
+        String[] array = {  session.getUsername()   };
+        JsonObject ret = proxy.synchExecution("getUser", array);
+        return ret.toString();
     }
     public static MusicList getMusicList() {
         return musicList;

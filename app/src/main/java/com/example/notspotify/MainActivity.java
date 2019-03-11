@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     login = true;
                     session.setUsername(inputUserName.getText().toString());
                     session.setPassword(inputPassword.getText().toString());
+                    session.setUser(getUserFromServer());
                     session.setLoginTrue("Login");
                 }
                 else {
@@ -80,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Username or password is incorrect", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public static String getUserFromServer() {
+        Proxy proxy = new Proxy();
+        String[] array = {  session.getUsername()   };
+        JsonObject ret = proxy.synchExecution("getUser", array);
+        return ret.toString();
     }
 
     /**
