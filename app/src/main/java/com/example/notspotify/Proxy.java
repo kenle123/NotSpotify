@@ -46,10 +46,12 @@ public class Proxy implements ProxyInterface {
             jsonparam.addProperty("playlistName", param[1]);
         }
         else if (   remoteMethod.equals("addSongToPlaylist") ||
-                remoteMethod.equals("deleteSongFromPlaylist")   ) {
+                    remoteMethod.equals("deleteSongFromPlaylist")   ) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("playlistName", param[1]);
+            jsonparam.addProperty("songID", param[2]);
         }
+
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
         metadata.addProperty("requestID", Integer.toString(requestID));
