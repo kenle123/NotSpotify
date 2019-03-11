@@ -20,7 +20,8 @@ public class RemoteRef implements RemoteRefInterface {
         if(remoteMethod.equals("returnSongs"))
             returnJson.addProperty("object", "MusicList");
 
-        if(     remoteMethod.equals("addPlaylist") ||
+        if(     remoteMethod.equals("getUser") ||
+                remoteMethod.equals("addPlaylist") ||
                 remoteMethod.equals("deletePlaylist") ||
                 remoteMethod.equals("addSongToPlaylist") ||
                 remoteMethod.equals("deleteSongFromPlaylist")   )
