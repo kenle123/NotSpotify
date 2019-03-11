@@ -89,4 +89,11 @@
             android:layout_height="26dp"
             android:src="@drawable/sound2"/>
     </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/playActivity_addToAPlaylist"
+        android:id="@+id/playActivity_addSongToPlaylist"
+        android:layout_marginTop="40dp"/>
 </LinearLayout>

@@ -23,4 +23,7 @@
     <!--Strings related to DialogAddPlaylistActivity-->
     <string name="addPlaylisthint_dialogaddplaylist">Name of Playlist to Add</string>
     <string name="cancelAddingPlaylist">Cancel</string>
+
+    <!--Strings related to Play Activity-->
+    <string name="playActivity_addToAPlaylist">Add to Playlist</string>
 </resources>

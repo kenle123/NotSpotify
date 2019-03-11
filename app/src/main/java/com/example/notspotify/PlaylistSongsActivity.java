@@ -1,15 +1,20 @@
 package com.example.notspotify;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -99,7 +104,34 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        listViewPlaylistSongs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                songTitle2 = title.get(i);
+                songID2 = identification.get(i);
+                Toast.makeText(PlaylistSongsActivity.this, "Deleted " + songTitle2 + " from " + playlist.get(playlistUserClickedOn).getPlaylistName(), Toast.LENGTH_LONG).show();
+                deleteSongFromPlaylist(playlist.get(playlistUserClickedOn).getPlaylistName());
+//                LibraryFragment lf = new LibraryFragment();
+//                lf.refreshFrag();
+                //getSupportFragmentManager().beginTransaction().detach(new LibraryFragment()).attach(new LibraryFragment()).commit();
+                return true;
+            }
+        });
     }
+
+    /**
+     * Deletes a song from a playlist
+     */
+    public void deleteSongFromPlaylist(String pName) {
+        Proxy proxy = new Proxy();
+        String[] array = {  session.getUsername(),
+                            pName,
+                            songID2                  };
+        JsonObject ret = proxy.synchExecution("deleteSongFromPlaylist", array);
+        session.setUser(ret.toString());
+    }
+
 
     // Getters for the song variables
     public static String getSongTitle() { return songTitle2; }

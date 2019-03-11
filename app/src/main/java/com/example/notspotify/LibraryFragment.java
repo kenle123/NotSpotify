@@ -196,6 +196,12 @@ public class LibraryFragment extends Fragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
+
+//    public void refreshFrag() {
+//        FragmentTransaction ft =  getFragmentManager().beginTransaction();
+//        ft.detach(LibraryFragment.this).attach(LibraryFragment.this).commit();
+//    }
+
     // Getters for playlist information
     public static List<PlaylistSearchModel> getPlaylist() { return playlist; }
     public static int getPlaylistUserClickedOn() { return playlistUserClickedOn; }

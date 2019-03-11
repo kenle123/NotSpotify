@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +29,7 @@ public class PlayActivity extends AppCompatActivity {
 
     TextView artistAndSongName;
     ImageButton backBtn;
+    Button addToPlaylistBtn;
 
     // Get song title and song ID from Browse Fragment
     String songTitle = BrowseFragment.getSongTitle();
@@ -50,6 +52,7 @@ public class PlayActivity extends AppCompatActivity {
 
         artistAndSongName = findViewById(R.id.artist_songname);
         backBtn = findViewById(R.id.button_back);
+        addToPlaylistBtn = findViewById(R.id.playActivity_addSongToPlaylist);
 
         // On click listener for back button
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,15 @@ public class PlayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 playBtnClick(v,session);
+            }
+        });
+
+        // On click listener for when user adds the song to the playlist
+        addToPlaylistBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PlayActivity.this, DialogActivity.class);
+                startActivity(intent);
             }
         });
 
