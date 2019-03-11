@@ -107,7 +107,7 @@ public class LibraryFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int is) {
-                                //TODO: put deleteplaylist function here
+                                deletePlaylist(playlist.get(playlistUserClickedOn_LibraryFragment).getPlaylistName());
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -165,7 +165,7 @@ public class LibraryFragment extends Fragment {
                     listView.setVisibility(View.VISIBLE);
                     addPlaylistButton.setVisibility(View.VISIBLE);
                 }
-                //TODO: add playlist here
+                addPlayList(nameToAddString);
             }
         });
         return view;
@@ -173,49 +173,26 @@ public class LibraryFragment extends Fragment {
 
     /**
      * Add a playlist
-     * @param p The playlists the user has
      */
-    public void addPlayList(PlaylistHandler p) {
-        p.getUserPlaylist(username).addPlaylist(nameToAddString);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String strJson = gson.toJson(p);
-        String fileContents = strJson;
-        //Log.d("ADDPLAYLIST", p.getUserPlaylist(username).toString());
-        try {
-            String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
-            File file = new File(filePath);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(strJson.getBytes());
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void addPlayList(String pName) {
+        Proxy proxy = new Proxy();
+        String[] array = {  session.getUsername(),
+                            pName                   };
+        JsonObject ret = proxy.synchExecution("addPlaylist", array);
+        session.setUser(ret.toString());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }
 
     /**
      * Delete a playlist
-     * @param p The playlists the user has
-     * @param i The index of the playlist to delete
      */
-    public void deletePlaylist(PlaylistHandler p, int i) {
-        p.getUserPlaylist(username).deletePlaylist(i);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String strJson = gson.toJson(p);
-        String fileContents = strJson;
-        //Log.d("DELETEPLAYLIST", p.getUserPlaylist(username).toString());
-        try {
-            String filePath = getActivity().getFilesDir().getAbsolutePath() + "/playlists.json";
-            File file = new File(filePath);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
-            fileOutputStream.write(strJson.getBytes());
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void deletePlaylist(String pName) {
+        Proxy proxy = new Proxy();
+        String[] array = {  session.getUsername(),
+                            pName                   };
+        JsonObject ret = proxy.synchExecution("deletePlaylist", array);
+        session.setUser(ret.toString());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
     }

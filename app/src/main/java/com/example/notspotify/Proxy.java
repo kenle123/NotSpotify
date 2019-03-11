@@ -8,20 +8,7 @@ package com.example.notspotify;
  * @since   2019-01-24
  */
 
-import android.provider.ContactsContract;
-import android.util.Log;
-
-import com.example.notspotify.CommunicationModule;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 
 
 public class Proxy implements ProxyInterface {
@@ -41,7 +28,6 @@ public class Proxy implements ProxyInterface {
         RemoteRef rr = new RemoteRef();
         JsonObject metadata = rr.getRemoteReference(remoteMethod);
 
-//        JsonObject exe = new JsonObject();
         JsonObject jsonparam = new JsonObject();
         if (remoteMethod.equals("Login")) {
             jsonparam.addProperty("username", param[0]);
@@ -54,73 +40,26 @@ public class Proxy implements ProxyInterface {
         else if (remoteMethod.equals("returnSongs")) {
             jsonparam.addProperty("s", param[0]);
         }
+        else if (   remoteMethod.equals("addPlaylist") ||
+                    remoteMethod.equals("deletePlaylist")   ) {
+            jsonparam.addProperty("username", param[0]);
+            jsonparam.addProperty("playlistName", param[1]);
+        }
+        else if (   remoteMethod.equals("addSongToPlaylist") ||
+                remoteMethod.equals("deleteSongFromPlaylist")   ) {
+            jsonparam.addProperty("username", param[0]);
+            jsonparam.addProperty("playlistName", param[1]);
+        }
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
-//        metadata.addProperty("return", "Integer");
         metadata.addProperty("requestID", Integer.toString(requestID));
         metadata.addProperty("call-semantics", "maybe");
-//        exe.add("execute", metadata);
 
         cm.send(metadata);
         requestID += 1;
-        //Log.d("RETCM", "sent");
-        JsonObject ret = null;
+        JsonObject ret = cm.getRet();
 
-
-
-
-//                try {
-//                    ret = cm.receive();
-//                    //Log.d("RETCM", "right after" +ret.toString());
-//
-//                    //String rcvd = "rcvd from " + dp.getAddress() + ", " + dp.getPort() + ": "+ new String(dp.getData(), 0, dp.getLength());
-//                    //System.out.println(rcvd);
-//                }
-//                catch (SocketTimeoutException e) {
-//                    // timeout exception.
-//                   Log.d("RETCM", "Timeout achieved");
-//                    cm.getDatagramSocket().close();
-//                }
-
-        ret = cm.getRet();
-
-
-
-
-
-
-        //JsonObject ret = cm.receive();
-        //Log.d("RETCM", ret.toString());
         return ret;
-
-
-//        JsonObject temp = new Gson().fromJson(exe.toString(),JsonObject.class);
-//        Log.d("Json", temp.get("execute").getAsJsonObject().get("param").getAsJsonObject().get("username").getAsString());
-
-//        JsonObject jsonRequest = new JsonObject();
-//        JsonObject jsonParam = new JsonObject();
-//
-//        jsonRequest.addProperty("remoteMethod", remoteMethod);
-//        jsonRequest.addProperty("objectName", "SongServices");
-        // It is hardcoded. Instead it should be dynamic using  RemoteRef
-//        if (remoteMethod.equals("getSongChunk"))
-//        {
-//
-//            jsonParam.addProperty("song", param[0]);
-//            jsonParam.addProperty("fragment", param[1]);
-//
-//        }
-//        if (remoteMethod.equals("getFileSize"))
-//        {
-//            jsonParam.addProperty("song", param[0]);
-//        }
-//        jsonRequest.add("param", jsonParam);
-
-//        JsonParser parser = new JsonParser();
-//        String strRet =  this.dispacher.dispatch(jsonRequest.toString());
-
-//        return parser.parse(strRet).getAsJsonObject();
-//        return null;
     }
 
     /*
