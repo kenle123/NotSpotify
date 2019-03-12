@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
 /**
  * Dialog box which appears when user clicks on a song to add to a playlist
  */
@@ -31,6 +33,8 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
 
     // The string name of the song to add to the playlist
     String stringOfPlaylistToAddSongTo;
+
+    List<PlaylistSearchModel> playlist = LibraryFragment.getPlaylist();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,12 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(DialogActivity.this, songTitle + " was added to the playlist " + stringOfPlaylistToAddSongTo, Toast.LENGTH_LONG).show();
             }
         }
+
+        // Refresh playlist so when user adds the song, it appears right after
+        LibraryFragment.populatePlaylist();
+        playlist = LibraryFragment.getPlaylist();
+        finish();
+        startActivity(getIntent());
     }
 
     /**

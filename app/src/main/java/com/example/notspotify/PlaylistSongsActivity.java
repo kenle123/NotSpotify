@@ -1,7 +1,7 @@
 package com.example.notspotify;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,7 +88,7 @@ public class PlaylistSongsActivity extends AppCompatActivity {
         }
 
         // Array adapter needed to display the listview
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, playlistSongs);
+        final ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, playlistSongs);
         listViewPlaylistSongs.setAdapter(arrayAdapter);
 
         // On click listener when user clicks on a song in a playlist
@@ -116,8 +116,6 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 playlist = LibraryFragment.getPlaylist();
                 finish();
                 startActivity(getIntent());
-//                LibraryFragment lf = new LibraryFragment();
-//                lf.refreshFrag();
                 return true;
             }
         });
