@@ -38,7 +38,8 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // Create new session
-        session = new Session(getActivity());
+        //session = new Session(getActivity());
+        session = MainActivity.getSession();
 
         // Get and set username
         mUsername = view.findViewById(R.id.tvName);
@@ -58,6 +59,8 @@ public class ProfileFragment extends Fragment {
                     }
                 }
                 session.setLoginFalse("Login");
+//                session.setUsername(null);
+//                session.setPassword(null);
 
                 // Call intent to go back to sign up page
                 Intent intent = new Intent(getActivity(), MainActivity.class);

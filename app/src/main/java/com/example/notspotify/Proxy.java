@@ -32,16 +32,20 @@ public class Proxy implements ProxyInterface {
         if (remoteMethod.equals("Login")) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("password", param[1]);
+            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("getUser")) {
             jsonparam.addProperty("username", param[0]);
+            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("SignUp")) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("password", param[1]);
+            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("returnSongs")) {
             jsonparam.addProperty("s", param[0]);
+            jsonparam.addProperty("call-semantics", "at-most-one");
         }
         else if (   remoteMethod.equals("addPlaylist") ||
                     remoteMethod.equals("deletePlaylist")   ) {
