@@ -32,31 +32,31 @@ public class Proxy implements ProxyInterface {
         if (remoteMethod.equals("Login")) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("password", param[1]);
-            jsonparam.addProperty("call-semantics", "maybe");
+//            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("getUser")) {
             jsonparam.addProperty("username", param[0]);
-            jsonparam.addProperty("call-semantics", "maybe");
+//            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("SignUp")) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("password", param[1]);
-            jsonparam.addProperty("call-semantics", "maybe");
+//            jsonparam.addProperty("call-semantics", "maybe");
         }
         else if (remoteMethod.equals("returnSongs")) {
             jsonparam.addProperty("s", param[0]);
-            jsonparam.addProperty("call-semantics", "at-most-one");
+//            jsonparam.addProperty("call-semantics", "at-most-one");
         }
         else if (   remoteMethod.equals("addPlaylist") ||
                     remoteMethod.equals("deletePlaylist")   ) {
             jsonparam.addProperty("username", param[0]);
-            jsonparam.addProperty("playlistName", param[1]);
+//            jsonparam.addProperty("playlistName", param[1]);
         }
         else if (   remoteMethod.equals("addSongToPlaylist") ||
                     remoteMethod.equals("deleteSongFromPlaylist")   ) {
             jsonparam.addProperty("username", param[0]);
             jsonparam.addProperty("playlistName", param[1]);
-            jsonparam.addProperty("songID", param[2]);
+//            jsonparam.addProperty("songID", param[2]);
         }
         else if (remoteMethod.equals("SongHandler")) {
             jsonparam.addProperty("songID", param[0]);

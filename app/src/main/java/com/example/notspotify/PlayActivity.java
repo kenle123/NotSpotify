@@ -2,25 +2,27 @@ package com.example.notspotify;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.JsonObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Arrays;
 
 public class PlayActivity extends AppCompatActivity {
 
     // MediaPlayer
-    private static MediaPlayer mp;
+    private static MediaPlayer mp = new MediaPlayer();
     Button playBtn;
     SeekBar positionBar;
     SeekBar volumeBar;
@@ -38,13 +40,14 @@ public class PlayActivity extends AppCompatActivity {
 
     // Session
     Session session;
+    byte[] mp3Sound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        session = new Session(getApplicationContext());
+        session = MainActivity.getSession();
 
         // Bind media player variables
         playBtn = findViewById(R.id.playBtn);
@@ -66,24 +69,40 @@ public class PlayActivity extends AppCompatActivity {
         // Set textview to current artist name and song title
         artistAndSongName.setText(songTitle);
 
-        // My Dearest
-        if(songID.equals("SOCIWDW12A8C13D406")) {
-            mp = MediaPlayer.create(this, R.raw.mydearest);
+//        // My Dearest
+//        if(songID.equals("SOCIWDW12A8C13D406")) {
+//            mp = MediaPlayer.create(this, R.raw.mydearest);
+//        }
+//        // Blue Bird
+//        else if(songID.equals("SOXVLOJ12AB0189215")) {
+//            mp = MediaPlayer.create(this, R.raw.bluebird);
+//        }
+//
+//        // Black Paper Moon
+//        else if(songID.equals("SONHOTT12A8C13493C")) {
+//            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
+//        }
+//
+//        // Imperial March
+//        else {
+//            mp = MediaPlayer.create(this, R.raw.imperialmarch);
+//        }
+        try {
+            mp3Sound = getSongFromServer();
+            File tempMp3 = File.createTempFile("kurchina", "mp3", getApplicationContext().getCacheDir());
+            tempMp3.deleteOnExit();
+            FileOutputStream fos = new FileOutputStream(tempMp3);
+            fos.write(mp3Sound);
+            fos.close();
+            FileInputStream fis = new FileInputStream(tempMp3);
+            mp.setDataSource(fis.getFD());
+            mp.prepare();
+
         }
-        // Blue Bird
-        else if(songID.equals("SOXVLOJ12AB0189215")) {
-            mp = MediaPlayer.create(this, R.raw.bluebird);
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
-        // Black Paper Moon
-        else if(songID.equals("SONHOTT12A8C13493C")) {
-            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
-        }
-
-        // Imperial March
-        else {
-            mp = MediaPlayer.create(this, R.raw.imperialmarch);
-        }
 
         // Checks if the mediaplayer is currently playing, if so,
         // stop current song
@@ -241,4 +260,21 @@ public class PlayActivity extends AppCompatActivity {
             playBtn.setBackgroundResource(R.drawable.play);
         }
     }
+    public byte[] getSongFromServer() {
+        Proxy proxy = new Proxy();
+        JsonObject ret;
+        byte[] retByte = {};
+        String[] array2 = {songID, "0"};
+        do {
+            ret = proxy.synchExecution("getSongFragment", array2);
+            byte[] serverRet = ret.get("data").getAsString().getBytes();
+            byte[] current = Arrays.copyOf(retByte, retByte.length);
+            retByte = new byte[serverRet.length + current.length];
+            System.arraycopy(current, 0, retByte, 0, current.length);
+            System.arraycopy(serverRet, 0, retByte, current.length, serverRet.length);
+            array2[1] = ret.get("currentIndex").getAsString();
+        } while(ret.get("keepPulling").getAsString().equals("true"));
+        return retByte;
+    }
+
 }
