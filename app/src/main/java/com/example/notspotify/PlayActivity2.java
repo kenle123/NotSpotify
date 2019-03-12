@@ -24,7 +24,7 @@ public class PlayActivity2 extends AppCompatActivity {
 
     TextView artistAndSongName;
     ImageButton backBtn;
-    Button addToPlaylistBtn;
+    //Button addToPlaylistBtn;
 
     String songTitle = PlaylistSongsActivity.getSongTitle();
     String songID = PlaylistSongsActivity.getSongID();
@@ -34,15 +34,15 @@ public class PlayActivity2 extends AppCompatActivity {
 
         final Session session = new Session(getApplicationContext());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play);
+        setContentView(R.layout.activity_play2);
 
-        playBtn = (Button)findViewById(R.id.playBtn);
-        elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel);
-        remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel);
+        playBtn = (Button)findViewById(R.id.playBtn_2);
+        elapsedTimeLabel = (TextView)findViewById(R.id.elapsedTimeLabel_2);
+        remainingTimeLabel = (TextView)findViewById(R.id.remainingTimeLabel_2);
 
-        artistAndSongName = (TextView)findViewById(R.id.artist_songname);
-        backBtn = (ImageButton)findViewById(R.id.button_back);
-        addToPlaylistBtn = findViewById(R.id.playActivity_addSongToPlaylist);
+        artistAndSongName = (TextView)findViewById(R.id.artist_songname_2);
+        backBtn = (ImageButton)findViewById(R.id.button_back_2);
+        //addToPlaylistBtn = findViewById(R.id.playActivity_addSongToPlaylist);
 
 
         // On click listener for back button
@@ -105,16 +105,16 @@ public class PlayActivity2 extends AppCompatActivity {
         });
 
         // On click listener for when user adds the song to the playlist
-        addToPlaylistBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(PlayActivity2.this, DialogActivity.class);
-                startActivity(intent);
-            }
-        });
+//        addToPlaylistBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(PlayActivity2.this, DialogActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         // Position Bar
-        positionBar = (SeekBar)findViewById(R.id.positionBar);
+        positionBar = (SeekBar)findViewById(R.id.positionBar_2);
         positionBar.setMax(totalTime);
         positionBar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
@@ -139,7 +139,7 @@ public class PlayActivity2 extends AppCompatActivity {
         );
 
         // Volume Bar
-        volumeBar = (SeekBar)findViewById(R.id.volumeBar);
+        volumeBar = (SeekBar)findViewById(R.id.volumeBar_2);
         volumeBar.setOnSeekBarChangeListener(
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
