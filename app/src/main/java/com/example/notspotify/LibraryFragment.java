@@ -75,11 +75,7 @@ public class LibraryFragment extends Fragment {
         mPlaylistUser = view.findViewById(R.id.textview_playlists);
         mPlaylistUser.setText(session.getUsername() + "'s Playlists");
 
-        playlist.clear();
-        for (int i = 0; i < session.getUser().getListOfPlaylists().size(); i++) {
-            playlist.add(new PlaylistSearchModel(session.getUser().getListOfPlaylists().get(i).getPlaylistName(),
-                    session.getUser().getListOfPlaylists().get(i).getSongIDsAsString()));
-        }
+        populatePlaylist();
 
         // Array adapter needed to display the listview
         ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, playlist);
@@ -202,6 +198,13 @@ public class LibraryFragment extends Fragment {
 //        ft.detach(LibraryFragment.this).attach(LibraryFragment.this).commit();
 //    }
 
+    public static void populatePlaylist() {
+        playlist.clear();
+        for (int i = 0; i < session.getUser().getListOfPlaylists().size(); i++) {
+            playlist.add(new PlaylistSearchModel(session.getUser().getListOfPlaylists().get(i).getPlaylistName(),
+                    session.getUser().getListOfPlaylists().get(i).getSongIDsAsString()));
+        }
+    }
     // Getters for playlist information
     public static List<PlaylistSearchModel> getPlaylist() { return playlist; }
     public static int getPlaylistUserClickedOn() { return playlistUserClickedOn; }

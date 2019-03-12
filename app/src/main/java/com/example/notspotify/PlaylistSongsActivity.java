@@ -112,6 +112,10 @@ public class PlaylistSongsActivity extends AppCompatActivity {
                 songID2 = identification.get(i);
                 Toast.makeText(PlaylistSongsActivity.this, "Deleted " + songTitle2 + " from " + playlist.get(playlistUserClickedOn).getPlaylistName(), Toast.LENGTH_LONG).show();
                 deleteSongFromPlaylist(playlist.get(playlistUserClickedOn).getPlaylistName());
+                LibraryFragment.populatePlaylist();
+                playlist = LibraryFragment.getPlaylist();
+                finish();
+                startActivity(getIntent());
 //                LibraryFragment lf = new LibraryFragment();
 //                lf.refreshFrag();
                 return true;

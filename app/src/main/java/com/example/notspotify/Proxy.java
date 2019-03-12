@@ -54,6 +54,9 @@ public class Proxy implements ProxyInterface {
             jsonparam.addProperty("playlistName", param[1]);
             jsonparam.addProperty("songID", param[2]);
         }
+        else if (remoteMethod.equals("SongHandler")) {
+            jsonparam.addProperty("songID", param[0]);
+        }
 
         metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
@@ -61,6 +64,8 @@ public class Proxy implements ProxyInterface {
         metadata.addProperty("call-semantics", "maybe");
 
         cm.send(metadata);
+        if (remoteMethod.equals("SongHandler"))
+            return null;
         requestID += 1;
         JsonObject ret = cm.getRet();
 

@@ -27,6 +27,9 @@ public class RemoteRef implements RemoteRefInterface {
                 remoteMethod.equals("deleteSongFromPlaylist")   )
             returnJson.addProperty("object", "EditUser");
 
+        if(remoteMethod.equals("SongHandler"))
+            returnJson.addProperty("object", "SongHandler");
+
         return returnJson;
     }
 }

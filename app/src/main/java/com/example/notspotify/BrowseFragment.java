@@ -126,6 +126,9 @@ public class BrowseFragment extends Fragment {
                 // Call intent to go to play activity where user can play the song
                 Intent intent = new Intent(getActivity(), PlayActivity.class);
                 startActivity(intent);
+//                playSong();
+//                Runnable r = new PlayClient(getContext());
+//                new Thread(r).start();
             }
         });
 
@@ -161,6 +164,12 @@ public class BrowseFragment extends Fragment {
         jObj.add("music",jArray);
         return new Gson().fromJson(jObj.toString(), MusicList.class);
     }
+    public static void playSong() {
+        Proxy proxy = new Proxy();
+        String[] array2 = {mSongID};
+        proxy.synchExecution("SongHandler", array2);
+    }
+
     public static String getUserFromServer() {
         Proxy proxy = new Proxy();
         String[] array = {  session.getUsername()   };
