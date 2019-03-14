@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText inputUserName;
     EditText inputPassword;
     Button signUpButton;
+    public static Context cxt = MainActivity.getContext();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JsonObject ret;
-                Proxy proxy = new Proxy();
+                Proxy proxy = new Proxy(cxt);
                 String[] array = {
                         inputUserName.getText().toString(),
                         inputPassword.getText().toString()};

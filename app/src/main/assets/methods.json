@@ -1,0 +1,49 @@
+{
+  "methods" : [
+    {
+      "remoteMethod": "Login",
+      "object": "SignIn",
+      "call-semantics": "maybe"
+    },
+    {
+      "remoteMethod": "SignUp",
+      "object": "SignIn",
+      "call-semantics": "maybe"
+    },
+    {
+      "remoteMethod": "getUsers",
+      "object": "EditUser",
+      "call-semantics": "at-least-one"
+    },
+    {
+      "remoteMethod": "returnSongs",
+      "object": "MusicList",
+      "call-semantics": "at-least-one"
+    },
+    {
+      "remoteMethod": "addPlaylist",
+      "object": "EditUser",
+      "call-semantics": "at-most-one"
+    },
+    {
+      "remoteMethod": "deletePlaylist",
+      "object": "EditUser",
+      "call-semantics": "at-most-one"
+    },
+    {
+      "remoteMethod": "addSongToPlaylist",
+      "object": "EditUser",
+      "call-semantics": "at-most-one"
+    },
+    {
+      "remoteMethod": "deleteSongFromPlaylist",
+      "object": "EditUser",
+      "call-semantics": "at-most-one"
+    },
+    {
+      "remoteMethod": "SongHandler",
+      "object": "SongHandler",
+      "call-semantics": "at-least-one"
+    }
+  ]
+}

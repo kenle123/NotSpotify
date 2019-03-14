@@ -1,6 +1,8 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +23,16 @@ public class MainActivity extends AppCompatActivity {
 
     static Session session;
     boolean login = false;
+    AssetManager am;
+    public static Context cxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cxt = getApplicationContext();
+        am = cxt.getAssets();
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 JsonObject ret;
-                Proxy proxy = new Proxy();
+                Proxy proxy = new Proxy(cxt);
                 String[] array = {  inputUserName.getText().toString(),
                                     inputPassword.getText().toString()};
                 ret = proxy.synchExecution("Login", array);
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static String getUserFromServer() {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername()   };
         JsonObject ret = proxy.synchExecution("getUser", array);
         return ret.toString();
@@ -102,4 +109,5 @@ public class MainActivity extends AppCompatActivity {
     public static Session getSession() {
         return session;
     }
+    public static Context getContext() { return cxt; }
 }

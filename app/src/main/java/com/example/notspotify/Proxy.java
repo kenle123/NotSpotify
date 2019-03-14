@@ -8,15 +8,20 @@ package com.example.notspotify;
  * @since   2019-01-24
  */
 
+import android.content.Context;
+import android.util.Log;
+
 import com.google.gson.JsonObject;
 
 
 public class Proxy implements ProxyInterface {
     CommunicationModule cm;
     private static int requestID = 1;
-    public Proxy()
+    Context context;
+    public Proxy(Context cxt)
     {
         cm = new CommunicationModule();
+        this.context = cxt;
     }
 
     /*
@@ -25,48 +30,58 @@ public class Proxy implements ProxyInterface {
      */
     public JsonObject synchExecution(String remoteMethod, String[] param)
     {
-        RemoteRef rr = new RemoteRef();
+        RemoteRef rr = new RemoteRef(context);
         JsonObject metadata = rr.getRemoteReference(remoteMethod);
 
+        Log.d("HELLO", metadata.toString());
+
         JsonObject jsonparam = new JsonObject();
-        if (remoteMethod.equals("Login")) {
-            jsonparam.addProperty("username", param[0]);
-            jsonparam.addProperty("password", param[1]);
-//            jsonparam.addProperty("call-semantics", "maybe");
-        }
-        else if (remoteMethod.equals("getUser")) {
-            jsonparam.addProperty("username", param[0]);
-//            jsonparam.addProperty("call-semantics", "maybe");
-        }
-        else if (remoteMethod.equals("SignUp")) {
-            jsonparam.addProperty("username", param[0]);
-            jsonparam.addProperty("password", param[1]);
-//            jsonparam.addProperty("call-semantics", "maybe");
-        }
-        else if (remoteMethod.equals("returnSongs")) {
-            jsonparam.addProperty("s", param[0]);
-//            jsonparam.addProperty("call-semantics", "at-most-one");
-        }
-        else if (   remoteMethod.equals("addPlaylist") ||
-                    remoteMethod.equals("deletePlaylist")   ) {
-            jsonparam.addProperty("username", param[0]);
-//            jsonparam.addProperty("playlistName", param[1]);
-        }
-        else if (   remoteMethod.equals("addSongToPlaylist") ||
-                    remoteMethod.equals("deleteSongFromPlaylist")   ) {
-            jsonparam.addProperty("username", param[0]);
-            jsonparam.addProperty("playlistName", param[1]);
-//            jsonparam.addProperty("songID", param[2]);
-        }
-        else if (remoteMethod.equals("SongHandler")) {
-            jsonparam.addProperty("songID", param[0]);
+        for (int i = 0; i < param.length; i++) {
+            jsonparam.addProperty(Integer.toString(i), param[i]);
         }
 
-        metadata.addProperty("remoteMethod", remoteMethod);
+        Log.d("HELLO", jsonparam.toString());
+
+
+
+//        if (remoteMethod.equals("Login")) {
+//            jsonparam.addProperty("username", param[0]);
+//            jsonparam.addProperty("password", param[1]);
+////            jsonparam.addProperty("call-semantics", "maybe");
+//        }
+//        else if (remoteMethod.equals("getUser")) {
+//            jsonparam.addProperty("username", param[0]);
+////            jsonparam.addProperty("call-semantics", "maybe");
+//        }
+//        else if (remoteMethod.equals("SignUp")) {
+//            jsonparam.addProperty("username", param[0]);
+//            jsonparam.addProperty("password", param[1]);
+////            jsonparam.addProperty("call-semantics", "maybe");
+//        }
+//        else if (remoteMethod.equals("returnSongs")) {
+//            jsonparam.addProperty("s", param[0]);
+////            jsonparam.addProperty("call-semantics", "at-most-one");
+//        }
+//        else if (   remoteMethod.equals("addPlaylist") ||
+//                    remoteMethod.equals("deletePlaylist")   ) {
+//            jsonparam.addProperty("username", param[0]);
+////            jsonparam.addProperty("playlistName", param[1]);
+//        }
+//        else if (   remoteMethod.equals("addSongToPlaylist") ||
+//                    remoteMethod.equals("deleteSongFromPlaylist")   ) {
+//            jsonparam.addProperty("username", param[0]);
+//            jsonparam.addProperty("playlistName", param[1]);
+////            jsonparam.addProperty("songID", param[2]);
+//        }
+//        else if (remoteMethod.equals("SongHandler")) {
+//            jsonparam.addProperty("songID", param[0]);
+//        }
+
+        //metadata.addProperty("remoteMethod", remoteMethod);
         metadata.add("param", jsonparam);
         metadata.addProperty("requestID", Integer.toString(requestID));
-        metadata.addProperty("call-semantics", "maybe");
-
+        //metadata.addProperty("call-semantics", "maybe");
+        Log.d("GGEZ", metadata.toString());
         cm.send(metadata);
         if (remoteMethod.equals("SongHandler"))
             return null;

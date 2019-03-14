@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -41,6 +42,9 @@ public class PlayActivity extends AppCompatActivity {
     // Session
     Session session;
     byte[] mp3Sound;
+
+    public static Context cxt = MainActivity.getContext();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +265,7 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
     public byte[] getSongFromServer() {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         JsonObject ret;
         byte[] retByte = {};
         String[] array2 = {songID, "0"};

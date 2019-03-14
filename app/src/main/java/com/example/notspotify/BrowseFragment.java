@@ -2,6 +2,7 @@ package com.example.notspotify;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class BrowseFragment extends Fragment {
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String mSongTitle;
     private static String mSongID;
+    public static Context cxt = MainActivity.getContext();
 
     // Song list which has an arraylist of all the songs
     private static List<SearchModel> songList = new ArrayList<>();
@@ -151,7 +153,7 @@ public class BrowseFragment extends Fragment {
     }
 
     public static MusicList getMusicListFromServer() {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         JsonObject ret;
         JsonArray jArray = new JsonArray();
         JsonObject jObj = new JsonObject();
@@ -165,13 +167,13 @@ public class BrowseFragment extends Fragment {
         return new Gson().fromJson(jObj.toString(), MusicList.class);
     }
     public static void playSong() {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array2 = {mSongID};
         proxy.synchExecution("SongHandler", array2);
     }
 
     public static String getUserFromServer() {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername()   };
         JsonObject ret = proxy.synchExecution("getUser", array);
         return ret.toString();

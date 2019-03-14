@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,6 +36,8 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
     String stringOfPlaylistToAddSongTo;
 
     List<PlaylistSearchModel> playlist = LibraryFragment.getPlaylist();
+    public static Context cxt = MainActivity.getContext();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,7 @@ public class DialogActivity extends AppCompatActivity implements View.OnClickLis
      * Adds a song to a playlist
      */
     public void addSongToPlaylist(String pName) {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername(),
                             pName,
                             songID                  };

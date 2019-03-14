@@ -1,5 +1,6 @@
 package com.example.notspotify;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,9 @@ public class PlaylistSongsActivity extends AppCompatActivity {
     // Arraylist used to determine what song was picked in the playist
     List<String> title = new ArrayList<>();
     List<String> identification = new ArrayList<>();
+
+    public static Context cxt = MainActivity.getContext();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +129,7 @@ public class PlaylistSongsActivity extends AppCompatActivity {
      * Deletes a song from a playlist
      */
     public void deleteSongFromPlaylist(String pName) {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername(),
                             pName,
                             songID2                  };

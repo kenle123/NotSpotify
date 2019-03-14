@@ -1,6 +1,7 @@
 package com.example.notspotify;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class LibraryFragment extends Fragment {
     // Declare global variables to be used throughout each activity/fragment
     private static List<PlaylistSearchModel> playlist = new ArrayList<>();
     private static int playlistUserClickedOn = 0;
+    public static Context cxt = MainActivity.getContext();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -171,7 +174,7 @@ public class LibraryFragment extends Fragment {
      * Add a playlist
      */
     public void addPlayList(String pName) {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername(),
                             pName                   };
         JsonObject ret = proxy.synchExecution("addPlaylist", array);
@@ -184,7 +187,7 @@ public class LibraryFragment extends Fragment {
      * Delete a playlist
      */
     public void deletePlaylist(String pName) {
-        Proxy proxy = new Proxy();
+        Proxy proxy = new Proxy(cxt);
         String[] array = {  session.getUsername(),
                             pName                   };
         JsonObject ret = proxy.synchExecution("deletePlaylist", array);
