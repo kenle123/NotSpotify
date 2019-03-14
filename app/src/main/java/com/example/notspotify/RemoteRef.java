@@ -25,25 +25,11 @@ public class RemoteRef implements RemoteRefInterface {
         am = context.getAssets();
 
         String myJson = "";
-        Log.d("GGEZ", "got here 1");
-
-        Log.d("GGEZ", "got here 2");
-        //File file = new File(path);
-        Log.d("GGEZ", "got here 3");
-
         try {
             InputStream inputStream = am.open("methods.json");
-
-            //InputStream inputStream = new FileInputStream(file);
-            Log.d("GGEZ", "got here 4");
-
             myJson = inputStreamToString(inputStream);
-            Log.d("GGEZ", "got here 5");
-            Log.d("GGEZ", myJson);
-
         }
         catch (IOException e) {
-            Log.d("GGEZ", "got here 6");
             return null;
         }
 
@@ -51,35 +37,10 @@ public class RemoteRef implements RemoteRefInterface {
         JsonArray jArray = jFile.get("methods").getAsJsonArray();
         for(int i = 0; i < jArray.size(); i++) {
             String interested = jArray.get(i).getAsJsonObject().get("remoteMethod").getAsString();
-            Log.d("GGEZ", interested);
             if (remoteMethod.equals(interested))
-                Log.d("DEAD", "META FOUND");
-            return jArray.get(i).getAsJsonObject();
+                return jArray.get(i).getAsJsonObject();
 
         }
-
-//        if(remoteMethod.equals("Login")) {
-//            //returnJson.addProperty("remoteMethod", "handleSignIn");
-//            returnJson.addProperty("object", "SignIn"); // SignIn = classname
-//        }
-//
-//        if(remoteMethod.equals("SignUp")) {
-//            //returnJson.addProperty("remoteMethod", "handleSignIn");
-//            returnJson.addProperty("object", "SignIn");
-//        }
-//
-//        if(remoteMethod.equals("returnSongs"))
-//            returnJson.addProperty("object", "MusicList");
-//
-//        if(     remoteMethod.equals("getUser") ||
-//                remoteMethod.equals("addPlaylist") ||
-//                remoteMethod.equals("deletePlaylist") ||
-//                remoteMethod.equals("addSongToPlaylist") ||
-//                remoteMethod.equals("deleteSongFromPlaylist")   )
-//            returnJson.addProperty("object", "EditUser");
-//
-//        if(remoteMethod.equals("SongHandler"))
-//            returnJson.addProperty("object", "SongHandler");
 
         return returnJson;
     }

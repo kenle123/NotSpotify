@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class PlayActivity extends AppCompatActivity {
 
     // MediaPlayer
-    private static MediaPlayer mp = new MediaPlayer();
+    private static MediaPlayer mp;
     Button playBtn;
     SeekBar positionBar;
     SeekBar volumeBar;
@@ -73,39 +73,39 @@ public class PlayActivity extends AppCompatActivity {
         // Set textview to current artist name and song title
         artistAndSongName.setText(songTitle);
 
-//        // My Dearest
-//        if(songID.equals("SOCIWDW12A8C13D406")) {
-//            mp = MediaPlayer.create(this, R.raw.mydearest);
-//        }
-//        // Blue Bird
-//        else if(songID.equals("SOXVLOJ12AB0189215")) {
-//            mp = MediaPlayer.create(this, R.raw.bluebird);
-//        }
-//
-//        // Black Paper Moon
-//        else if(songID.equals("SONHOTT12A8C13493C")) {
-//            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
-//        }
-//
-//        // Imperial March
-//        else {
-//            mp = MediaPlayer.create(this, R.raw.imperialmarch);
-//        }
-        try {
-            mp3Sound = getSongFromServer();
-            File tempMp3 = File.createTempFile("kurchina", "mp3", getApplicationContext().getCacheDir());
-            tempMp3.deleteOnExit();
-            FileOutputStream fos = new FileOutputStream(tempMp3);
-            fos.write(mp3Sound);
-            fos.close();
-            FileInputStream fis = new FileInputStream(tempMp3);
-            mp.setDataSource(fis.getFD());
-            mp.prepare();
+        // My Dearest
+        if(songID.equals("SOCIWDW12A8C13D406")) {
+            mp = MediaPlayer.create(this, R.raw.mydearest);
+        }
+        // Blue Bird
+        else if(songID.equals("SOXVLOJ12AB0189215")) {
+            mp = MediaPlayer.create(this, R.raw.bluebird);
+        }
 
+        // Black Paper Moon
+        else if(songID.equals("SONHOTT12A8C13493C")) {
+            mp = MediaPlayer.create(this, R.raw.blackpapermoon);
         }
-        catch (Exception e) {
-            e.printStackTrace();
+
+        // Imperial March
+        else {
+            mp = MediaPlayer.create(this, R.raw.imperialmarch);
         }
+//        try {
+//            mp3Sound = getSongFromServer();
+//            File tempMp3 = File.createTempFile("kurchina", "mp3", getApplicationContext().getCacheDir());
+//            tempMp3.deleteOnExit();
+//            FileOutputStream fos = new FileOutputStream(tempMp3);
+//            fos.write(mp3Sound);
+//            fos.close();
+//            FileInputStream fis = new FileInputStream(tempMp3);
+//            mp.setDataSource(fis.getFD());
+//            mp.prepare();
+//
+//        }
+//        catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
         // Checks if the mediaplayer is currently playing, if so,

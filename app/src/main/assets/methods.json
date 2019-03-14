@@ -11,7 +11,7 @@
       "call-semantics": "maybe"
     },
     {
-      "remoteMethod": "getUsers",
+      "remoteMethod": "getUser",
       "object": "EditUser",
       "call-semantics": "at-least-one"
     },
