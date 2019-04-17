@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -47,6 +49,9 @@ public class BrowseFragment extends Fragment {
     // Listview which will display all of the songs
     ListView listView;
 
+    // For searching songs
+    private static String songToSearchFor = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,12 +63,35 @@ public class BrowseFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
 
+        // For adding song to search dialog
+        view.findViewById(R.id.button_search).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final EditText taskEditText = new EditText(getContext());
+                AlertDialog dialog = new AlertDialog.Builder(getContext())
+                        .setTitle("Search for artist/song")
+                        .setMessage("Format: artistName - songName")
+                        .setView(taskEditText)
+                        .setPositiveButton("Search", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                songToSearchFor = String.valueOf(taskEditText.getText());
+                                Toast.makeText(getContext(), songToSearchFor, Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .create();
+                dialog.show();
+                return true;
+            }
+        });
+
         // Whenever user clicks on search button, will open on click listener to search for a song/artist
         view.findViewById(R.id.button_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new SimpleSearchDialogCompat(getActivity(), "Search...",
-                        "Search For An Artist or Song", null, initData(musicList.getList()), new SearchResultListener<SearchModel>() {
+                        "Search For An Artist or Song", null, initData2(), new SearchResultListener<SearchModel>() {
 
                     public void onSelected(BaseSearchDialogCompat baseSearchDialogCompat, SearchModel item, int i) {
 
@@ -193,6 +221,13 @@ public class BrowseFragment extends Fragment {
         for(int i = 0; i < musicList.size(); i++) {
             items.add(new SearchModel(musicList.get(i).getArtistName(), musicList.get(i).getSongID(), musicList.get(i).getSongTitle()));
         }
+        return items;
+
+        //initData(musicList.getList())
+    }
+
+    private ArrayList<SearchModel> initData2() {
+        ArrayList<SearchModel> items = new ArrayList<>();
         return items;
     }
 
