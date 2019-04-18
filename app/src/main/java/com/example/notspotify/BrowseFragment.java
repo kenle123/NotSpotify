@@ -10,8 +10,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -177,6 +179,18 @@ public class BrowseFragment extends Fragment {
                 return true;
             }
         });
+
+        // Add load more button to end of listview
+        Button button_loadMore = new Button(getContext());
+        button_loadMore.setText("Load More");
+        button_loadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "ggez", Toast.LENGTH_LONG).show();
+            }
+        });
+        listView.addFooterView(button_loadMore);
+
         return view;
     }
 
