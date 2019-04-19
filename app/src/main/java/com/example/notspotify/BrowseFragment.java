@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +42,14 @@ public class BrowseFragment extends Fragment {
     }
     private static Session session = MainActivity.getSession();
     private static MusicList musicList;
+    private static int musicPage = 0;
     // Declare global song variables which will be passed to play activity to play a certain song
     private static String mSongTitle;
     private static String mSongID;
     public static Context cxt = MainActivity.getContext();
 
     // Song list which has an arraylist of all the songs
-    private static List<SearchModel> songList = new ArrayList<>();
+    private static List<SearchModel> songList;
 
     // Listview which will display all of the songs
     ListView listView;
@@ -57,8 +60,13 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (musicList == null)
-            musicList = getMusicListFromServer();
+        songList = new ArrayList<>();
+
+        if (musicList == null) {
+            musicList = new MusicList();
+            musicList.addMusicFromMusicList(getMusicListFromServer(musicPage));
+            musicPage++;
+        }
         if (session.getUser() == null)
             session.setUser(getUserFromServer());
 
@@ -186,7 +194,9 @@ public class BrowseFragment extends Fragment {
         button_loadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "ggez", Toast.LENGTH_LONG).show();
+                musicList.addMusicFromMusicList(getMusicListFromServer(musicPage));
+                musicPage++;
+                refreshFragment();
             }
         });
         listView.addFooterView(button_loadMore);
@@ -194,17 +204,27 @@ public class BrowseFragment extends Fragment {
         return view;
     }
 
-    public static MusicList getMusicListFromServer() {
+    public void refreshFragment() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+    }
+    public static MusicList getMusicListFromServer(int pageNum) {
         Proxy proxy = new Proxy(cxt);
-        JsonObject ret;
         JsonArray jArray = new JsonArray();
         JsonObject jObj = new JsonObject();
-        String[] array2 = {"0"};
-        do {
-            ret = proxy.synchExecution("returnSongs", array2);
-            jArray.addAll(ret.get("musiclist").getAsJsonArray());
-            array2[0] = ret.get("currentIndex").getAsString();
-        } while(ret.get("keepPulling").getAsString().equals("true"));
+        String[] array2 = {new Integer(pageNum).toString()};
+        JsonObject ret = proxy.synchExecution("returnSongs", array2);
+        jArray.addAll(ret.get("musiclist").getAsJsonArray());
+        jObj.add("music",jArray);
+        return new Gson().fromJson(jObj.toString(), MusicList.class);
+    }
+    public static MusicList searchMusicFromServer(String query) {
+        Proxy proxy = new Proxy(cxt);
+        JsonArray jArray = new JsonArray();
+        JsonObject jObj = new JsonObject();
+        String[] array = {query};
+        JsonObject ret = proxy.synchExecution("searchSong", array);
+        jArray.addAll(ret.get("musiclist").getAsJsonArray());
         jObj.add("music",jArray);
         return new Gson().fromJson(jObj.toString(), MusicList.class);
     }
@@ -242,6 +262,14 @@ public class BrowseFragment extends Fragment {
 
     private ArrayList<SearchModel> initData2() {
         ArrayList<SearchModel> items = new ArrayList<>();
+        Log.d("GGEZ", songToSearchFor);
+        if(songToSearchFor.equals(""));
+            MusicList searchedList = searchMusicFromServer(songToSearchFor);
+        songToSearchFor = "";
+        for(int i = 0; i < searchedList.size(); i++) {
+            items.add(new SearchModel(searchedList.getList().get(i).getArtistName(), searchedList.getList().get(i).getSongID(), searchedList.getList().get(i).getSongTitle() ));
+
+        }
         return items;
     }
 

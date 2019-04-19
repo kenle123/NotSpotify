@@ -34,6 +34,12 @@ public class MusicList implements Serializable{
         }
         return null;
     }
+    public boolean addMusicFromMusicList(MusicList mList) {
+        for(int i = 0; i < mList.size(); i++) {
+            list.add(mList.get(i));
+        }
+        return true;
+    }
     @Override
     public String toString() {
         String results = "";

@@ -21,6 +21,11 @@
       "call-semantics": "at-least-one"
     },
     {
+      "remoteMethod": "searchSong",
+      "object": "MusicList",
+      "call-semantics": "at-least-one"
+    },
+    {
       "remoteMethod": "addPlaylist",
       "object": "EditUser",
       "call-semantics": "at-most-one"
