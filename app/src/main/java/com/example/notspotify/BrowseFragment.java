@@ -262,9 +262,10 @@ public class BrowseFragment extends Fragment {
 
     private ArrayList<SearchModel> initData2() {
         ArrayList<SearchModel> items = new ArrayList<>();
+        MusicList searchedList = new MusicList();
         Log.d("GGEZ", songToSearchFor);
-        if(songToSearchFor.equals(""));
-            MusicList searchedList = searchMusicFromServer(songToSearchFor);
+        if(!songToSearchFor.equals(""))
+            searchedList = searchMusicFromServer(songToSearchFor);
         songToSearchFor = "";
         for(int i = 0; i < searchedList.size(); i++) {
             items.add(new SearchModel(searchedList.getList().get(i).getArtistName(), searchedList.getList().get(i).getSongID(), searchedList.getList().get(i).getSongTitle() ));
