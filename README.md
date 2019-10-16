@@ -1,2 +1,2 @@
-# NotSpotify
+# Wave
 Spotify clone application for Networks and Distributed Computing course.
